@@ -5,17 +5,71 @@
     <title>Root Page</title>
 </head>
 <body>
+
 <h1>Welcome to Root Page</h1>
-<form action="/members/new" method="post">
-    <div class="form-group">
-        <label for="name">이름</label>
-        <input type="text" id="name" placeholder="이름을 일력하시오."/>
+
+<!--로그인 상태인 경우 출력-->
+<div th:if="${memberId}!=null">
+    <h2 th:text="${memberId}+'님 환영합니다!'"></h2>
+    <input type="button" value="로그아웃" id="btn_logout">
+</div>
+
+<!--로그인 상태이지 않은 경우 출력-->
+<div th:unless="${memberId}!=null">
+    <form action="/members/login" method="post">
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" id="id" name="id" placeholder="ID를 일력하시오."/>
+        </div>
+        <input type="submit" value="click to log in!">
+    </form>
+    <input type="submit" value="click to sign up!" onclick="location.href='members/new'">
+</div>
+
+<a href="/members">click here to see members</a>
+
+<div>
+    <form action="notice/add-note" method="post">
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <input type="submit" value="메모 생성">
+    </form>
+</div>
+
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>작성자</th>
+                <th>내용</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="notice : ${noticeList}">
+                <td th:text="${notice.getAuthor()}"></td>
+                <td th:text="${notice.getContents()}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <input type="submit" value="click to sign up!">
-</form>
+</div> <!-- /container -->
+
+
+
+
 </body>
 
 <script>
+    let btn_logout;
+    if(btn_logout = document.getElementById("btn_logout")) {
+        btn_logout.addEventListener("click", (e) => {
+            let date = new Date();
+            date.setDate(date.getDate() - 100);
+            let Cookie = `memberId=; Expires=${date.toUTCString()}`;
+            document.cookie = Cookie;
 
+            location.reload();
+        })
+    }
 </script>
 </html>

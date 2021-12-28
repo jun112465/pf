@@ -1,16 +1,14 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.Member;
-import jun.studyHelper.domain.MemberRepository;
-import jun.studyHelper.domain.MemoryMemberRepository;
+import jun.studyHelper.domain.member.Member;
+import jun.studyHelper.domain.member.MemberRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public class MemberService {
-    private MemberRepository memberRepository;
+    public  MemberRepository memberRepository;
 
-    MemberService(MemberRepository memberRepository){
+    public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
     /**

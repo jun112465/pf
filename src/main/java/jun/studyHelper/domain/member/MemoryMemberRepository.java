@@ -1,15 +1,14 @@
-package jun.studyHelper.domain;
+package jun.studyHelper.domain.member;
 
 import java.util.*;
 
-public class MemoryMemberRepository implements MemberRepository{
+public class MemoryMemberRepository implements MemberRepository {
 
-    Map<Integer,Member> store = new HashMap<>();
+    Map<Integer, Member> store = new HashMap<>();
     int idCnt = 0;
 
     @Override
     public Member save(Member member) {
-        member.setId(idCnt++);
         store.put(member.getId(), member);
         return member;
     }

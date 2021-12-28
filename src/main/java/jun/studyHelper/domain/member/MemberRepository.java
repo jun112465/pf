@@ -1,4 +1,4 @@
-package jun.studyHelper.domain;
+package jun.studyHelper.domain.member;
 
 import java.util.List;
 import java.util.Optional;
