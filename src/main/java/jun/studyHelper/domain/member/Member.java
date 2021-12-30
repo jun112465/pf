@@ -1,17 +1,24 @@
 package jun.studyHelper.domain.member;
 
 import jun.studyHelper.domain.notice.NoticeRepository;
+import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class Member {
-    private int id;
-    private String name;
-    public NoticeService noticeService;
+import java.util.ArrayList;
 
-    public Member(NoticeService noticeService){
-        this.noticeService = noticeService;
-    }
+public class Member {
+
+    private int id;
+
+    private String name;
+//    public NoticeService noticeService;
+
+
+
+//    public Member(NoticeService noticeService){
+//        this.noticeService = noticeService;
+//    }
 
     public int getId() {
         return id;

@@ -23,8 +23,8 @@ public class MainController {
         try{
             System.out.println("MainController : memberId = " + memberId);
             model.addAttribute("memberId", memberId);
-            model.addAttribute("noticeList",
-                    memberService.findOne(Integer.valueOf(memberId)).noticeService.findNoticeList());
+//            model.addAttribute("noticeList",
+//                    memberService.findOne(Integer.valueOf(memberId)).noticeService.findNoticeList());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }catch(NumberFormatException e){

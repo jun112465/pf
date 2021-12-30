@@ -2,9 +2,11 @@ package jun.studyHelper.service;
 
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class MemberService {
     public  MemberRepository memberRepository;
 

@@ -1,6 +1,6 @@
 package jun.studyHelper.ConfigTest;
 
-import jun.studyHelper.AppConfigBean;
+import jun.studyHelper.SpringConfig;
 import jun.studyHelper.controller.MemberController;
 import jun.studyHelper.domain.member.MemberRepository;
 import jun.studyHelper.service.MemberService;
@@ -15,7 +15,7 @@ public class AppConfigTest {
     @Test
     @DisplayName("DI 테스트하기")
     void testAppConfigDi(){
-        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfigBean.class);
+        ApplicationContext ac = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         MemberController mc = ac.getBean("memberController", MemberController.class);
         MemberService ms = ac.getBean("memberService", MemberService.class);

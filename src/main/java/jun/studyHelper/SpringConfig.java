@@ -1,5 +1,6 @@
 package jun.studyHelper;
 
+import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.MemberRepository;
 import jun.studyHelper.domain.member.MemoryMemberRepository;
 import jun.studyHelper.domain.notice.MemoryNoticeRepository;
@@ -10,8 +11,17 @@ import jun.studyHelper.service.NoticeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.sql.DataSource;
+
 @Configuration
-public class AppConfigBean {
+public class SpringConfig {
+
+
+    DataSource dataSource;
+
+    public void SpringConfig(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
 
     @Bean
     NoticeService noticeService(){
@@ -30,6 +40,7 @@ public class AppConfigBean {
 
     @Bean
     MemberRepository memberRepository(){
-        return new MemoryMemberRepository();
+        return new JdbcMemberRepository();
+//        return new MemoryMemberRepository();
     }
 }

@@ -12,6 +12,32 @@
 <div th:if="${memberId}!=null">
     <h2 th:text="${memberId}+'님 환영합니다!'"></h2>
     <input type="button" value="로그아웃" id="btn_logout">
+
+    <div>
+        <form action="notice/add-note" method="post">
+            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+            <input type="submit" value="메모 생성">
+        </form>
+    </div>
+
+    <div class="container">
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>작성자</th>
+                    <th>내용</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="notice : ${noticeList}">
+                    <td th:text="${notice.getAuthor()}"></td>
+                    <td th:text="${notice.getContents()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- /container -->
 </div>
 
 <!--로그인 상태이지 않은 경우 출력-->
@@ -28,31 +54,7 @@
 
 <a href="/members">click here to see members</a>
 
-<div>
-    <form action="notice/add-note" method="post">
-        <textarea name="content" id="content" cols="30" rows="10"></textarea>
-        <input type="submit" value="메모 생성">
-    </form>
-</div>
 
-<div class="container">
-    <div>
-        <table>
-            <thead>
-            <tr>
-                <th>작성자</th>
-                <th>내용</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="notice : ${noticeList}">
-                <td th:text="${notice.getAuthor()}"></td>
-                <td th:text="${notice.getContents()}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div> <!-- /container -->
 
 
 

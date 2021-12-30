@@ -27,7 +27,7 @@ public class NoticeController {
             Member m = memberService.findOne(Integer.valueOf(memberId));
             Notice n = new Notice();
             n.setContents(noticeForm.getContent());
-            m.noticeService.add(n);
+//            m.noticeService.add(n);
         }catch (NullPointerException e){
             e.printStackTrace();
         }
