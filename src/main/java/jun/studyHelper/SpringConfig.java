@@ -3,6 +3,7 @@ package jun.studyHelper;
 import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.MemberRepository;
 import jun.studyHelper.domain.member.MemoryMemberRepository;
+import jun.studyHelper.domain.notice.JdbcNoticeRepository;
 import jun.studyHelper.domain.notice.MemoryNoticeRepository;
 import jun.studyHelper.domain.notice.Notice;
 import jun.studyHelper.domain.notice.NoticeRepository;
@@ -26,12 +27,14 @@ public class SpringConfig {
     @Bean
     NoticeService noticeService(){
         NoticeService ns =  new NoticeService(noticeRepository());
-        System.out.println("AppConfig : " + ns);
         return ns;
     }
 
     @Bean
-    NoticeRepository noticeRepository(){ return new MemoryNoticeRepository(); }
+    NoticeRepository noticeRepository(){
+//        return new MemoryNoticeRepository();
+        return new JdbcNoticeRepository();
+    }
 
     @Bean
     MemberService memberService(){

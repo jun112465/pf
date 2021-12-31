@@ -10,7 +10,6 @@ import static java.sql.DriverManager.getConnection;
 
 public class JdbcMemberRepository implements MemberRepository{
 
-
     // MySQL Connector 의 클래스. DB 연결 드라이버 정의
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     // DB 경로
@@ -61,6 +60,19 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public Member findById(int id) {
+        String sql = String.format("select * from studyHelper.Member where id=%d", id);
+        setConnection(sql);
+        try{
+            rs = ps.executeQuery();
+            rs.next();
+            Member m = new Member();
+            m.setId(rs.getInt("id"));
+            m.setName(rs.getString("name"));
+            closeConnection();
+            return m;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -76,6 +88,7 @@ public class JdbcMemberRepository implements MemberRepository{
 
         try{
             List<Member> members = new ArrayList<>();
+            rs = ps.executeQuery();
             while(rs.next()){
                 Member member = new Member();
                 member.setId(rs.getInt("id"));
