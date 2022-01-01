@@ -2,14 +2,14 @@ package jun.studyHelper.domain.member;
 
 public class MemberForm {
     private String name;
-    private Integer id;
+    private Integer memberId;
 
-    public Integer getId() {
-        return id;
+    public Integer getMemberId() {
+        return memberId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
     }
 
     public String getName(){

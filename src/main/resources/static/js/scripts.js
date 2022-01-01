@@ -52,3 +52,14 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
 });
+
+
+function logout(){
+    let date = new Date();
+    date.setDate(date.getDate() - 100);
+    let Cookie = `memberId=; Expires=${date.toUTCString()}`;
+    document.cookie = Cookie;
+
+    location.reload();
+}
+

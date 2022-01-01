@@ -15,8 +15,8 @@ public class JdbcNoticeRepository implements NoticeRepository{
 
     @Override
     public void save(Notice notice) {
-        String sql = String.format("insert into studyHelper.Notice(memberId, content) values(%d, \"%s\")",
-                notice.memberId, notice.content);
+        String sql = String.format("insert into studyHelper.Notice(memberId, content, title) values(%d, \"%s\", \"%s\")",
+                notice.memberId, notice.content, notice.title);
         db.setConnection(sql);
         try {
             db.getPs().executeUpdate();
@@ -34,7 +34,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
     public List<Notice> findAll(int memberId) {
 
         ArrayList<Notice> noticeList = new ArrayList<>();
-        String sql = String.format("Select * from studyHelper.Notice where memberId=%d", memberId);
+        String sql = String.format("Select * from studyHelper.Notice where memberId=%d order by date desc", memberId);
         db.setConnection(sql);
         try {
             ResultSet rs = db.getRs();
@@ -42,6 +42,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
             while(rs.next()){
                 Notice notice = new Notice();
 
+                notice.setTitle(rs.getString("title"));
                 notice.setMemberId(rs.getInt("memberId"));
                 notice.setContents(rs.getString("content"));
                 notice.setDate(rs.getDate("date"));

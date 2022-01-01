@@ -25,11 +25,10 @@ public class NoticeController {
     @PostMapping("notice/add-note")
     public String addNote(NoticeForm noticeForm, @CookieValue(name="memberId", required = false)String memberId){
         try{
-            Member m = memberService.findOne(Integer.valueOf(memberId));
             Notice n = new Notice();
             n.setContents(noticeForm.getContent());
-            n.setMemberId(noticeForm.getMemberId());
-
+            n.setMemberId(Integer.valueOf(memberId));
+            n.setTitle(noticeForm.getTitle());
             noticeService.add(n);
 
         }catch (NullPointerException e){

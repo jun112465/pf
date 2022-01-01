@@ -41,7 +41,7 @@ public class MemberController {
 //        Member member = new Member(app.noticeService());
         Member member = new Member();
         member.setName(form.getName());
-        member.setMemberId(form.getId());
+        member.setMemberId(form.getMemberId());
         memberService.join(member);
         
         return "redirect:/";
@@ -49,9 +49,7 @@ public class MemberController {
 
     @PostMapping("/members/login")
     public String login(MemberForm form, HttpServletResponse resp){
-
-        System.out.println("MemberController : " + form.getId());
-        int id = form.getId();
+        int id = form.getMemberId();
 
         if(memberService.findOne(id) != null) {
             System.out.println(id);

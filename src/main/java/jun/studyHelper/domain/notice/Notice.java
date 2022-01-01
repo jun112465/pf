@@ -7,9 +7,18 @@ public class Notice {
     Date date;
     String author;
     int memberId;
+    String title;
 
     public Notice() {
 
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContents() {

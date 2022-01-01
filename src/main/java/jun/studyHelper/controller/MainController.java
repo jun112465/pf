@@ -23,6 +23,7 @@ public class MainController {
     public String rootController(Model model, @CookieValue(name="memberId", required = false)String memberId){
         try{
             System.out.println("MainController : memberId = " + memberId);
+            model.addAttribute("user", memberService.findOne(Integer.valueOf(memberId)));
             model.addAttribute("memberId", memberId);
             model.addAttribute("noticeList", noticeService.findNoticeList(Integer.valueOf(memberId)));
         } catch (NullPointerException e) {
@@ -31,11 +32,20 @@ public class MainController {
             e.printStackTrace();
         }
 
-        return "root";
+        return "index";
     }
 
     @GetMapping("/page")
-    public String myPageController(){
+    public String myPageController(Model model, @CookieValue(name="memberId", required = false)String memberId){
+
+        try{
+            model.addAttribute("user", memberService.findOne(Integer.valueOf(memberId)));
+            model.addAttribute("memberId", memberId);
+            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.valueOf(memberId)));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         return "index";
     }
 }
