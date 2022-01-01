@@ -22,7 +22,7 @@ public class NoticeService {
         noticeRepository.remove(id);
     }
 
-    public List<Notice> findNoticeList(){
-        return noticeRepository.findAll();
+    public List<Notice> findNoticeList(int memberId){
+        return noticeRepository.findAll(memberId);
     }
 }

@@ -7,5 +7,5 @@ import java.util.List;
 public interface NoticeRepository {
     void save(Notice notice);
     void remove(int id);
-    List<Notice> findAll();
+    List<Notice> findAll(int memberId);
 }

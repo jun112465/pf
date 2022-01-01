@@ -22,7 +22,7 @@ public class MemoryNoticeRepository implements NoticeRepository{
     }
 
     @Override
-    public List<Notice> findAll() {
+    public List<Notice> findAll(int memberId) {
         return noticeLinkedList;
     }
 }

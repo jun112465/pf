@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 
     MemberService memberService;
+    NoticeService noticeService;
 
     @Autowired
-    MainController(MemberService memberService){
+    MainController(MemberService memberService, NoticeService noticeService){
         this.memberService = memberService;
+        this.noticeService = noticeService;
     }
     @GetMapping("/")
     public String rootController(Model model, @CookieValue(name="memberId", required = false)String memberId){
-
         try{
             System.out.println("MainController : memberId = " + memberId);
             model.addAttribute("memberId", memberId);
-//            model.addAttribute("noticeList",
-//                    memberService.findOne(Integer.valueOf(memberId)).noticeService.findNoticeList());
+            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.valueOf(memberId)));
         } catch (NullPointerException e) {
             e.printStackTrace();
         }catch(NumberFormatException e){

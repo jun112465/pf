@@ -14,20 +14,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class NoticeController {
 
     MemberService memberService;
+    NoticeService noticeService;
 
     @Autowired
-    NoticeController(MemberService memberService){
+    NoticeController(MemberService memberService, NoticeService noticeService){
         this.memberService = memberService;
+        this.noticeService = noticeService;
     }
 
     @PostMapping("notice/add-note")
     public String addNote(NoticeForm noticeForm, @CookieValue(name="memberId", required = false)String memberId){
-
         try{
             Member m = memberService.findOne(Integer.valueOf(memberId));
             Notice n = new Notice();
             n.setContents(noticeForm.getContent());
-//            m.noticeService.add(n);
+            n.setMemberId(noticeForm.getMemberId());
+
+            noticeService.add(n);
+
         }catch (NullPointerException e){
             e.printStackTrace();
         }

@@ -33,7 +33,6 @@ public class MemberController {
     }
     @GetMapping("/members/new")
     public String createForm(){
-
         return "members/createMemberForm";
     }
     
@@ -42,7 +41,7 @@ public class MemberController {
 //        Member member = new Member(app.noticeService());
         Member member = new Member();
         member.setName(form.getName());
-        member.setId(form.getId());
+        member.setMemberId(form.getId());
         memberService.join(member);
         
         return "redirect:/";
@@ -50,14 +49,18 @@ public class MemberController {
 
     @PostMapping("/members/login")
     public String login(MemberForm form, HttpServletResponse resp){
-        System.out.println(form);
+
+        System.out.println("MemberController : " + form.getId());
         int id = form.getId();
 
         if(memberService.findOne(id) != null) {
+            System.out.println(id);
             Cookie idCookie = new Cookie("memberId", String.valueOf(id));
             idCookie.setPath("/");
             resp.addCookie(idCookie);
             System.out.println(idCookie.getName() +  " : " + idCookie.getValue());
+        }else{
+            System.out.println("MemberController : No member found");
         }
 
         return "redirect:/";

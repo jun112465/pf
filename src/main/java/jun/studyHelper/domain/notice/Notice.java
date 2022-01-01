@@ -6,7 +6,7 @@ public class Notice {
     String content;
     Date date;
     String author;
-    int id;
+    int memberId;
 
     public Notice() {
 
@@ -36,11 +36,11 @@ public class Notice {
         this.author = author;
     }
 
-    public int getId() {
-        return id;
+    public int getMemberId() {
+        return memberId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 }

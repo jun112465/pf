@@ -9,7 +9,7 @@ public class MemoryMemberRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        store.put(member.getId(), member);
+        store.put(member.getMemberId(), member);
         return member;
     }
 

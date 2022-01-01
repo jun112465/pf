@@ -1,55 +1,25 @@
 package jun.studyHelper.domain.member;
 
+import jun.studyHelper.domain.Database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static java.sql.DriverManager.getConnection;
 
 
 public class JdbcMemberRepository implements MemberRepository{
 
-    // MySQL Connector 의 클래스. DB 연결 드라이버 정의
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    // DB 경로
-    private static final String URL = "jdbc:mysql://localhost:3306/Board?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false";
-    private static final String USER = "root";
-    private static final String PASSWORD = "1q2w3e4r!";
-
-    private Connection conn = null;
-    private PreparedStatement ps = null;
-    private ResultSet rs = null;
-
-    public void setConnection(String sql){
-        conn = null;
-        ps = null;
-        rs = null;
-        try {
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-    public void closeConnection(){
-        try{
-            rs.close();
-            ps.close();
-            conn.close();
-        }catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+    Database db = new Database();
 
     @Override
     public Member save(Member member) {
-        String sql = String.format("insert into studyHelper.Member(id,name) values(%d, \"%s\")", member.getId(), member.getName());
+        String sql = String.format("insert into studyHelper.Member(id,name) values(%d, \"%s\")", member.getMemberId(), member.getName());
         System.out.println(sql);
 
         try{
-            setConnection(sql);
-            ps.executeUpdate();
+            db.setConnection(sql);
+            db.getPs().executeUpdate();
             return member;
         }catch (Exception e){
             e.printStackTrace();
@@ -60,16 +30,19 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public Member findById(int id) {
-        String sql = String.format("select * from studyHelper.Member where id=%d", id);
-        setConnection(sql);
+        String sql = String.format("select * from studyHelper.Member where memberId=%d", id);
+        db.setConnection(sql);
         try{
-            rs = ps.executeQuery();
-            rs.next();
+            db.rs = db.getPs().executeQuery();
+            db.rs.next();
+
             Member m = new Member();
-            m.setId(rs.getInt("id"));
-            m.setName(rs.getString("name"));
-            closeConnection();
+            m.setMemberId(db.rs.getInt("memberId"));
+            m.setName(db.rs.getString("name"));
+            db.closeConnection();
             return m;
+        }catch(SQLException e){
+          e.printStackTrace();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -84,18 +57,18 @@ public class JdbcMemberRepository implements MemberRepository{
     @Override
     public List<Member> findAll() {
         String sql = "select * from studyHelper.Member";
-        setConnection(sql);
+        db.setConnection(sql);
 
         try{
             List<Member> members = new ArrayList<>();
-            rs = ps.executeQuery();
+            ResultSet rs = db.getPs().executeQuery();
             while(rs.next()){
                 Member member = new Member();
-                member.setId(rs.getInt("id"));
+                member.setMemberId(rs.getInt("id"));
                 member.setName(rs.getString("name"));
                 members.add(member);
             }
-            closeConnection();
+            db.closeConnection();
             return members;
         }catch (Exception e){
             e.printStackTrace();

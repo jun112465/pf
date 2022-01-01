@@ -16,6 +16,7 @@
     <div>
         <form action="notice/add-note" method="post">
             <textarea name="content" id="content" cols="30" rows="10"></textarea>
+            <input type="hidden" name="memberId" th:value="${memberId}">
             <input type="submit" value="메모 생성">
         </form>
     </div>

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Member {
 
-    private int id;
+    private int memberId;
 
     private String name;
 //    public NoticeService noticeService;
@@ -20,12 +20,13 @@ public class Member {
 //        this.noticeService = noticeService;
 //    }
 
-    public int getId() {
-        return id;
+
+    public int getMemberId() {
+        return memberId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public String getName() {

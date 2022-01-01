@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
+
 public class NoticeAddTest {
 
     @Test
@@ -16,12 +18,13 @@ public class NoticeAddTest {
         NoticeService noticeService = ac.getBean("noticeService", NoticeService.class);
 
         Notice n = new Notice();
-        n.setId(1);
+        n.setMemberId(18011646);
         n.setContents("testing");
         noticeService.add(n);
 
-        for(Notice nt : noticeService.findNoticeList()){
-            System.out.println("id : " + nt.getId() + ", contents : " + nt.getContents());
+        List<Notice> noticeList = noticeService.findNoticeList(18011646);
+        for(Notice nt : noticeList){
+            System.out.println("id : " + nt.getMemberId() + ", contents : " + nt.getContents());
         }
     }
 }
