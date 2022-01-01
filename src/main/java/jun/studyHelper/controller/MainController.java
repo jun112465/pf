@@ -33,4 +33,9 @@ public class MainController {
 
         return "root";
     }
+
+    @GetMapping("/page")
+    public String myPageController(){
+        return "index";
+    }
 }
