@@ -28,8 +28,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#schedule">Schedule</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#page-top">Schedule</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" onclick="logout()" #href="/">Logout</a></li>
+                        <li class="nav-item mx-0 mx-lg-1" th:unless="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" #href="/" data-bs-toggle="modal" data-bs-target="#registerForm">Register</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
                     </ul>
@@ -52,7 +53,7 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Masthead Subheading-->
-                <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p>
+                <p class="masthead-subheading font-weight-light mb-0">Backend Developer</p>
             </div>
             <!--로그아웃 상태-->
             <div th:unless="${user}!=null" class="container d-flex align-items-center flex-column">
@@ -92,7 +93,7 @@
 
         <!-- Portfolio Section-->
         <!--로그인 상태-->
-        <section class="page-section portfolio" id="schedule" th:if="${user}!=null">
+        <section class="page-section portfolio" th:if="${user}!=null">
             <div class="container">
                 <!-- Portfolio Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Schedule</h2>
@@ -313,6 +314,42 @@
         <!-- Copyright Section-->
         <div class="copyright py-4 text-center text-white">
             <div class="container"><small>Copyright &copy; Your Website 2021</small></div>
+        </div>
+
+        <!-- new Member Register Form Modal  -->
+        <div class="portfolio-modal modal fade" id="registerForm" tabindex="-1" aria-labelledby="portfolioModal2" aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="height:80%">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container d-flex align-items-center flex-column">
+                            <form class="wrap" method="post" action="/members/new">
+                                <div class="login">
+                                    <h2>Register</h2>
+                                    <div class="login_sns">
+                                        <li><a href=""><i class="fab fa-instagram"></i></a></li>
+                                        <li><a href=""><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href=""><i class="fab fa-twitter"></i></a></li>
+                                    </div>
+                                    <div class="login_id">
+                                        <h4>ID</h4>
+                                        <input type="text" name="memberId" placeholder="Input your ID number">
+                                    </div>
+
+                                    <div class="login_name">
+                                        <h4>Name</h4>
+                                        <input type="text" name="name" placeholder="Input your Name">
+                                    </div>
+
+                                    <div class="submit">
+                                        <input type="submit" value="submit">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 

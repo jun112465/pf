@@ -17,7 +17,7 @@ li {
 
 .wrap {
     width: 100%;
-    height: 60vh;
+    height: 65vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,7 +27,7 @@ li {
 
 .login {
     width: 30%;
-    height: 400px;
+    height: 500px;
     background: white;
     border-radius: 20px;
     display: flex;
@@ -77,12 +77,12 @@ h2 {
     outline: none;
 }
 
-.login_pw {
-    margin-top: 20px;
+.login_name {
     width: 80%;
+    margin-top: 10px;
 }
 
-.login_pw input {
+.login_name input {
     width: 100%;
     height: 50px;
     border-radius: 30px;
@@ -103,7 +103,7 @@ h2 {
 }
 
 .submit {
-    margin-top: 50px;
+    margin-top: 40px;
     width: 80%;
 }
 .submit input {
