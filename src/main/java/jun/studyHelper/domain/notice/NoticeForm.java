@@ -1,5 +1,7 @@
 package jun.studyHelper.domain.notice;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 public class NoticeForm {
     String content;
     int memberId;
@@ -26,6 +28,6 @@ public class NoticeForm {
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = StringEscapeUtils.escapeHtml4(content);
     }
 }

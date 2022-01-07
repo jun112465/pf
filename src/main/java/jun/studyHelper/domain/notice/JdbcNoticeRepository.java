@@ -1,6 +1,7 @@
 package jun.studyHelper.domain.notice;
 
 import jun.studyHelper.domain.Database;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,7 +45,8 @@ public class JdbcNoticeRepository implements NoticeRepository{
 
                 notice.setTitle(rs.getString("title"));
                 notice.setMemberId(rs.getInt("memberId"));
-                notice.setContents(rs.getString("content"));
+                String tmpContent = rs.getString("content");
+                notice.setContents(StringEscapeUtils.unescapeHtml4(tmpContent));
                 notice.setDate(rs.getDate("date"));
 
                 noticeList.add(notice);
