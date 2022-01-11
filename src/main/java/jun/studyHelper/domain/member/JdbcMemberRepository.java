@@ -74,6 +74,19 @@ public class JdbcMemberRepository implements MemberRepository{
             e.printStackTrace();
         }
         return null;
+    }
 
+    @Override
+    public void addFriend(Member me, Member friend) {
+
+        String sql = String.format("Update studyHelper.Member Set friends = concat(friends,'-', %d) where memberId=%d", friend.getMemberId(), me.getMemberId() );
+
+        db.setConnection(sql);
+
+        try{
+            db.getPs().executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -2,7 +2,6 @@ package jun.studyHelper;
 
 import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.MemberRepository;
-import jun.studyHelper.domain.member.MemoryMemberRepository;
 import jun.studyHelper.domain.notice.JdbcNoticeRepository;
 import jun.studyHelper.domain.notice.MemoryNoticeRepository;
 import jun.studyHelper.domain.notice.Notice;

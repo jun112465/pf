@@ -7,6 +7,7 @@ import jun.studyHelper.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -59,6 +60,20 @@ public class MemberController {
             System.out.println(idCookie.getName() +  " : " + idCookie.getValue());
         }else{
             System.out.println("MemberController : No member found");
+        }
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/members/add-friend")
+    public String addFriend(@CookieValue(name="memberId", required = false)String memberId, MemberForm form){
+
+        Member me = memberService.findOne(Integer.valueOf(memberId));
+        if(memberService.findOne(form.getMemberId()) != null) {
+            Member friend = memberService.findOne(form.getMemberId());
+            memberService.addFriend(me, friend);
+        }else{
+            System.out.println("MemberController : no friend member found");
         }
 
         return "redirect:/";

@@ -34,4 +34,8 @@ public class MemberService {
     public Member findOne(int memberId) {
         return memberRepository.findById(memberId);
     }
+
+    public void addFriend(Member me, Member friend){
+        memberRepository.addFriend(me,friend);
+    }
 }

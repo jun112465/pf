@@ -187,3 +187,15 @@ function submitNotice(){
         }
     });
 }
+
+function clickAddFriendBtn(event){
+    let form = document.getElementById("friendAddForm");
+
+    if(form.style.display = "none") {
+        form.style.display = "block";
+        console.log("none")
+    }
+    else
+        console.log("not none")
+    console.log("clicked")
+}

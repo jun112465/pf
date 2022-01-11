@@ -8,4 +8,5 @@ public interface MemberRepository {
     Member findById(int id);
     Optional<Member> findByName(String name);
     List<Member> findAll();
+    void addFriend(Member me, Member friend);
 }

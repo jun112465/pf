@@ -46,6 +46,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
                 notice.setTitle(rs.getString("title"));
                 notice.setMemberId(rs.getInt("memberId"));
                 String tmpContent = rs.getString("content");
+                notice.setContents(tmpContent);
                 notice.setContents(StringEscapeUtils.unescapeHtml4(tmpContent));
                 notice.setDate(rs.getDate("date"));
 
@@ -58,4 +59,8 @@ public class JdbcNoticeRepository implements NoticeRepository{
         }
         return null;
     }
+
+
+
+
 }
