@@ -4,7 +4,10 @@ import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 public class MemberService {
@@ -37,5 +40,9 @@ public class MemberService {
 
     public void addFriend(Member me, Member friend){
         memberRepository.addFriend(me,friend);
+    }
+    public Map<Integer, String> getFriends(Member me){
+        Map<Integer, String> list = memberRepository.getFriends(me);
+        return list;
     }
 }

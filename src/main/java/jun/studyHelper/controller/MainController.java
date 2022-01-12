@@ -1,5 +1,6 @@
 package jun.studyHelper.controller;
 
+import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.apache.commons.io.FileUtils;
@@ -37,6 +38,7 @@ public class MainController {
             model.addAttribute("user", memberService.findOne(Integer.valueOf(memberId)));
             model.addAttribute("memberId", memberId);
             model.addAttribute("noticeList", noticeService.findNoticeList(Integer.valueOf(memberId)));
+            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.valueOf(memberId))));
         } catch (NullPointerException e) {
             e.printStackTrace();
         }catch(NumberFormatException e){

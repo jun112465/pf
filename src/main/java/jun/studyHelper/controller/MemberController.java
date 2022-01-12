@@ -4,16 +4,20 @@ import jun.studyHelper.AppConfig;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberForm;
 import jun.studyHelper.service.MemberService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
 public class MemberController {
@@ -65,17 +69,30 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @PostMapping("/members/add-friend")
-    public String addFriend(@CookieValue(name="memberId", required = false)String memberId, MemberForm form){
 
-        Member me = memberService.findOne(Integer.valueOf(memberId));
-        if(memberService.findOne(form.getMemberId()) != null) {
+    @PostMapping(value = "/members/add-friend",  produces = "application/json")
+    @ResponseBody
+    public Map<Integer,String> addFriend( MemberForm form, @CookieValue(name="memberId", required = false)String memberId){
+
+        System.out.println("Member Controller : " + form.getMemberId());
+        try{
+            Member me = memberService.findOne(Integer.valueOf(memberId));
             Member friend = memberService.findOne(form.getMemberId());
             memberService.addFriend(me, friend);
-        }else{
-            System.out.println("MemberController : no friend member found");
-        }
+            Map<Integer, String> friendList = memberService.getFriends(me);
 
-        return "redirect:/";
+            return friendList;
+//            JSONObject json = new JSONObject();
+//            Iterator<Integer> it = friendList.keySet().iterator();
+//            while(it.hasNext()){
+//                int key = it.next();
+//                json.put(String.valueOf(key), friendList.get(key));
+//            }
+//            return json.toString();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("MemberController : no friend member found");
+            return null;
+        }
     }
 }

@@ -8,7 +8,7 @@
         <title>Freelancer - Start Bootstrap Theme</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!--  summernote5 관련    -->
 <!--        <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">-->
@@ -145,9 +145,54 @@
         </section>
 
         <!--  friend list & add page   -->
-        <section id="friend-page">
-            <form action=""></form>
-            <div>friend list</div>
+        <section class="page-section bg-primary text-white mb-0" id="friend-page">
+            <div class="container">
+                <!-- About Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-white">Friends</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- Friends Section Content-->
+                <div class="list-group overflow-scroll align-items-center" id="friend-list">
+                        <a href="#" class="list-group-item list-group-item-action" th:each = "entry : ${friendList}" th:text="${entry.key}+':'+${entry.value}"></a>
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
+
+                </div>
+                <!-- About Section Button-->
+                <div class="text-center mt-4">
+                    <div>
+                        <input type="text" name="memberId" placeholder="Input your friends Id" id="input-friendId">
+                    </div>
+                    <a class="btn btn-xl btn-outline-light" href="#friend-list" onclick="addFriend()">
+                        <i class="fa-regular fa-face-grin-tongue-squint"></i>
+                        ADD FRIEND
+                    </a>
+                </div>
+            </div>
         </section>
 
 

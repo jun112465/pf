@@ -19,6 +19,10 @@ public class Member {
 //    public Member(NoticeService noticeService){
 //        this.noticeService = noticeService;
 //    }
+    public Member(){ }
+    public Member(int memberId){
+        this.memberId = memberId;
+    }
 
 
     public int getMemberId() {

@@ -1,6 +1,7 @@
 package jun.studyHelper.domain.member;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface MemberRepository {
@@ -9,4 +10,5 @@ public interface MemberRepository {
     Optional<Member> findByName(String name);
     List<Member> findAll();
     void addFriend(Member me, Member friend);
+    Map<Integer, String> getFriends(Member me);
 }
