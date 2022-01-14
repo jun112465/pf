@@ -31,6 +31,8 @@ public class MainController {
         this.memberService = memberService;
         this.noticeService = noticeService;
     }
+
+
     @GetMapping("/")
     public String rootController(Model model, @CookieValue(name="memberId", required = false)String memberId){
         try{
@@ -44,23 +46,9 @@ public class MainController {
         }catch(NumberFormatException e){
             e.printStackTrace();
         }
-
         return "index";
     }
 
-    @GetMapping("/page")
-    public String myPageController(Model model, @CookieValue(name="memberId", required = false)String memberId){
-
-        try{
-            model.addAttribute("user", memberService.findOne(Integer.valueOf(memberId)));
-            model.addAttribute("memberId", memberId);
-            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.valueOf(memberId)));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return "index";
-    }
 
     @GetMapping("/image-uploader")
     public String imageController(){
@@ -94,6 +82,13 @@ public class MainController {
         }
 
         return jsonObject.toString();
+    }
+
+    @ResponseBody
+    @GetMapping
+    public String viewFriendSchedule(){
+
+        return "/";
     }
 }
 

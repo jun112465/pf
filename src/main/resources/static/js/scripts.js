@@ -135,17 +135,6 @@ function submitNotice(){
     });
 }
 
-function clickAddFriendBtn(event){
-    let form = document.getElementById("friendAddForm");
-
-    if(form.style.display = "none") {
-        form.style.display = "block";
-        console.log("none")
-    }
-    else
-        console.log("not none")
-    console.log("clicked")
-}
 
 function addFriend(){
     let friendId = document.getElementById("input-friendId").value;
@@ -158,9 +147,45 @@ function addFriend(){
         contentType : false,
         processData : false,
         success : function(data) {
-            console.log(data);
+            // console.log(data);
+            $("#input-friendId").val("");
+            reloadFriendList(data);
             //항상 업로드된 파일의 url이 있어야 한다.
             // $(editor).summernote('insertImage', data.url);
         }
     });
+}
+
+function sendFriendMemberId(id){
+    $.ajax({
+        data : {
+            memberId : id
+        },
+        type : "GET",
+        url : "/schedule/sendFriendSchedule",
+        success : function(data){
+            console.log(data);
+            // $("#input-friendId").value = "";
+            // $("#input-friendId").innerText = "";
+            // document.getElementById("input-friendId").innerText = "";
+
+        }
+    })
+}
+
+function reloadFriendList(data){
+    let listDiv = document.getElementById("friend-list");
+    listDiv.innerHTML = "";
+    let keys = Object.keys(data);
+    for(let i=0; i<keys.length; i++){
+        let key = Number(keys[i]);
+        let value = data[key];
+        let tag = document.createElement("a");
+        tag.className="list-group-item list-group-item-action";
+        tag.addEventListener("click", ()=>{
+            sendFriendMemberId(key);
+        });
+        tag.innerText=key + " : " + value;
+        listDiv.append(tag);
+    }
 }

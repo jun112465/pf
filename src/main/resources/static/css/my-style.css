@@ -162,6 +162,7 @@ input[type=text]{
 }
 #friend-list > a{
     width: 50%;
+    color : black;
 }
 
 #input-friendId{

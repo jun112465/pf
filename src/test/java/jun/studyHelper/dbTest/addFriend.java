@@ -6,6 +6,7 @@ import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.service.MemberService;
 import org.json.JSONObject;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -31,6 +32,7 @@ public class addFriend {
     }
 
     @Test
+    @DisplayName("친구 목록 출력 테스트")
     public void getFriendsListTest(){
 
         ApplicationContext ac = new AnnotationConfigApplicationContext(SpringConfig.class);
@@ -39,6 +41,7 @@ public class addFriend {
         m.setMemberId(18011646);
         Map<Integer, String> friendList = ms.getFriends(m);
 
+        System.out.println(friendList);
 //        int i=0;
 //        for(int s : list) {
 //            System.out.println(i + ":" + s);

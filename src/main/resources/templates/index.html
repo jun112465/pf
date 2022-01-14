@@ -157,30 +157,7 @@
                 </div>
                 <!-- Friends Section Content-->
                 <div class="list-group overflow-scroll align-items-center" id="friend-list">
-                        <a href="#" class="list-group-item list-group-item-action" th:each = "entry : ${friendList}" th:text="${entry.key}+':'+${entry.value}"></a>
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">First item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Second item</a>-->
-<!--                    <a href="#" class="list-group-item list-group-item-action">Third item</a>-->
-
+                    <a class="list-group-item list-group-item-action" th:each = "entry : ${friendList}" th:text="${entry.key}+':'+${entry.value}" th:onclick="'sendFriendMemberId('+${entry.key}+')'"></a>
                 </div>
                 <!-- About Section Button-->
                 <div class="text-center mt-4">

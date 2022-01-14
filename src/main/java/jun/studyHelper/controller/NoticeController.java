@@ -7,8 +7,9 @@ import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class NoticeController {
@@ -38,5 +39,13 @@ public class NoticeController {
         }
 
         return "redirect:/";
+    }
+
+
+    @GetMapping("/schedule/sendFriendSchedule")
+    @ResponseBody
+    public List<Notice> sendFriendSchedule(@RequestParam("memberId")int memberId){
+        System.out.println(memberId);
+        return noticeService.findNoticeList(memberId);
     }
 }
