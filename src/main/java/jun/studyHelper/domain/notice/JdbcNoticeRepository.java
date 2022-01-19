@@ -2,6 +2,7 @@ package jun.studyHelper.domain.notice;
 
 import jun.studyHelper.domain.Database;
 import org.apache.commons.text.StringEscapeUtils;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class JdbcNoticeRepository implements NoticeRepository{
 
     Database db = new Database();

@@ -1,10 +1,10 @@
 package jun.studyHelper.controller;
 
-import jun.studyHelper.AppConfig;
+
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberForm;
 import jun.studyHelper.service.MemberService;
-import org.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +20,6 @@ import java.util.Map;
 public class MemberController {
 
     public MemberService memberService;
-    public AppConfig app = new AppConfig();
 
     @Autowired //이 어노테이션이 붙은 생성자는 연관된 객체를 스프링 컨테이너에서 자동으로 넣어준다.
     public MemberController(MemberService memberService){

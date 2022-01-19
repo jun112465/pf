@@ -1,10 +1,13 @@
 package jun.studyHelper.domain.member;
 
 import jun.studyHelper.domain.Database;
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.*;
 
 
+@Repository
 public class JdbcMemberRepository implements MemberRepository{
 
     Database db = new Database();

@@ -2,6 +2,8 @@ package jun.studyHelper.service;
 
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -9,10 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@Service
 @Transactional
 public class MemberService {
     public  MemberRepository memberRepository;
 
+    @Autowired
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
