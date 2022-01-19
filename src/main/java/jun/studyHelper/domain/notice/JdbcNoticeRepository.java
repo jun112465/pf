@@ -1,30 +1,39 @@
 package jun.studyHelper.domain.notice;
 
-import jun.studyHelper.domain.Database;
+import jun.studyHelper.DBconfig;
 import org.apache.commons.text.StringEscapeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class JdbcNoticeRepository implements NoticeRepository{
+    DBconfig db;
 
-    Database db = new Database();
+    @Autowired
+    JdbcNoticeRepository(DataSource dataSource){
+        db = new DBconfig(dataSource);
+    }
+
 
     @Override
     public void save(Notice notice) {
-        String sql = String.format("insert into studyHelper.Notice(memberId, content, title) values(%d, \"%s\", \"%s\")",
-                notice.memberId, notice.content, notice.title);
-        db.setConnection(sql);
         try {
-            db.getPs().executeUpdate();
+            db.conn = db.getConnection();
+            String sql = String.format("insert into studyHelper.Notice(memberId, content, title) values(%d, \"%s\", \"%s\")",
+                    notice.memberId, notice.content, notice.title);
+            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            db.ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            db.close(db.conn, db.ps, db.rs);
         }
     }
 
@@ -35,34 +44,34 @@ public class JdbcNoticeRepository implements NoticeRepository{
 
     @Override
     public List<Notice> findAll(int memberId) {
-
         ArrayList<Notice> noticeList = new ArrayList<>();
-        String sql = String.format("Select * from studyHelper.Notice where memberId=%d order by date desc", memberId);
-        db.setConnection(sql);
+        String sql = String.format(
+                "Select * from studyHelper.Notice where " +
+                        "memberId=%d order by date desc"
+                , memberId);
+
         try {
-            ResultSet rs = db.getRs();
-            rs = db.getPs().executeQuery();
-            while(rs.next()){
+            db.conn = db.getConnection();
+            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            db.rs = db.ps.executeQuery();
+            while(db.rs.next()){
                 Notice notice = new Notice();
 
-                notice.setTitle(rs.getString("title"));
-                notice.setMemberId(rs.getInt("memberId"));
-                String tmpContent = rs.getString("content");
+                notice.setTitle(db.rs.getString("title"));
+                notice.setMemberId(db.rs.getInt("memberId"));
+                String tmpContent = db.rs.getString("content");
                 notice.setContents(tmpContent);
                 notice.setContents(StringEscapeUtils.unescapeHtml4(tmpContent));
-                notice.setDate(rs.getDate("date"));
+                notice.setDate(db.rs.getDate("date"));
 
                 noticeList.add(notice);
             }
-            db.closeConnection();
             return noticeList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            db.close(db.conn, db.ps, db.rs);
         }
         return null;
     }
-
-
-
-
 }

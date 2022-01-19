@@ -1,4 +1,4 @@
-package jun.studyHelper.domain;
+package jun.studyHelper;
 
 import org.springframework.beans.factory.annotation.Value;
 

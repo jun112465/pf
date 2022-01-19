@@ -1,6 +1,6 @@
 package jun.studyHelper.domain.member;
 
-import jun.studyHelper.domain.Database;
+import jun.studyHelper.Database;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
