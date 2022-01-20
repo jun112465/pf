@@ -53,7 +53,7 @@
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" onclick="logout()" #href="/">Logout</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:unless="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" #href="/" data-bs-toggle="modal" data-bs-target="#registerForm">Register</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
+                        <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -145,7 +145,7 @@
         </section>
 
         <!--  friend list & add page   -->
-        <section class="page-section bg-primary text-white mb-0" id="friend-page">
+        <section class="page-section bg-primary text-white mb-0" id="friend-page" th:if="${user}!=null">
             <div class="container">
                 <!-- About Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-white">Friends</h2>

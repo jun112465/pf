@@ -17,8 +17,8 @@ public class JdbcNoticeRepository implements NoticeRepository{
     DBconfig db;
 
     @Autowired
-    JdbcNoticeRepository(DataSource dataSource){
-        db = new DBconfig(dataSource);
+    JdbcNoticeRepository(DBconfig db){
+        this.db = db;
     }
 
 

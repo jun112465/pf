@@ -1,10 +1,5 @@
 package jun.studyHelper;
 
-import jun.studyHelper.domain.member.JdbcMemberRepository;
-import jun.studyHelper.domain.member.MemberRepository;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
-
 public class JavaTest {
 
     public static void main(String[] args) {

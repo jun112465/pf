@@ -18,9 +18,9 @@ $(document).ready(function() {
                 uploadSummernoteImageFile(files[0],this);
             },
             onPaste: function (e) {
-                var clipboardData = e.originalEvent.clipboardData;
+                let clipboardData = e.originalEvent.clipboardData;
                 if (clipboardData && clipboardData.items && clipboardData.items.length) {
-                    var item = clipboardData.items[0];
+                    let item = clipboardData.items[0];
                     if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
                         e.preventDefault();
                     }
@@ -35,7 +35,7 @@ $(document).ready(function() {
      * 이미지 파일 업로드
      */
     function uploadSummernoteImageFile(file, editor) {
-        data = new FormData();
+        let data = new FormData();
         data.append("file", file);
         $.ajax({
             data : data,
