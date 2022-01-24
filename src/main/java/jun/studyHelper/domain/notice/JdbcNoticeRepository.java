@@ -40,7 +40,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
     @Override
     public void remove(int id) {
         db.conn = db.getConnection();
-        String sql = String.format("Delete from Notice where memberId=%d", id);
+        String sql = String.format("Delete from Notice where id=%d", id);
         try {
             db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             db.ps.executeUpdate();
@@ -67,6 +67,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
             while(db.rs.next()){
                 Notice notice = new Notice();
 
+                notice.setId(db.rs.getInt("id"));
                 notice.setTitle(db.rs.getString("title"));
                 notice.setMemberId(db.rs.getInt("memberId"));
                 String tmpContent = db.rs.getString("content");

@@ -8,9 +8,18 @@ public class Notice {
     String author;
     int memberId;
     String title;
+    int id;
 
     public Notice() {
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

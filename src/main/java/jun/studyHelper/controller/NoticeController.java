@@ -31,7 +31,7 @@ public class NoticeController {
             System.out.println(noticeForm.getContent());
             Notice n = new Notice();
             n.setContents(noticeForm.getContent());
-            n.setMemberId(Integer.valueOf(memberId));
+            n.setMemberId(Integer.parseInt(memberId));
             n.setTitle(noticeForm.getTitle());
             noticeService.add(n);
         }catch (NullPointerException e){
@@ -41,6 +41,12 @@ public class NoticeController {
         return "redirect:/";
     }
 
+    @PostMapping(value="notice/delete", produces="application/json")
+    @ResponseBody
+    public List<Notice> deleteNote(NoticeForm form, @CookieValue(name = "MemberId", required = false)String memberId) {
+        noticeService.delete(form.getId());
+        return noticeService.findNoticeList(Integer.parseInt(memberId));
+    }
 
     @GetMapping("/schedule/sendFriendSchedule")
     @ResponseBody

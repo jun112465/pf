@@ -26,17 +26,6 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/members")
-    public String list(Model model){
-        List<Member> members = memberService.findMembers();
-        model.addAttribute("members", members);
-        return "members/memberList";
-    }
-    @GetMapping("/members/new")
-    public String createForm(){
-        return "members/createMemberForm";
-    }
-    
     @PostMapping("members/new")
     public String create(MemberForm form){
 //        Member member = new Member(app.noticeService());
@@ -72,7 +61,7 @@ public class MemberController {
 
         System.out.println("Member Controller : " + form.getMemberId());
         try{
-            Member me = memberService.findOne(Integer.valueOf(memberId));
+            Member me = memberService.findOne(Integer.parseInt(memberId));
             Member friend = memberService.findOne(form.getMemberId());
             memberService.addFriend(me, friend);
             Map<Integer, String> friendList = memberService.getFriends(me);

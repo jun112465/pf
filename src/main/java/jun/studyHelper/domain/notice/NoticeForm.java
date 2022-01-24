@@ -6,6 +6,15 @@ public class NoticeForm {
     String content;
     int memberId;
     String title;
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
