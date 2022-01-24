@@ -92,4 +92,13 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/members/setting")
+    public String setting(Model model, @CookieValue(name="memberId", required = false)String memberId){
+        Member member = memberService.findOne(Integer.parseInt(memberId));
+        model.addAttribute("MemberId", memberId);
+        model.addAttribute("Name", member.getName());
+//        model.addAttribute("Status", feijwj, eijfw, "eifje", )
+//        model.addAttribute("Status)
+        return "infoSetting";
+    }
 }

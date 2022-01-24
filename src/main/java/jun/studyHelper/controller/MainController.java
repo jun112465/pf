@@ -37,13 +37,11 @@ public class MainController {
     public String rootController(Model model, @CookieValue(name="memberId", required = false)String memberId){
         try{
             System.out.println("MainController : memberId = " + memberId);
-            model.addAttribute("user", memberService.findOne(Integer.valueOf(memberId)));
+            model.addAttribute("user", memberService.findOne(Integer.parseInt(memberId)));
             model.addAttribute("memberId", memberId);
-            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.valueOf(memberId)));
-            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.valueOf(memberId))));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }catch(NumberFormatException e){
+            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.parseInt(memberId)));
+            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.parseInt(memberId))));
+        } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
         }
         return "index";
@@ -62,6 +60,7 @@ public class MainController {
         JSONObject jsonObject = new JSONObject();
 
         String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+        assert originalFileName != null;
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 
         String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명

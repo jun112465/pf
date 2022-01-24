@@ -39,6 +39,16 @@ public class JdbcNoticeRepository implements NoticeRepository{
 
     @Override
     public void remove(int id) {
+        db.conn = db.getConnection();
+        String sql = String.format("Delete from Notice where memberId=%d", id);
+        try {
+            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            db.ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            db.close(db.conn, db.ps, db.rs);
+        }
 
     }
 
