@@ -132,10 +132,10 @@
 <!--                    <div class="col-md-6 col-lg-4 mb-5" th:each="i:${#numbers.sequence(0,5)}">-->
                     <div class="col-md-6 col-lg-4 mb-5" th:each="n : ${noticeList}">
                         <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                            </div>
-                            <div th:text="${n.getTitle()}"></div>
+                            <div class="modal-header border-0">
+                                <div th:text="${n.getTitle()}"></div>
+                                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                            <input type="hidden" th:value="${n.getId()}">
                             <div th:utext="${n.getContents()}" class="schedule-content"></div>
                         </div>
                     </div>
