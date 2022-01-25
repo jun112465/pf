@@ -1,26 +1,23 @@
 package jun.studyHelper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceUtils;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Configuration
+//@Configuration
 public class DBconfig {
     private final DataSource dataSource;
     public Connection conn = null;
     public PreparedStatement ps = null;
     public ResultSet rs = null;
 
-    @Autowired
+
     public DBconfig(DataSource dataSource){
         this.dataSource = dataSource;
     }
+
 
     public Connection getConnection(){
 //        conn = null;

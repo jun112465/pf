@@ -3,7 +3,6 @@ package jun.studyHelper.domain.notice;
 import jun.studyHelper.DBconfig;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;

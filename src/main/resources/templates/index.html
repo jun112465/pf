@@ -134,8 +134,10 @@
                         <div class="portfolio-item mx-auto" >
                             <div class="modal-header border-0">
                                 <div th:text="${n.getTitle()}"></div>
-                                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
-                            <input type="hidden" th:value="${n.getId()}">
+                                <button class="btn-closeSchedule btn-close" type="button"  aria-label="Close" ></button>
+                                <input type="hidden" th:value="${n.getId()}">
+                            </div>
+
                             <div th:utext="${n.getContents()}" class="schedule-content"></div>
                         </div>
                     </div>

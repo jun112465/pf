@@ -1,5 +1,7 @@
 package jun.studyHelper;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,5 +14,14 @@ public class AutoAppConfig {
 
     public AutoAppConfig(DataSource dataSource){
         this.dataSource = dataSource;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    @Bean
+    public DBconfig dBconfig(){
+        return new DBconfig(dataSource);
     }
 }

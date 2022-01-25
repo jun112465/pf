@@ -41,9 +41,9 @@ public class NoticeController {
         return "redirect:/";
     }
 
-    @PostMapping(value="notice/delete", produces="application/json")
+    @PostMapping(value="/schedule/delete", produces = "application/json")
     @ResponseBody
-    public List<Notice> deleteNote(NoticeForm form, @CookieValue(name = "MemberId", required = false)String memberId) {
+    public List<Notice> deleteNote(NoticeForm form, @CookieValue(name = "memberId", required = false)String memberId) {
         noticeService.delete(form.getId());
         return noticeService.findNoticeList(Integer.parseInt(memberId));
     }
