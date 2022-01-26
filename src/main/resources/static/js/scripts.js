@@ -120,7 +120,9 @@ window.addEventListener('DOMContentLoaded',
                     contentType : false,
                     processData : false,
                     success: function (data) {
-                        console.log(data);
+                        // location.href="/";
+                        location.reload();
+                        location.href="/#schedule-list";
                     }
                 })
             })
@@ -186,12 +188,47 @@ function sendFriendMemberId(id){
         url : "/schedule/sendFriendSchedule",
         success : function(data){
             console.log(data);
-            // $("#input-friendId").value = "";
-            // $("#input-friendId").innerText = "";
-            // document.getElementById("input-friendId").innerText = "";
-
+            reloadSchedule(data);
         }
-    })
+    });
+
+    function reloadSchedule(data){
+        let schedule = document.getElementById("schedule-container");
+        schedule.innerText = "";
+        schedule.innerHTML = "";
+        for(let element of data){
+            console.log(element);
+
+            let div1 = document.createElement("div");
+            let div2 = document.createElement("div");
+            let div3 = document.createElement("div");
+            let div4 = document.createElement("div");
+            let div5 = document.createElement("div");
+            let btn = document.createElement("button");
+            let input = document.createElement("input");
+
+            div1.className = "col-md-6 col-lg-4 mb-5";
+            div2.className = "portfolio-item mx-auto";
+            div3.className = "modal-header border-0";
+            div4.innerText = element.title;
+            div5.className="schedule-content";
+            div5.innerHTML = element.contents;
+
+            btn.className = "btn-closeSchedule btn-close";
+            btn.ariaLabel = "Close";
+            input.type = "hidden";
+            input.value = element.id;
+
+            div1.append(div2);
+            div2.appendChild(div3);
+            div3.appendChild(div4);
+            div3.appendChild(btn);
+            div3.appendChild(input);
+            div2.appendChild(div5);
+
+            schedule.append(div1);
+        }
+    }
 }
 
 function reloadFriendList(data){
@@ -216,7 +253,6 @@ function deleteSchedule(e) {
     console.log("deleteSchedule function executed");
     let data = new FormData();
     data.append("id",id);
-    console.log(data);
     $.ajax({
         data:data,
         type: "post",
@@ -224,7 +260,9 @@ function deleteSchedule(e) {
         contentType : false,
         processData : false,
         success: function (data) {
-            console.log(data);
+            if(data.redirect){
+                window.location.href = data.redirect;
+            }
         }
     })
 };

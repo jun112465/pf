@@ -48,7 +48,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#page-top">Schedule</a></li>
+                        <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#schedule-list">Schedule</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#friend-page">Friends</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/members/setting">Settings</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" onclick="logout()" #href="/">Logout</a></li>
@@ -116,7 +116,7 @@
 
         <!-- Portfolio Section-->
         <!--로그인 상태-->
-        <section class="page-section portfolio" th:if="${user}!=null">
+        <section id="schedule-list" class="page-section portfolio" th:if="${user}!=null">
             <div class="container">
                 <!-- Portfolio Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Schedule</h2>
@@ -128,7 +128,7 @@
 
 
                 <!-- Schedule grid items -->
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" id="schedule-container">
 <!--                    <div class="col-md-6 col-lg-4 mb-5" th:each="i:${#numbers.sequence(0,5)}">-->
                     <div class="col-md-6 col-lg-4 mb-5" th:each="n : ${noticeList}">
                         <div class="portfolio-item mx-auto" >
@@ -162,9 +162,12 @@
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
+                <div  id="friend-schedule" class="row justify-content-center">
+
+                </div>
                 <!-- Friends Section Content-->
                 <div class="list-group overflow-scroll align-items-center" id="friend-list">
-                    <a class="list-group-item list-group-item-action" th:each = "entry : ${friendList}" th:text="${entry.key}+':'+${entry.value}" th:onclick="'sendFriendMemberId('+${entry.key}+')'"></a>
+                    <a href="#schedule-list" class="list-group-item list-group-item-action" th:each = "entry : ${friendList}" th:text="${entry.key}+':'+${entry.value}" th:onclick="'sendFriendMemberId('+${entry.key}+')'"></a>
                 </div>
                 <!-- About Section Button-->
                 <div class="text-center mt-4">

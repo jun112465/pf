@@ -7,6 +7,7 @@ import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,17 +42,18 @@ public class NoticeController {
         return "redirect:/";
     }
 
-    @PostMapping(value="/schedule/delete", produces = "application/json")
-    @ResponseBody
-    public List<Notice> deleteNote(NoticeForm form, @CookieValue(name = "memberId", required = false)String memberId) {
+    @PostMapping(value="/schedule/delete")
+    public String deleteNote(NoticeForm form, @CookieValue(name = "memberId", required = false)String memberId) {
         noticeService.delete(form.getId());
-        return noticeService.findNoticeList(Integer.parseInt(memberId));
+        return "redirect:/";
     }
 
     @GetMapping("/schedule/sendFriendSchedule")
     @ResponseBody
     public List<Notice> sendFriendSchedule(@RequestParam("memberId")int memberId){
+//        model.addAttribute("friendNoticeList", noticeService.findNoticeList(memberId));
         System.out.println(memberId);
         return noticeService.findNoticeList(memberId);
+//        return "index";
     }
 }
