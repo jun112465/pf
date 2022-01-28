@@ -51,7 +51,7 @@
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#schedule-list">Schedule</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#friend-page">Friends</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/members/setting">Settings</a></li>
-                        <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" onclick="logout()" #href="/">Logout</a></li>
+                        <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" onclick="logout()" >Logout</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:unless="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" #href="/" data-bs-toggle="modal" data-bs-target="#registerForm">Register</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
                         <li class="nav-item mx-0 mx-lg-1" th:if="${user}!=null"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/chat">Chat</a></li>

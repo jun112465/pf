@@ -137,7 +137,8 @@ function logout(){
     let Cookie = `memberId=; Expires=${date.toUTCString()}`;
     document.cookie = Cookie;
 
-    location.reload();
+    document.body.innerHTML = "";
+    location.reload(true);
 }
 
 function submitNotice(){
