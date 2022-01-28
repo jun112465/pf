@@ -204,7 +204,6 @@ function sendFriendMemberId(id){
             let div3 = document.createElement("div");
             let div4 = document.createElement("div");
             let div5 = document.createElement("div");
-            let btn = document.createElement("button");
             let input = document.createElement("input");
 
             div1.className = "col-md-6 col-lg-4 mb-5";
@@ -214,15 +213,12 @@ function sendFriendMemberId(id){
             div5.className="schedule-content";
             div5.innerHTML = element.contents;
 
-            btn.className = "btn-closeSchedule btn-close";
-            btn.ariaLabel = "Close";
             input.type = "hidden";
             input.value = element.id;
 
             div1.append(div2);
             div2.appendChild(div3);
             div3.appendChild(div4);
-            div3.appendChild(btn);
             div3.appendChild(input);
             div2.appendChild(div5);
 
