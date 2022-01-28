@@ -44,4 +44,8 @@ public class MemberService {
         Map<Integer, String> list = memberRepository.getFriends(me);
         return list;
     }
+    public Map<Integer, String> deleteFriend(int memberId, int friendId){
+        memberRepository.deleteFriend(memberId, friendId);
+        return memberRepository.getFriends(new Member(memberId));
+    }
 }

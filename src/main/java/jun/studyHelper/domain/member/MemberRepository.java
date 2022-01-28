@@ -11,4 +11,5 @@ public interface MemberRepository {
     List<Member> findAll();
     void addFriend(Member me, Member friend);
     Map<Integer, String> getFriends(Member me);
+    void deleteFriend(int myId, int friendId);
 }

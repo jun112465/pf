@@ -169,3 +169,8 @@ input[type=text]{
 #input-friendId{
     border-radius: 10px 10px 10px 10px;
 }
+
+.btn-dlt-friend{
+    display : inline-block;
+    align-items : end;
+}

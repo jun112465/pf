@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
@@ -115,7 +116,7 @@ public class JdbcMemberRepository implements MemberRepository{
             String findMemberSql = "Select * from studyHelper.Member where memberId=%d";
             String [] arr = friendString.split("-");
             for(int i=1; i<arr.length; i++){
-                int id = Integer.valueOf(arr[i]);
+                int id = Integer.parseInt(arr[i]);
                 db.rs = db.ps.executeQuery(String.format(findMemberSql, id));
                 db.rs.next();
                 String name = db.rs.getString("name");
@@ -129,4 +130,43 @@ public class JdbcMemberRepository implements MemberRepository{
         }
         return null;
     }
+
+    public void deleteFriend(int myId, int friendId){
+        db.conn = db.getConnection();
+        try {
+            db.ps = db.conn.prepareStatement(String.format("Select friends from studyHelper.Member where memberId = %d", myId));
+            db.rs = db.ps.executeQuery();
+            db.rs.next();
+            String friendString = db.rs.getString("friends");
+            System.out.println("memberRepo : " + friendString);
+            String find = Integer.toString(friendId);
+            int idx = friendString.indexOf(find);
+            String s1 = friendString.substring(0, idx-1);
+            String s2 = friendString.substring(idx+find.length());
+            String s3 = s1 + s2;
+
+            db.ps = db.conn.prepareStatement(String.format("Update studyHelper.Member set friends='%s' where memberId=%d", s3, myId));
+            db.ps.executeUpdate();
+
+
+            System.out.println(friendString);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            db.close(db.conn, db.ps, db.rs);
+        }
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

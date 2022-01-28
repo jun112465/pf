@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
@@ -89,5 +88,13 @@ public class MemberController {
 //        model.addAttribute("Status", feijwj, eijfw, "eifje", )
 //        model.addAttribute("Status)
         return "infoSetting";
+    }
+
+
+    @PostMapping(value = "/members/deleteFriend", produces = "application/json")
+    @ResponseBody
+    public Map<Integer, String> deleteFriend(MemberForm form, @CookieValue(name="memberId", required=false)String memberId){
+        int friendId = form.getMemberId();
+        return memberService.deleteFriend(Integer.parseInt(memberId), friendId);
     }
 }

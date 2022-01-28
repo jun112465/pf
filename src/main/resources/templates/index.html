@@ -167,7 +167,10 @@
                 </div>
                 <!-- Friends Section Content-->
                 <div class="list-group overflow-scroll align-items-center" id="friend-list">
-                    <a href="#schedule-list" class="list-group-item list-group-item-action" th:each = "entry : ${friendList}" th:text="${entry.key}+':'+${entry.value}" th:onclick="'sendFriendMemberId('+${entry.key}+')'"></a>
+                    <div class="list-group-item list-group-item-action" th:each = "entry : ${friendList}">
+                        <a href="#schedule-list" th:text="${entry.key}+':'+${entry.value}" th:onclick="'sendFriendMemberId('+${entry.key}+')'"></a>
+                        <div th:onclick="'deleteFriend('+ ${entry.key}+')'" class="btn-dlt-friend float-right" style="color:#ff5d5d"><i class="fas fa-trash"></i></div>
+                    </div>
                 </div>
                 <!-- About Section Button-->
                 <div class="text-center mt-4">

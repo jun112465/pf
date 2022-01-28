@@ -127,6 +127,8 @@ window.addEventListener('DOMContentLoaded',
                 })
             })
         }
+
+
     });
 
 function logout(){
@@ -171,10 +173,12 @@ function addFriend(){
         processData : false,
         success : function(data) {
             // console.log(data);
-            $("#input-friendId").val("");
-            reloadFriendList(data);
+            // $("#input-friendId").val("");
+            // reloadFriendList(data);
             //항상 업로드된 파일의 url이 있어야 한다.
             // $(editor).summernote('insertImage', data.url);
+            location.reload();
+            location.href="/#schedule-list";
         }
     });
 }
@@ -234,7 +238,9 @@ function reloadFriendList(data){
     for(let i=0; i<keys.length; i++){
         let key = Number(keys[i]);
         let value = data[key];
-        let tag = document.createElement("a");
+        let div1 = document.createElement("div");
+        let div2 = document.createElement("div");
+        let a = document.createElement("a");
         tag.className="list-group-item list-group-item-action";
         tag.addEventListener("click", ()=>{
             sendFriendMemberId(key);
@@ -263,3 +269,22 @@ function deleteSchedule(e) {
     })
 };
 
+function deleteFriend(friendId){
+    console.log(friendId);
+
+    let data = new FormData();
+    data.append("memberId", friendId);
+    $.ajax({
+        data : data,
+        type : "post",
+        url : "members/deleteFriend",
+        contentType : false,
+        processData : false,
+        success : (data)=>{
+           console.log("data sended");
+           console.log(data);
+            location.reload();
+            location.href="/#friend-list";
+        }
+    })
+}
