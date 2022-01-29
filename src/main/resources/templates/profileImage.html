@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="imgForm" method="post" action="/profile-upload" enctype="multipart/form-data">
+    <input type='file' id="myFile" name="file"/>
+    <img id="View" src="#" alt="이미지 미리보기" />
+    <input type="submit" value="send">
+</form>
+
+<script src="http://madalla.kr/js/jquery-1.8.3.min.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $("#myFile").on('change', function(){
+            readURL(this);
+        });
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#View').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+</body>
+</html>
