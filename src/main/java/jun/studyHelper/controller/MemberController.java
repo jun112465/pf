@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
@@ -88,6 +90,30 @@ public class MemberController {
 //        model.addAttribute("Status", feijwj, eijfw, "eifje", )
 //        model.addAttribute("Status)
         return "infoSetting";
+    }
+
+    @PostMapping("/members/profile-update")
+    public String profileUpdate(MemberForm form, @CookieValue(name="memberId", required = false)String memberId){
+        System.out.println("MemberController executed");
+
+        MultipartFile imageFile = null;
+        String message = null;
+//        Integer memberId = null;
+
+        if(! (form.getImageFile().getSize() == 0))
+            imageFile = form.getImageFile();
+//        if(form.getMemberId() != null)
+//            memberId = form.getMemberId();
+        if(!form.getMessage().equals(""))
+            message = form.getMessage();
+
+        memberService.updateMemberInfo(imageFile, message, Integer.parseInt(memberId));
+
+//
+        System.out.println(imageFile);
+        System.out.println(message);
+//        System.out.println(memberId);
+        return "redirect:/";
     }
 
 

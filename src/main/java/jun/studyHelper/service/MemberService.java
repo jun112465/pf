@@ -2,14 +2,25 @@ package jun.studyHelper.service;
 
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberRepository;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class MemberService {
     public  MemberRepository memberRepository;
+
+    @Value("${fileRoot}")
+    String fileRoot;
 
     @Autowired
     public MemberService(MemberRepository memberRepository){
@@ -48,4 +59,31 @@ public class MemberService {
         memberRepository.deleteFriend(memberId, friendId);
         return memberRepository.getFriends(new Member(memberId));
     }
+
+    public void updateMemberInfo(MultipartFile profileImage, String profileMessage, int memberId){
+        String fileName = null;
+        if(!profileImage.isEmpty())
+            fileName = saveFileToServer(profileImage);
+        memberRepository.updateMemberInfo(fileName, profileMessage, memberId);
+    }
+
+    public String saveFileToServer(MultipartFile profileImage){
+        String originalFileName = profileImage.getOriginalFilename();	//오리지날 파일명
+        assert originalFileName != null;
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+
+        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+
+        File targetFile = new File(fileRoot + savedFileName);
+        InputStream fileStream = null;
+        try {
+            fileStream = profileImage.getInputStream();
+            FileUtils.copyInputStreamToFile(fileStream, targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return savedFileName;
+    }
 }
+
+

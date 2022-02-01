@@ -18,3 +18,10 @@ const inputImage = document.getElementById("input-image")
 inputImage.addEventListener("change", e => {
     readImage(e.target)
 })
+
+function testToSend(){
+    let inputDom = document.getElementById("preview-image");
+    let inputImage = document.getElementById("input-image");
+    // alert(inputImage.value);
+    alert(inputImage.files[0]);
+}

@@ -19,6 +19,6 @@ public class TestController {
     @PostMapping("/profile-upload")
     public void uploadProfile(MemberForm form){
 
-        System.out.println(form.getFile());
+//        System.out.println(form.getFile());
     }
 }

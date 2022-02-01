@@ -12,4 +12,6 @@ public interface MemberRepository {
     void addFriend(Member me, Member friend);
     Map<Integer, String> getFriends(Member me);
     void deleteFriend(int myId, int friendId);
+
+    void updateMemberInfo(String profileFileName, String profileMessage, int memberId);
 }

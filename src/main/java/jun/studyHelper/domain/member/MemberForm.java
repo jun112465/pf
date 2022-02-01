@@ -6,7 +6,8 @@ public class MemberForm {
     private String name;
     private Integer memberId;
     private String imageLocation;
-    private MultipartFile file;
+    private MultipartFile imageFile;
+    private String message;
 
     public Integer getMemberId() {
         return memberId;
@@ -32,13 +33,19 @@ public class MemberForm {
         this.imageLocation = imageLocation;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public String getMessage() {
+        return message;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
 
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
+    }
 }

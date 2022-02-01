@@ -158,6 +158,28 @@ public class JdbcMemberRepository implements MemberRepository{
         }
 
     }
+
+    @Override
+    public void updateMemberInfo(String profileFileName, String profileMessage, int memberId) {
+        db.conn = db.getConnection();
+        try{
+            if(profileFileName != null) {
+                String sql = String.format("update Member set profileImage='%s' where memberId=%d", profileFileName, memberId);
+                db.ps = db.conn.prepareStatement(sql);
+                db.ps.executeUpdate();
+            }
+
+            if(profileMessage != null){
+                String sql = String.format("update Member set profileMessage='%s' where memberId=%d", profileMessage, memberId);
+                db.ps = db.conn.prepareStatement(sql);
+                db.ps.executeUpdate();
+            }
+        }catch (Exception e){
+                e.printStackTrace();
+        }finally {
+            db.close(db.conn, db.ps, db.rs);
+        }
+    }
 }
 
 
