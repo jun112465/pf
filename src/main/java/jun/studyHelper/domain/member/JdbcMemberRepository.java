@@ -48,6 +48,8 @@ public class JdbcMemberRepository implements MemberRepository{
             Member m = new Member();
             m.setMemberId(db.rs.getInt("memberId"));
             m.setName(db.rs.getString("name"));
+            m.setProfileImage(db.rs.getString("profileImage"));
+            m.setProfileMessage(db.rs.getString("profileMessage"));
             return m;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

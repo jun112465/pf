@@ -174,3 +174,13 @@ input[type=text]{
     display : inline-block;
     align-items : end;
 }
+
+.masthead-avatar{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    min-height: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    max-height: 200px;
+}
