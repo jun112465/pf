@@ -3,9 +3,6 @@ package jun.studyHelper.domain.member;
 import jun.studyHelper.DBconfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.sql.DataSource;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
@@ -15,7 +12,7 @@ public class JdbcMemberRepository implements MemberRepository{
     DBconfig db;
 
     @Autowired
-    JdbcMemberRepository(DBconfig db){
+    public JdbcMemberRepository(DBconfig db){
 //        db = new DBconfig(dataSource);
         this.db = db;
     }
