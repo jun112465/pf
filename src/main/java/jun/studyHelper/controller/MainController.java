@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
-@Controller
+//@Controller
 public class MainController {
 
     MemberService memberService;
@@ -31,7 +31,6 @@ public class MainController {
         this.memberService = memberService;
         this.noticeService = noticeService;
     }
-
 
     @GetMapping("/")
     public String rootController(Model model, @CookieValue(name="memberId", required = false)String memberId){
