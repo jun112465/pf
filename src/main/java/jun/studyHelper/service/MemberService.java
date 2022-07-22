@@ -29,11 +29,10 @@ public class MemberService {
     /**
      * 회원가입
      */
-    public int join(Member member) {
+    public String join(Member member) {
         validateDuplicateMember(member); //중복 회원 검증
         memberRepository.save(member);
         return member.getMemberId();
-
     }
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName()).ifPresent(m -> {
@@ -44,7 +43,8 @@ public class MemberService {
     public List<Member> findMembers(){
         return memberRepository.findAll();
     }
-    public Member findOne(int memberId) {
+
+    public Member findOne(String memberId) {
         return memberRepository.findById(memberId);
     }
 
@@ -55,10 +55,10 @@ public class MemberService {
         Map<Integer, String> list = memberRepository.getFriends(me);
         return list;
     }
-    public Map<Integer, String> deleteFriend(int memberId, int friendId){
-        memberRepository.deleteFriend(memberId, friendId);
-        return memberRepository.getFriends(new Member(memberId));
-    }
+//    public Map<Integer, String> deleteFriend(String memberId, int friendId){
+//        memberRepository.deleteFriend(memberId, friendId);
+//        return memberRepository.getFriends(new Member(memberId));
+//    }
 
     public void updateMemberInfo(MultipartFile profileImage, String profileMessage, int memberId){
         String fileName = null;

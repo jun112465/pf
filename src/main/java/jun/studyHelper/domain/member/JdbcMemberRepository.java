@@ -19,7 +19,11 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public Member save(Member member) {
-        String sql = String.format("insert into studyHelper.Member(memberId,name) values(%d, \"%s\")", member.getMemberId(), member.getName());
+        String sql = String.format(
+                "INSERT INTO " +
+                "member(member_id, password) " +
+                "VALUES(\"%s\", \"%s\")",
+                member.getMemberId(), member.getPassword());
 
         try {
             db.conn = db.getConnection();
@@ -28,26 +32,27 @@ public class JdbcMemberRepository implements MemberRepository{
             return member;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return null;
         }finally {
             db.close(db.conn, db.ps, db.rs);
         }
-        return null;
     }
 
     @Override
-    public Member findById(int id) {
-        String sql = String.format("select * from studyHelper.Member where memberId=%d", id);
+    public Member findById(String id) {
+
+        String sql = String.format(
+                "SELECT * FROM member " +
+                "WHERE member_id=%s",
+                id);
         try{
             db.conn = db.getConnection();
             db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             db.rs = db.ps.executeQuery();
             db.rs.next();
-            Member m = new Member();
-            m.setMemberId(db.rs.getInt("memberId"));
-            m.setName(db.rs.getString("name"));
-            m.setProfileImage(db.rs.getString("profileImage"));
-            m.setProfileMessage(db.rs.getString("profileMessage"));
-            return m;
+
+            String m_id = db.rs.getString("member_id");
+            return new Member(m_id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }finally {
@@ -63,7 +68,7 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public List<Member> findAll() {
-        String sql = "select * from studyHelper.Member";
+        String sql = "select * from member";
         try{
             List<Member> members = new ArrayList<>();
             db.conn = db.getConnection();
@@ -71,9 +76,7 @@ public class JdbcMemberRepository implements MemberRepository{
             db.rs = db.ps.executeQuery();
 
             while(db.rs.next()){
-                Member member = new Member();
-                member.setMemberId(db.rs.getInt("id"));
-                member.setName(db.rs.getString("name"));
+                Member member = new Member(db.rs.getString("member_id"));
                 members.add(member);
             }
             return members;

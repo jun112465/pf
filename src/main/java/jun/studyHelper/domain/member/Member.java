@@ -1,15 +1,9 @@
 package jun.studyHelper.domain.member;
 
-import jun.studyHelper.domain.notice.NoticeRepository;
-import jun.studyHelper.service.MemberService;
-import jun.studyHelper.service.NoticeService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-
 public class Member {
 
-    private int memberId;
+    private String memberId;
+    private String password;
 
     private String name;
     private String profileImage;
@@ -22,18 +16,23 @@ public class Member {
 //    public Member(NoticeService noticeService){
 //        this.noticeService = noticeService;
 //    }
-    public Member(){ }
-    public Member(int memberId){
+    public Member(){
+
+    }
+    public Member(String memberId){
         this.memberId = memberId;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
-    public int getMemberId() {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMemberId() {
         return memberId;
-    }
-
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
     }
 
     public String getName() {
@@ -58,5 +57,9 @@ public class Member {
 
     public void setProfileMessage(String profileMessage) {
         this.profileMessage = profileMessage;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 }

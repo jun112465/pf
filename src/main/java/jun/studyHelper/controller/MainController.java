@@ -36,10 +36,10 @@ public class MainController {
     public String rootController(Model model, @CookieValue(name="memberId", required = false)String memberId){
         try{
             System.out.println("MainController : memberId = " + memberId);
-            model.addAttribute("user", memberService.findOne(Integer.parseInt(memberId)));
+//            model.addAttribute("user", memberService.findOne(Integer.parseInt(memberId)));
             model.addAttribute("memberId", memberId);
             model.addAttribute("noticeList", noticeService.findNoticeList(Integer.parseInt(memberId)));
-            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.parseInt(memberId))));
+//            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.parseInt(memberId))));
         } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
         }

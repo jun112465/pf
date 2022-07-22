@@ -38,10 +38,30 @@ Web project CRUD & RESTapi
 
 > 리액트와 스프링부트 연동
 
-
 - 개발 환경 세팅
 - 스프링부트 프로젝트에 리액트 설치
-- cors 관련 오류를 방지하기 위한 proxy 설정
-- 
+- cors 관련 오류를 방지하기 위한 proxy 설정 - package.json 에 proxy 를 어떻게 설정할 것인지 작성
+- 빌드 시 react 프로젝트가 먼저 build 되고, 결과물을 SpringBoot 프로젝트 build 결과물에 포함시킨다는 스크립트를 build.gradle 에 추가
+#### 참고자료
+- https://velog.io/@jung-co/Spring-boot-%EC%99%80-React-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0
 
-https://velog.io/@u-nij/Spring-Boot-React.js-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EC%84%B8%ED%8C%85
+> database 설계
+
+- users
+- groups
+- group_members
+- schedules
+
+ERDiagram 
+
+
+> jpa 설정해주기
+
+인프런 강의보기 (일단 기본 강의 시청 후 -> 조금씩 jpa 강의 완강)
+
+> Spa 이해하기
+
+location.hash와 HTML5의 history API를 통해서 예전 웹페이지 처럼 논리적으로 페이지를 분리하고 그 분리된 페이지를 이동하는 것이 가능하다
+Hash는 URI에서 #으로 시작하는 문자열을 의미하는데 정확히는 Fragment Identifier라고 한다.
+
+

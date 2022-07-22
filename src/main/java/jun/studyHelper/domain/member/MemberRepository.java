@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface MemberRepository {
     Member save(Member member);
-    Member findById(int id);
+    Member findById(String id);
     Optional<Member> findByName(String name);
     List<Member> findAll();
     void addFriend(Member me, Member friend);
