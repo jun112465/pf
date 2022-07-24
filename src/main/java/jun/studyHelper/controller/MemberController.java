@@ -39,16 +39,19 @@ public class MemberController {
     @PostMapping("/members/login")
     public String login(MemberForm form, HttpServletResponse resp){
         String id = form.getMemberId();
+        String pw = form.getPassword();
 
-//        if(memberService.findOne(id) != null) {
-//            System.out.println(id);
-//            Cookie idCookie = new Cookie("memberId", String.valueOf(id));
-//            idCookie.setPath("/");
-//            resp.addCookie(idCookie);
-//            System.out.println(idCookie.getName() +  " : " + idCookie.getValue());
-//        }else{
-//            System.out.println("MemberController : No member found");
-//        }
+        Member m = new Member();
+        m.setMemberId(id);
+        m.setPassword(pw);
+
+        if(memberService.validateMemberInfo(m)){
+            Cookie idCookie = new Cookie("memberId", id);
+            idCookie.setPath("/");
+            resp.addCookie(idCookie);
+        }else{
+            System.out.println("No member founded");
+        }
 
         return "redirect:/";
     }

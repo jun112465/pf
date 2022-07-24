@@ -40,6 +40,14 @@ public class MemberService {
         });
     }
 
+    public boolean validateMemberInfo(Member member){
+        Member find = memberRepository.findById(member.getMemberId());
+        if (find.equals(member))
+            return true;
+        else
+            return false;
+    }
+
     public List<Member> findMembers(){
         return memberRepository.findAll();
     }
@@ -49,12 +57,13 @@ public class MemberService {
     }
 
     public void addFriend(Member me, Member friend){
-        memberRepository.addFriend(me,friend);
+//        memberRepository.addFriend(me,friend);
     }
     public Map<Integer, String> getFriends(Member me){
         Map<Integer, String> list = memberRepository.getFriends(me);
         return list;
     }
+
 //    public Map<Integer, String> deleteFriend(String memberId, int friendId){
 //        memberRepository.deleteFriend(memberId, friendId);
 //        return memberRepository.getFriends(new Member(memberId));

@@ -3,17 +3,20 @@ package jun.studyHelper.domain.member;
 import jun.studyHelper.DBconfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.*;
 
 @Repository
 public class JdbcMemberRepository implements MemberRepository{
     DBconfig db;
+    DataSource dataSource;
 
     @Autowired
-    public JdbcMemberRepository(DBconfig db){
+    public JdbcMemberRepository(DBconfig db, DataSource dataSource){
 //        db = new DBconfig(dataSource);
+        this.dataSource = dataSource;
         this.db = db;
     }
 
@@ -40,25 +43,26 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public Member findById(String id) {
+        String sql = String.format("SELECT * FROM member WHERE member_id=\"%s\"", id);
 
-        String sql = String.format(
-                "SELECT * FROM member " +
-                "WHERE member_id=%s",
-                id);
-        try{
-            db.conn = db.getConnection();
-            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            db.rs = db.ps.executeQuery();
-            db.rs.next();
 
-            String m_id = db.rs.getString("member_id");
-            return new Member(m_id);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            db.close(db.conn, db.ps, db.rs);
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+
+            String m_id = rs.getString("member_id");
+            String m_pw = rs.getString("password");
+            Member m = new Member();
+            m.setMemberId(m_id);
+            m.setPassword(m_pw);
+
+            return m;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
@@ -88,21 +92,7 @@ public class JdbcMemberRepository implements MemberRepository{
         return null;
     }
 
-    @Override
-    public void addFriend(Member me, Member friend) {
-        String sql = String.format("Update studyHelper.Member Set friends = concat(friends,'-', %d) where memberId=%d", friend.getMemberId(), me.getMemberId() );
 
-        try {
-            db.conn = db.getConnection();
-            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            db.ps.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            db.close(db.conn, db.ps, db.rs);
-        }
-
-    }
 
     @Override
     public Map<Integer, String> getFriends(Member me) {
@@ -131,34 +121,6 @@ public class JdbcMemberRepository implements MemberRepository{
             db.close(db.conn, db.ps, db.rs);
         }
         return null;
-    }
-
-    public void deleteFriend(int myId, int friendId){
-        db.conn = db.getConnection();
-        try {
-            db.ps = db.conn.prepareStatement(String.format("Select friends from studyHelper.Member where memberId = %d", myId));
-            db.rs = db.ps.executeQuery();
-            db.rs.next();
-            String friendString = db.rs.getString("friends");
-            System.out.println("memberRepo : " + friendString);
-            String find = Integer.toString(friendId);
-            int idx = friendString.indexOf(find);
-            String s1 = friendString.substring(0, idx-1);
-            String s2 = friendString.substring(idx+find.length());
-            String s3 = s1 + s2;
-
-            db.ps = db.conn.prepareStatement(String.format("Update studyHelper.Member set friends='%s' where memberId=%d", s3, myId));
-            db.ps.executeUpdate();
-
-
-            System.out.println(friendString);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            db.close(db.conn, db.ps, db.rs);
-        }
-
     }
 
     @Override

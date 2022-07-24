@@ -9,9 +9,7 @@ public interface MemberRepository {
     Member findById(String id);
     Optional<Member> findByName(String name);
     List<Member> findAll();
-    void addFriend(Member me, Member friend);
     Map<Integer, String> getFriends(Member me);
-    void deleteFriend(int myId, int friendId);
 
     void updateMemberInfo(String profileFileName, String profileMessage, int memberId);
 }

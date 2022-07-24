@@ -1,9 +1,10 @@
-package jun.studyHelper;
+package jun.studyHelper.DB;
 
 import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberRepository;
 import jun.studyHelper.service.MemberService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -34,8 +35,20 @@ public class MemberTest {
     }
 
     @Test
-    public void findMember(){
-        System.out.println(mr.findAll());
+    public void login(){
+
+        //Given
+        String id = "ktop1017";
+        String pw = "jkc1073";
+
+        //When
+        Member m = new Member();
+        m.setMemberId(id);
+        m.setPassword(pw);
+
+        //Then
+        Member find = mr.findById(id);
+        Assertions.assertThat(find.equals(m));
     }
 
     @Test
