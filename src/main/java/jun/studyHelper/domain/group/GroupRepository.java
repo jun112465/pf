@@ -10,9 +10,11 @@ public interface GroupRepository {
 
     void create(Group group);
 
+    void delete(Group group);
+
+    void updateName(Group group);
+
     Group findById(String id);
 
     List<Group> findAll();
-
-    void addMember(String groupId, Member member);
 }

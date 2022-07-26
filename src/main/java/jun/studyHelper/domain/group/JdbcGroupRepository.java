@@ -6,6 +6,7 @@ import jun.studyHelper.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcGroupRepository implements GroupRepository{
@@ -21,10 +22,36 @@ public class JdbcGroupRepository implements GroupRepository{
 
     @Override
     public void create(Group group) {
+       try {
+           String sql = String.format("INSERT INTO groups(id, name) VALUES(\"%s\", \"%s\")", group.getId(), group.getName());
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.getPs().executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+        }
+    }
 
-        String sql = String.format("INSERT INTO groups(id, name) VALUES(\"%s\", \"%s\")", group.getId(), group.getName());
-
+    @Override
+    public void delete(Group group){
         try {
+            String sql = String.format("DELETE FROM groups WHERE id=\"%s\"", group.getId());
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.getPs().executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+        }
+    }
+
+    @Override
+    public void updateName(Group group) {
+        try {
+            String sql = String.format("UPDATE groups SET name=\"%s\"", group.getName());
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
             db.getPs().executeUpdate();
@@ -57,11 +84,29 @@ public class JdbcGroupRepository implements GroupRepository{
 
     @Override
     public List<Group> findAll() {
-        return null;
+
+        String sql = String.format("SELECT * FROM groups");
+
+        db.setConn(db.getConnection());
+        try {
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.setRs(db.getPs().executeQuery());
+
+
+            List<Group> groupList = new ArrayList<>();
+            while(db.getRs().next()){
+                String id = db.getRs().getString("id");
+                String name = db.getRs().getString("name");
+
+                groupList.add(new Group(id, name));
+            }
+
+            return groupList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+        }
     }
 
-    @Override
-    public void addMember(String groupId, Member member) {
-
-    }
 }
