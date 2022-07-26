@@ -89,6 +89,12 @@ Hash는 URI에서 #으로 시작하는 문자열을 의미하는데 정확히는
 6. ...
 
 
+# Domain
+- Member
+- Friend
+- Group
+- GroupMember
+- Notice
 
 
 
