@@ -37,7 +37,7 @@ public class DBconfig {
     public void close(Connection conn, PreparedStatement ps, ResultSet rs){
 
         try {
-            rs.close();
+            if(rs != null) rs.close();
             ps.close();
             conn.close();
         } catch (SQLException e) {

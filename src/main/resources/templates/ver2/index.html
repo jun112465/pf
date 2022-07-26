@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:input="http://www.w3.org/1999/html">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
+    <meta charset="UTF-8">
+    <title>index</title>
+<head>
 <body>
-$END$
+
+<section>
+    <form action="/members/login" method="post">
+        <input type="text" name="memberId" placeholder="input ID">
+        <input type="password" name="password" placeholder="input PW">
+        <input type="submit" value="로그인">
+        <a href=""><input type="button" value="회원가입"></a>
+    </form>
+
+    <!--    로그인 실패 시 에러메세지-->
+    <div th:if="${errorMsg} == 'No Member Found'">
+        <div th:text="${errorMsg}"></div>
+    </div>
+</section>
+
+<section class="gallery">
+    <div>
+        <div>title</div>
+        <div>picture</div>
+    </div>
+</section>
+
+
+    로그인 회원가입
 </body>
 </html>

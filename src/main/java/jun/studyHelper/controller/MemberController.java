@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
-    public String login(MemberForm form, HttpServletResponse resp){
+    public String login(MemberForm form, HttpServletResponse resp, RedirectAttributes redirectAttributes){
         String id = form.getMemberId();
         String pw = form.getPassword();
 
@@ -50,6 +51,7 @@ public class MemberController {
             idCookie.setPath("/");
             resp.addCookie(idCookie);
         }else{
+            redirectAttributes.addAttribute("error-msg", "No Member Found");
             System.out.println("No member founded");
         }
 

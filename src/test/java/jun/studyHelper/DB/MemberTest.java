@@ -4,6 +4,7 @@ import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberRepository;
 import jun.studyHelper.service.MemberService;
+import lombok.val;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class MemberTest {
     }
 
     @Test
-    public void login(){
+    public void loginSuccess(){
 
         //Given
         String id = "ktop1017";
@@ -47,8 +48,24 @@ public class MemberTest {
         m.setPassword(pw);
 
         //Then
-        Member find = mr.findById(id);
-        Assertions.assertThat(find.equals(m));
+        Member find = ms.findOne(id);
+        Assertions.assertThat(m.equals(find));
+    }
+
+    @Test
+    public void loginFail(){
+        //Given
+        String id = "failId";
+        String pw = "failPw";
+
+        //When
+        Member m = new Member();
+        m.setMemberId(id);
+        m.setPassword(pw);
+
+        //Then
+        Member find = ms.findOne(id);
+        Assertions.assertThat(find).isEqualTo(null);
     }
 
     @Test

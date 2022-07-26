@@ -40,12 +40,17 @@ public class MemberService {
         });
     }
 
+
     public boolean validateMemberInfo(Member member){
-        Member find = memberRepository.findById(member.getMemberId());
-        if (find.equals(member))
-            return true;
-        else
+        Member find = findOne(member.getMemberId());
+
+        if(find == null){
             return false;
+        }else if(find.equals(member)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public List<Member> findMembers(){

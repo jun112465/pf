@@ -47,21 +47,25 @@ public class JdbcMemberRepository implements MemberRepository{
 
 
         try {
-            Connection conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.setRs(db.getPs().executeQuery());
 
-            rs.next();
+            db.getRs().next();
 
-            String m_id = rs.getString("member_id");
-            String m_pw = rs.getString("password");
+            String m_id = db.getRs().getString("member_id");
+            String m_pw = db.getRs().getString("password");
             Member m = new Member();
             m.setMemberId(m_id);
             m.setPassword(m_pw);
 
             return m;
+        } catch(SQLDataException e){
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
         }
     }
 
@@ -80,7 +84,8 @@ public class JdbcMemberRepository implements MemberRepository{
             db.rs = db.ps.executeQuery();
 
             while(db.rs.next()){
-                Member member = new Member(db.rs.getString("member_id"));
+                Member member = new Member();
+                member.setMemberId(db.rs.getString("member_id"));
                 members.add(member);
             }
             return members;

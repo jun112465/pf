@@ -1,65 +1,31 @@
 package jun.studyHelper.domain.member;
 
+import lombok.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Member {
 
+    @NonNull
     private String memberId;
     private String password;
-
     private String name;
     private String profileImage;
     private String profileMessage;
 
-//    public NoticeService noticeService;
-
-
-
-//    public Member(NoticeService noticeService){
-//        this.noticeService = noticeService;
-//    }
-    public Member(){
-
-    }
-    public Member(String memberId){
+    public Member(String memberId, String password){
         this.memberId = memberId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getMemberId() {
-        return memberId;
-    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public String getProfileMessage() {
-        return profileMessage;
-    }
-
-    public void setProfileMessage(String profileMessage) {
-        this.profileMessage = profileMessage;
-    }
-
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
+        Member m = (Member) obj;
+        return this.memberId.equals(m.memberId) && this.password.equals(m.password);
     }
 }

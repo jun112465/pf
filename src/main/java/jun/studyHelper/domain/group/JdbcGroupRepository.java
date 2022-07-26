@@ -4,11 +4,13 @@ import jun.studyHelper.DBconfig;
 import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class JdbcGroupRepository implements GroupRepository{
 
     DBconfig db;

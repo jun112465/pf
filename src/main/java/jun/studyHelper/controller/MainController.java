@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
-//@Controller
+@Controller
 public class MainController {
 
     MemberService memberService;
@@ -33,17 +33,26 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String rootController(Model model, @CookieValue(name="memberId", required = false)String memberId){
+    public String rootController(
+            Model model,
+            @RequestParam(value = "error-msg", required = false)String errorMsg,
+            @CookieValue(name="memberId", required = false)String memberId){
+
         try{
-            System.out.println("MainController : memberId = " + memberId);
-//            model.addAttribute("user", memberService.findOne(Integer.parseInt(memberId)));
-            model.addAttribute("memberId", memberId);
-            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.parseInt(memberId)));
-//            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.parseInt(memberId))));
-        } catch (NullPointerException | NumberFormatException e) {
-            e.printStackTrace();
+            model.addAttribute("errorMsg", errorMsg);
+        } catch(Exception e){
+            throw e;
         }
-        return "index";
+//        try{
+//            System.out.println("MainController : memberId = " + memberId);
+////            model.addAttribute("user", memberService.findOne(Integer.parseInt(memberId)));
+//            model.addAttribute("memberId", memberId);
+//            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.parseInt(memberId)));
+////            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.parseInt(memberId))));
+//        } catch (NullPointerException | NumberFormatException e) {
+//            e.printStackTrace();
+//        }
+        return "/ver2/index";
     }
 
 
