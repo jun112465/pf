@@ -104,8 +104,11 @@ h2 {
 }
 
 .submit {
-    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    /*margin-top: 40px;*/
     width: 80%;
+    margin: 10px;
 }
 .submit input {
     width: 100%;

@@ -27,7 +27,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping("members/new")
+    @PostMapping("/members/new")
     public String create(MemberForm form){
         Member member = new Member();
         member.setMemberId(form.getMemberId());
@@ -57,33 +57,6 @@ public class MemberController {
 
         return "redirect:/";
     }
-
-
-//    @PostMapping(value = "/members/add-friend",  produces = "application/json")
-//    @ResponseBody
-//    public Map<Integer,String> addFriend( MemberForm form, @CookieValue(name="memberId", required = false)String memberId){
-//
-//        System.out.println("Member Controller : " + form.getMemberId());
-//        try{
-//            Member me = memberService.findOne(memberId);
-//            Member friend = memberService.findOne(form.getMemberId());
-//            memberService.addFriend(me, friend);
-//            Map<Integer, String> friendList = memberService.getFriends(me);
-//
-//            return friendList;
-////            JSONObject json = new JSONObject();
-////            Iterator<Integer> it = friendList.keySet().iterator();
-////            while(it.hasNext()){
-////                int key = it.next();
-////                json.put(String.valueOf(key), friendList.get(key));
-////            }
-////            return json.toString();
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            System.out.println("MemberController : no friend member found");
-//            return null;
-//        }
-//    }
 
     @GetMapping("/members/setting")
     public String setting(Model model, @CookieValue(name="memberId", required = false)String memberId){
@@ -119,11 +92,4 @@ public class MemberController {
         return "redirect:/";
     }
 
-
-//    @PostMapping(value = "/members/deleteFriend", produces = "application/json")
-//    @ResponseBody
-//    public Map<Integer, String> deleteFriend(MemberForm form, @CookieValue(name="memberId", required=false)String memberId){
-//        int friendId = form.getMemberId();
-//        return memberService.deleteFriend(memberId, friendId);
-//    }
 }

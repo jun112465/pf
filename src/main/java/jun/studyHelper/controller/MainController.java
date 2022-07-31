@@ -40,6 +40,7 @@ public class MainController {
 
         try{
             model.addAttribute("errorMsg", errorMsg);
+            model.addAttribute("user", memberService.findOne(memberId));
         } catch(Exception e){
             throw e;
         }

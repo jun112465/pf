@@ -48,8 +48,7 @@ public class MemberTest {
         m.setPassword(pw);
 
         //Then
-        Member find = ms.findOne(id);
-        Assertions.assertThat(m.equals(find));
+        System.out.println(ms.validateMemberInfo(m));
     }
 
     @Test

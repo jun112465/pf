@@ -61,6 +61,7 @@ public class JdbcMemberRepository implements MemberRepository{
 
             return m;
         } catch(SQLDataException e){
+            // 해당하는 member_id가 없는 경우 null return
             return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
