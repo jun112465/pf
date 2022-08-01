@@ -20,68 +20,87 @@ public class JdbcNoticeRepository implements NoticeRepository{
         this.db = db;
     }
 
-
     @Override
     public void save(Notice notice) {
         try {
-            db.conn = db.getConnection();
-            String sql = String.format("insert into studyHelper.Notice(memberId, content, title) values(%d, \"%s\", \"%s\")",
-                    notice.memberId, notice.content, notice.title);
-            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            db.ps.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            String sql = String.format(
+                    "INSERT INTO NOTICE(memberId, content) VALUES(\"%s\", \"%s\")",
+                    notice.getMemberId(), notice.getContent());
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.getPs().executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         } finally {
-            db.close(db.conn, db.ps, db.rs);
+            db.close(db.getConn(), db.getPs(), db.getRs());
         }
     }
 
     @Override
     public void remove(int id) {
-        db.conn = db.getConnection();
-        String sql = String.format("Delete from Notice where id=%d", id);
         try {
-            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            db.ps.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            String sql = String.format(
+                    "DELETE FROM NOTICE WHERE id=\"%d\"", id);
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.getPs().executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         } finally {
-            db.close(db.conn, db.ps, db.rs);
+            db.close(db.getConn(), db.getPs(), db.getRs());
         }
-
     }
 
     @Override
-    public List<Notice> findAll(int memberId) {
-        ArrayList<Notice> noticeList = new ArrayList<>();
-        String sql = String.format(
-                "Select * from studyHelper.Notice where " +
-                        "memberId=%d order by date desc"
-                , memberId);
-
+    public List<Notice> findAll() {
+        List<Notice> notices = null;
         try {
-            db.conn = db.getConnection();
-            db.ps = db.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            db.rs = db.ps.executeQuery();
-            while(db.rs.next()){
-                Notice notice = new Notice();
+            String sql = String.format("SELECT * FROM notice");
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.setRs(db.getPs().executeQuery());
 
-                notice.setId(db.rs.getInt("id"));
-                notice.setTitle(db.rs.getString("title"));
-                notice.setMemberId(db.rs.getInt("memberId"));
-                String tmpContent = db.rs.getString("content");
-                notice.setContents(tmpContent);
-                notice.setContents(StringEscapeUtils.unescapeHtml4(tmpContent));
-                notice.setDate(db.rs.getDate("date"));
+            notices = new ArrayList<>();
+            while (db.getRs().next()) {
+                int id = db.getRs().getInt("id");
+                String memberId = db.getRs().getString("member_id");
+                String content = db.getRs().getString("content");
+                String date = String.valueOf(db.getRs().getDate("date"));
 
-                noticeList.add(notice);
+                Notice notice = new Notice(id, memberId, content, date);
+                notices.add(notice);
             }
-            return noticeList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            db.close(db.conn, db.ps, db.rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+            return notices;
         }
-        return null;
+    }
+
+    @Override
+    public List<Notice> findByMemberId(String memberId) {
+        List<Notice> notices = null;
+        try {
+            String sql = String.format("SELECT * FROM notice WHERE member_id=\"%s\"", memberId);
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.setRs(db.getPs().executeQuery());
+
+            notices = new ArrayList<>();
+            while (db.getRs().next()) {
+                int id = db.getRs().getInt("id");
+                String content = db.getRs().getString("content");
+                String date = String.valueOf(db.getRs().getDate("date"));
+
+                Notice notice = new Notice(id, memberId, content, date);
+                notices.add(notice);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+            return notices;
+        }
     }
 }
