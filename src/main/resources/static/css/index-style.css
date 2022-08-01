@@ -1,0 +1,31 @@
+.login {
+
+}
+
+.table{
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    justify-content: left;
+}
+.rect{
+    width: 30%;
+    height: 400px;
+    background-color: green;
+    margin: 1%;
+}
+
+.container {
+    display: grid;
+    /*가로 길이*/
+    grid-template-columns: repeat(auto-fill, 350px);
+    /*세로 길이 */
+    grid-auto-rows: 400px;
+    grid-gap: 10px;
+    justify-content: center;
+}
+
+.item {
+    background-color: purple;
+    padding: 10px;
+}

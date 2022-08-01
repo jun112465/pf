@@ -13,8 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
@@ -54,6 +57,17 @@ public class MemberController {
             redirectAttributes.addAttribute("error-msg", "No Member Found");
             System.out.println("No member founded");
         }
+
+        return "redirect:/";
+    }
+
+    @GetMapping ("/members/logout")
+    public String logout(HttpServletResponse resp, HttpServletRequest req){
+        Cookie cookie = new Cookie("memberId", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        resp.addCookie(cookie);
+        System.out.println("logout");
 
         return "redirect:/";
     }

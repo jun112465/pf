@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
-    <link rel="stylesheet" href="css/my-style.css">
+    <link rel="stylesheet" href="css/index-style.css">
 <head>
 <body>
 
 <h1>
-    testing
+    Note
 </h1>
 
-<section class="login">
+<section th:if="${user}==null" class="login">
     <form action="/members/login" method="post">
         <input type="text" name="memberId" placeholder="input ID">
         <input type="password" name="password" placeholder="input PW">
@@ -28,38 +28,25 @@
     </div>
 </section>
 
-<section class="gallery">
-    <div>
-        <div>title</div>
-        <div>picture</div>
+<section th:unless="${user}==null" class="gallery">
+
+    <a href="/members/logout">로그아웃</a>
+
+    <div class="container">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
     </div>
+
 </section>
 
-<div th:if="${user}==null" class="container d-flex align-items-center flex-column">
-    <form class="wrap" method="post" action="/members/login">
-        <div class="login">
-            <h2>Log-in</h2>
-<!--            <div class="login_sns">-->
-<!--                <li><a href=""><i class="fab fa-instagram"></i></a></li>-->
-<!--                <li><a href=""><i class="fab fa-facebook-f"></i></a></li>-->
-<!--                <li><a href=""><i class="fab fa-twitter"></i></a></li>-->
-<!--            </div>-->
-            <div class="login_id">
-                <h4>ID</h4>
-                <input type="text" name="memberId" placeholder="Input your ID">
-            </div>
-            <div class="login_id">
-                <h4>PW</h4>
-                <input type="password" name="password" placeholder="Input your PW">
-            </div>
-            <div class="submit">
-                <input type="submit" value="sign in">
-                <input type="button" value="sign up">
-            </div>
-        </div>
-    </form>
-</div>
-
-    로그인 회원가입
 </body>
 </html>
