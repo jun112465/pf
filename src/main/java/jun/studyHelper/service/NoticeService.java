@@ -26,7 +26,11 @@ public class NoticeService {
         noticeRepository.remove(id);
     }
 
-    public List<Notice> findNoticeList(int memberId){
-        return noticeRepository.findAll(memberId);
+    public List<Notice> findNoticeList(){
+        return noticeRepository.findAll();
+    }
+
+    public List<Notice> findMemberNoticeList(Member member){
+        return noticeRepository.findByMemberId(member.getMemberId());
     }
 }

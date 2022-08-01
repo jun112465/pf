@@ -24,23 +24,23 @@ public class NoticeController {
         this.noticeService = noticeService;
     }
 
-    @PostMapping("notice/add-note")
-    public String addNote(NoticeForm noticeForm, @CookieValue(name="memberId", required = false)String memberId){
-        try{
-            System.out.println("/add-note controller");
-            System.out.println(noticeForm.getTitle());
-            System.out.println(noticeForm.getContent());
-            Notice n = new Notice();
-            n.setContents(noticeForm.getContent());
-            n.setMemberId(Integer.parseInt(memberId));
-            n.setTitle(noticeForm.getTitle());
-            noticeService.add(n);
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-
-        return "redirect:/";
-    }
+//    @PostMapping("notice/add-note")
+//    public String addNote(NoticeForm noticeForm, @CookieValue(name="memberId", required = false)String memberId){
+//        try{
+//            System.out.println("/add-note controller");
+//            System.out.println(noticeForm.getTitle());
+//            System.out.println(noticeForm.getContent());
+//            Notice n = new Notice();
+//            n.setContents(noticeForm.getContent());
+//            n.setMemberId(Integer.parseInt(memberId));
+//            n.setTitle(noticeForm.getTitle());
+//            noticeService.add(n);
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/";
+//    }
 
     @PostMapping(value="/schedule/delete")
     public String deleteNote(NoticeForm form, @CookieValue(name = "memberId", required = false)String memberId) {
@@ -48,12 +48,12 @@ public class NoticeController {
         return "redirect:/";
     }
 
-    @GetMapping("/schedule/sendFriendSchedule")
-    @ResponseBody
-    public List<Notice> sendFriendSchedule(@RequestParam("memberId")int memberId){
-//        model.addAttribute("friendNoticeList", noticeService.findNoticeList(memberId));
-        System.out.println(memberId);
-        return noticeService.findNoticeList(memberId);
-//        return "index";
-    }
+//    @GetMapping("/schedule/sendFriendSchedule")
+//    @ResponseBody
+//    public List<Notice> sendFriendSchedule(@RequestParam("memberId")int memberId){
+////        model.addAttribute("friendNoticeList", noticeService.findNoticeList(memberId));
+//        System.out.println(memberId);
+//        return noticeService.findNoticeList(memberId);
+////        return "index";
+//    }
 }
