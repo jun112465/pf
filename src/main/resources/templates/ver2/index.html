@@ -33,23 +33,89 @@
 
     <a href="/members/logout">로그아웃</a>
     <div class="container">
-        <div class="item new-item">
+        <div class="item" id="new-item">
             <i class="fa-solid fa-circle-plus"></i>
         </div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+        <div class="item" th:each="n : ${noticeList}">
+            <input type="hidden" th:value="${n.getId()}">
+            <div th:text="${n.getDate()}"></div>
+            <div class="edit-box" th:text="${n.getContent()}"></div>
+            <div th></div>
+        </div>
     </div>
 
 </section>
+
+
+<script th:inline="javascript">
+    /*![CDATA[*/
+    newItem = document.getElementById("new-item")
+    newItem.addEventListener('click', ()=>{
+        createItem().then((value)=>{
+            if(value){
+                alert("노트가 생성됐습니다.")
+            }else{
+                alert("이미 생성된 노트가 있습니다.")
+            }
+        })
+    })
+
+    createItem = async ()=>{
+        let memberId = document.cookie.split(';')
+            .find(row => row.startsWith('memberId'))
+            .split('=')[1];
+
+        const resp = await fetch("/notice/add-note", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'memberId' : memberId })
+        }).then(result => result.json())
+            .then(data => data)
+
+        return resp;
+    }
+
+    //date format function
+    function dateFormat(date) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+
+        return date.getFullYear() + '-' + month + '-' + day;
+    }
+
+    //set contentEditable
+    let itemList = document.getElementsByClassName("item");
+    if (itemList[1].children[1].innerHTML == dateFormat(new Date())){
+        editBox = document.getElementsByClassName("edit-box")[0];
+        editBox.setAttribute("contenteditable", "true");
+        editBox.addEventListener("input", ()=>{
+            fetch("/notice/update", {
+                method: "Post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    'id' : itemList[1].children[0].value,
+                    'memberId' : '',
+                    'content' : editBox.innerHTML,
+                    'date' : ''
+                })
+            })
+        })
+    }
+
+    // 각 notice 내부 String 값을 html 로 치환
+    let editBoxList = document.getElementsByClassName("edit-box");
+    let noticeList = /*[[${noticeList}]]*/;
+    for(let i=0; i<editBoxList.length; i++){
+        editBoxList[i].innerHTML = noticeList[i].content;
+    }
+
+    console.log(noticeList);
+
+    /*]]>*/
+</script>
 
 </body>
 </html>

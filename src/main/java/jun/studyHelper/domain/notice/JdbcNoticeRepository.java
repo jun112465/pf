@@ -1,13 +1,13 @@
 package jun.studyHelper.domain.notice;
 
 import jun.studyHelper.DBconfig;
+import jun.studyHelper.domain.member.Member;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +24,22 @@ public class JdbcNoticeRepository implements NoticeRepository{
     public void save(Notice notice) {
         try {
             String sql = String.format(
-                    "INSERT INTO NOTICE(memberId, content) VALUES(\"%s\", \"%s\")",
-                    notice.getMemberId(), notice.getContent());
+                    "INSERT INTO NOTICE(member_id) VALUES(\"%s\")",
+                    notice.getMemberId());
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.getPs().executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+        }
+    }
+
+    @Override
+    public void update(Notice notice) {
+        try {
+            String sql = String.format("UPDATE notice SET content=\"%s\" WHERE id=%d", notice.getContent(), notice.getId());
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
             db.getPs().executeUpdate();
@@ -82,7 +96,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
     public List<Notice> findByMemberId(String memberId) {
         List<Notice> notices = null;
         try {
-            String sql = String.format("SELECT * FROM notice WHERE member_id=\"%s\"", memberId);
+            String sql = String.format("SELECT * FROM notice WHERE member_id=\"%s\" ORDER BY date DESC", memberId);
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
             db.setRs(db.getPs().executeQuery());
@@ -101,6 +115,36 @@ public class JdbcNoticeRepository implements NoticeRepository{
         } finally {
             db.close(db.getConn(), db.getPs(), db.getRs());
             return notices;
+        }
+    }
+
+    @Override
+    public Notice findRecentMemberNotice(Member member, String date) {
+
+        String sql = String.format(
+                "SELECT * FROM notice WHERE member_id=\"%s\" and date=\"%s\"",
+                member.getMemberId(), date);
+
+        db.setConn(db.getConnection());
+        try {
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.setRs(db.getPs().executeQuery());
+
+            db.getRs().next();
+
+            Notice notice = new Notice(
+                    db.getRs().getInt("id"),
+                    db.getRs().getString("member_id"),
+                    db.getRs().getString("content"),
+                    db.getRs().getString("date"));
+
+            return notice;
+        } catch (SQLDataException e){
+          return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
         }
     }
 }

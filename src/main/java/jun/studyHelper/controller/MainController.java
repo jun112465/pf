@@ -38,9 +38,22 @@ public class MainController {
             @RequestParam(value = "error-msg", required = false)String errorMsg,
             @CookieValue(name="memberId", required = false)String memberId){
 
+
         try{
+            Member member = null;
+            // 로그인 상태
+            if ((member=memberService.findOne(memberId)) != null){
+                model.addAttribute("noticeList", noticeService.findMemberNoticeList(member));
+            }
+            // 로그아웃 상태
+            else{
+
+            }
+            // 공통 모델
             model.addAttribute("errorMsg", errorMsg);
             model.addAttribute("user", memberService.findOne(memberId));
+        } catch(NullPointerException e){
+            throw e;
         } catch(Exception e){
             throw e;
         }
