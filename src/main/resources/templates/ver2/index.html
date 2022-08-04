@@ -29,22 +29,88 @@
     </div>
 </section>
 
-<section th:unless="${user}==null" class="gallery">
-
+<section th:unless="${user}==null" class="container">
     <a href="/members/logout">로그아웃</a>
-    <div class="container">
-        <div class="item" id="new-item">
-            <i class="fa-solid fa-circle-plus"></i>
+
+
+
+    <div class="gallery-container">
+        <!-- Next and previous buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+
+        <div class="gallery">
+            <div class="item" id="new-item">
+                <i class="fa-solid fa-circle-plus"></i>
+            </div>
+            <div class="item" th:each="n : ${noticeList}">
+                <input type="hidden" th:value="${n.getId()}">
+                <div th:text="${n.getDate()}"></div>
+                <div class="edit-box" th:text="${n.getContent()}"></div>
+                <div th></div>
+            </div>
         </div>
-        <div class="item" th:each="n : ${noticeList}">
-            <input type="hidden" th:value="${n.getId()}">
-            <div th:text="${n.getDate()}"></div>
-            <div class="edit-box" th:text="${n.getContent()}"></div>
-            <div th></div>
+
+
+        <div class="gallery">
+            <form class="item" action="">
+                <input type="text" placeholder="Found Groups">
+                <input type="submit">
+            </form>
+            <div class="item" id="new-item">
+                <i class="fa-solid fa-circle-plus"></i>
+            </div>
+            <div class="item" th:each="n : ${noticeList}">
+                <input type="hidden" th:value="${n.getId()}">
+                <div th:text="${n.getDate()}"></div>
+                <div class="edit-box" th:text="${n.getContent()}"></div>
+                <div th></div>
+            </div>
         </div>
+
+
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
 
 </section>
+
+
+<script>
+    // javascript for gallery slide
+
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    // Next/previous controls
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("gallery");
+        // let dots = document.getElementsByClassName("demo");
+        // let captionText = document.getElementById("caption");
+
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        // for (i = 0; i < dots.length; i++) {
+        //     dots[i].className = dots[i].className.replace(" active", "");
+        // }
+        slides[slideIndex-1].style.display = "grid";
+        // dots[slideIndex-1].className += " active";
+        // captionText.innerHTML = dots[slideIndex-1].alt;
+    }
+</script>
+
+
 
 
 <script th:inline="javascript">
