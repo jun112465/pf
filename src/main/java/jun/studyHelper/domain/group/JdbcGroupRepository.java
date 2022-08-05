@@ -87,10 +87,10 @@ public class JdbcGroupRepository implements GroupRepository{
     @Override
     public List<Group> findAll() {
 
-        String sql = String.format("SELECT * FROM groups");
-
-        db.setConn(db.getConnection());
         try {
+            String sql = String.format("SELECT * FROM groups");
+
+            db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
             db.setRs(db.getPs().executeQuery());
 
@@ -111,4 +111,33 @@ public class JdbcGroupRepository implements GroupRepository{
         }
     }
 
+
+    @Override
+    public List<Group> findAll(String search) {
+
+
+        try {
+
+            String sql = String.format("SELECT * FROM groups WHERE id LIKE \"%s\" OR name LIKE \"%s\"", search, search);
+
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.setRs(db.getPs().executeQuery());
+
+
+            List<Group> groupList = new ArrayList<>();
+            while(db.getRs().next()){
+                String id = db.getRs().getString("id");
+                String name = db.getRs().getString("name");
+
+                groupList.add(new Group(id, name));
+            }
+
+            return groupList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+        }
+    }
 }

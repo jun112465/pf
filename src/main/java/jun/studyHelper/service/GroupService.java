@@ -1,7 +1,9 @@
 package jun.studyHelper.service;
 
 import jun.studyHelper.domain.group.Group;
+import jun.studyHelper.domain.group.GroupMemberRepository;
 import jun.studyHelper.domain.group.GroupRepository;
+import jun.studyHelper.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +13,14 @@ import java.util.List;
 public class GroupService {
 
     GroupRepository groupRepository;
+    GroupMemberRepository groupMemberRepository;
 
     @Autowired
-    GroupService(GroupRepository groupRepository){
+    public GroupService(GroupRepository groupRepository, GroupMemberRepository groupMemberRepository){
         this.groupRepository = groupRepository;
+        this.groupMemberRepository = groupMemberRepository;
     }
 
-    public void GroupService(GroupRepository groupRepository){
-        this.groupRepository = groupRepository;
-    }
 
     public void createGroup(Group group){
 
@@ -37,9 +38,14 @@ public class GroupService {
         groupRepository.updateName(group);
     }
 
+    public List<Group> getMemberGroups(Member member){
+        return groupMemberRepository.findAllGroups(member);
+    }
+
     public List<Group> getAllGroups(){
         return groupRepository.findAll();
     }
+
 
 
 }

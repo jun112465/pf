@@ -1,6 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.domain.member.Member;
+import jun.studyHelper.service.GroupService;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.apache.commons.io.FileUtils;
@@ -22,14 +23,18 @@ public class MainController {
 
     MemberService memberService;
     NoticeService noticeService;
+    GroupService groupService;
+
 
     @Value("${fileRoot}")
     String fileRoot;
 
+
     @Autowired
-    MainController(MemberService memberService, NoticeService noticeService){
+    MainController(MemberService memberService, NoticeService noticeService, GroupService groupService){
         this.memberService = memberService;
         this.noticeService = noticeService;
+        this.groupService = groupService;
     }
 
     @GetMapping("/")
@@ -44,6 +49,7 @@ public class MainController {
             // 로그인 상태
             if ((member=memberService.findOne(memberId)) != null){
                 model.addAttribute("noticeList", noticeService.findMemberNoticeList(member));
+                model.addAttribute("groupList", groupService.getMemberGroups(member));
             }
             // 로그아웃 상태
             else{
