@@ -22,12 +22,15 @@ public class GroupService {
     }
 
 
-    public void createGroup(Group group){
+    public void createGroup(Member member, Group group){
 
         //중복 처리 아직 안함
 
         //그룹 생성
         groupRepository.create(group);
+
+        // 생성자를 그룹 멤버로 추가
+        groupMemberRepository.add(member, group);
     }
 
     public void deleteGroup(Group group){

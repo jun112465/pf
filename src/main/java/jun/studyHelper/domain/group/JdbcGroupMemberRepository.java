@@ -22,6 +22,19 @@ public class JdbcGroupMemberRepository implements GroupMemberRepository{
     @Override
     public void add(Member member, Group group) {
 
+        try {
+            String sql = String.format(
+                    "INSERT INTO group_members(group_id, member_id) " +
+                            "VALUES(\"%s\", \"%s\")", group.getId(), member.getMemberId());
+
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.getPs().executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close(db.getConn(), db.getPs(), db.getRs());
+        }
     }
 
     @Override

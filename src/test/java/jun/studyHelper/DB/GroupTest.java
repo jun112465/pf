@@ -21,7 +21,7 @@ public class GroupTest {
         String id = String.valueOf(UUID.randomUUID());
         String name = "testGroup";
         Group group = new Group(id, name);
-        gs.createGroup(group);
+//        gs.createGroup(group);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class GroupTest {
         String id = String.valueOf(UUID.randomUUID());
         String name = "testGroup";
         Group group = new Group(id, name);
-        gs.createGroup(group);
+//        gs.createGroup(group);
 
         group.setName("newTestGroup");
         gs.updateGroupName(group);
