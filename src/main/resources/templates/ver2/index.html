@@ -59,7 +59,10 @@
             </div>
 
             <div class="item" id="new-group">
-                <i class="fa-solid fa-circle-plus"></i>
+                <form action="/group/add-group" method="post">
+                    <input id="input-group-name" type="text" placeholder="group name">
+                    <input type="submit" value="create">
+                </form>
             </div>
 
             <div class="item" th:each="g : ${groupList}">
@@ -187,35 +190,26 @@
 
     // group gallery 구현
 
-    newGroup = document.getElementById("new-group")
-    newGroup.addEventListener('click', ()=>{
-        createItem().then((value)=>{
-            if(value){
-                alert("노트가 생성됐습니다.")
-            }else{
-                alert("이미 생성된 노트가 있습니다.")
-            }
-        })
-    })
-
-    createGroup = async ()=>{
-        let memberId = document.cookie.split(';')
-            .find(row => row.startsWith('memberId'))
-            .split('=')[1];
-
-        const resp = await fetch("/group/add-group", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                // 원하는 그룹명을 지어서 서버에 보낸다.
-                // memberId는 쿠키형태로 서버에 보낸다.
-                'name': groupName,
-            })
-        }).then(result => result.json())
-            .then(data => data)
-
-        return resp;
-    }
+    // newGroup = document.getElementById("new-group")
+    // newGroup.addEventListener('click', ()=>{
+    //     createGroup()
+    //     console.log(alert("new group clicked"))
+    // })
+    //
+    // createGroup = async ()=>{
+    //     const resp = await fetch("/group/add-group", {
+    //         method: "POST",
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({
+    //             // 원하는 그룹명을 지어서 서버에 보낸다.
+    //             // memberId는 쿠키형태로 서버에 보낸다.
+    //             'name': document.getElementById("input-group-name").value,
+    //         })
+    //     }).then(result => result.json())
+    //         .then(data => data)
+    //
+    //     return resp;
+    // }
 
     /*]]>*/
 </script>

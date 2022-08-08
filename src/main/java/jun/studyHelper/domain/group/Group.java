@@ -1,15 +1,14 @@
 package jun.studyHelper.domain.group;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Group {
     private String id;
+    @NonNull
     private String name;
 }
