@@ -38,7 +38,7 @@ public class JdbcGroupMemberRepository implements GroupMemberRepository{
     @Override
     public List<Group> findAllGroups(Member member) {
 
-        String sql = String.format("SELECT * FROM member WHERE member_id = \"%s\"", member.getMemberId());
+        String sql = String.format("SELECT * FROM group_members WHERE member_id = \"%s\"", member.getMemberId());
 
         try {
             db.setConn(db.getConnection());
