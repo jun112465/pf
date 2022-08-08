@@ -52,7 +52,7 @@
     font-weight: bold;
     font-size: 17px;
 }
-#new-item{
+.new-item{
     display: flex;
     background-color: #0dcaf0;
     font-size: 50px;
@@ -60,7 +60,7 @@
     justify-content: center;
     align-items: center;
 }
-#new-item:hover{
+.new-item:hover{
     /*backdrop-filter: brightness(60%);*/
     background-color: #2c3e50;
     /*background-color: red;*/
