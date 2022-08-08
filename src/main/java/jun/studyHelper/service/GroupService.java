@@ -7,6 +7,7 @@ import jun.studyHelper.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,7 +43,14 @@ public class GroupService {
     }
 
     public List<Group> getMemberGroups(Member member){
-        return groupMemberRepository.findAllGroups(member);
+
+        List<Group> groupList = new ArrayList<>();
+
+        for(Group g : groupMemberRepository.findAllGroups(member)){
+            groupList.add(groupRepository.findById(g.getId()));
+        }
+
+        return groupList;
     }
 
     public List<Group> getAllGroups(){

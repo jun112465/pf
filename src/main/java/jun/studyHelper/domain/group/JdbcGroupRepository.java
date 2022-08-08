@@ -67,7 +67,7 @@ public class JdbcGroupRepository implements GroupRepository{
     @Override
     public Group findById(String id) {
         try {
-            String sql = String.format("SELECT * FROM GROUP WHERE id=\"%s\"");
+            String sql = String.format("SELECT * FROM GROUPS WHERE id=\"%s\"", id);
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
             db.setRs(db.getPs().executeQuery());
