@@ -53,7 +53,7 @@
 
         <div class="gallery">
 
-            <div class="item new-item">
+            <div class="item" id="search-group">
                 <input type="text" placeholder="Found Groups">
                 <input type="button" value="search">
             </div>
@@ -187,29 +187,22 @@
     console.log(noticeList);
 
 
+    // find group
+    let searchGroup = document.getElementById("search-group");
+    searchGroup.children[1].addEventListener('click', ()=>{
+        let searchValue = searchGroup.children[0].value
+        fetch("/group/find-group", {
+            method: "Post",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                'id': searchValue,
+                'name': searchValue
+            })
+        }).then(result => {
+            console.log(result.json())
+        })
+    })
 
-    // group gallery 구현
-
-    // newGroup = document.getElementById("new-group")
-    // newGroup.addEventListener('click', ()=>{
-    //     createGroup()
-    //     console.log(alert("new group clicked"))
-    // })
-    //
-    // createGroup = async ()=>{
-    //     const resp = await fetch("/group/add-group", {
-    //         method: "POST",
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //             // 원하는 그룹명을 지어서 서버에 보낸다.
-    //             // memberId는 쿠키형태로 서버에 보낸다.
-    //             'name': document.getElementById("input-group-name").value,
-    //         })
-    //     }).then(result => result.json())
-    //         .then(data => data)
-    //
-    //     return resp;
-    // }
 
     /*]]>*/
 </script>
