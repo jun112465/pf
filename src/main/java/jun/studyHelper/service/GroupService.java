@@ -42,7 +42,7 @@ public class GroupService {
         groupRepository.updateName(group);
     }
 
-    public List<Group> searchGroups(String search){
+    public List<Group> searchGroups(Group search){
         return groupRepository.findAll(search);
     }
     public List<Group> getMemberGroups(Member member){

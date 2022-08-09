@@ -17,5 +17,5 @@ public interface GroupRepository {
     Group findById(String id);
 
     List<Group> findAll();
-    List<Group> findAll(String search);
+    List<Group> findAll(Group search);
 }
