@@ -41,8 +41,7 @@ public class GroupController {
 
     @ResponseBody
     @PostMapping("/group/find-group")
-    public List<Group> findGroup(@RequestParam String search){
-
-        return groupService.searchGroups(search);
+    public List<Group> findGroup(@RequestBody Group searchGroup){
+        return groupService.searchGroups(searchGroup);
     }
 }

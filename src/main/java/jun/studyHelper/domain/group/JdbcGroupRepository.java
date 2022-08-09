@@ -113,12 +113,12 @@ public class JdbcGroupRepository implements GroupRepository{
 
 
     @Override
-    public List<Group> findAll(String search) {
+    public List<Group> findAll(Group search) {
 
 
         try {
 
-            String sql = String.format("SELECT * FROM groups WHERE id LIKE \"%s\" OR name LIKE \"%s\"", search, search);
+            String sql = String.format("SELECT * FROM groups WHERE id LIKE \"%s\" OR name LIKE \"%s\"", search.getId(), search.getName());
 
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
