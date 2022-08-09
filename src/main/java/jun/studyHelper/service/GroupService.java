@@ -42,6 +42,9 @@ public class GroupService {
         groupRepository.updateName(group);
     }
 
+    public List<Group> searchGroups(String search){
+        return groupRepository.findAll(search);
+    }
     public List<Group> getMemberGroups(Member member){
 
         List<Group> groupList = new ArrayList<>();

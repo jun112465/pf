@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class GroupController {
@@ -38,4 +39,10 @@ public class GroupController {
         return "redirect:/";
     }
 
+    @ResponseBody
+    @PostMapping("/group/find-group")
+    public List<Group> findGroup(@RequestParam String search){
+
+        return groupService.searchGroups(search);
+    }
 }
