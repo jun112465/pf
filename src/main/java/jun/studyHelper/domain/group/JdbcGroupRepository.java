@@ -118,7 +118,7 @@ public class JdbcGroupRepository implements GroupRepository{
 
         try {
 
-            String sql = String.format("SELECT * FROM groups WHERE id LIKE \"%s\" OR name LIKE \"%s\"", search.getId(), search.getName());
+            String sql = String.format("SELECT * FROM groups WHERE id LIKE \'%%%s%%\' OR name LIKE \'%%%s%%\'", search.getId(), search.getName());
 
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));

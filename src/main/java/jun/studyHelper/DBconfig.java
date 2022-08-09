@@ -38,8 +38,8 @@ public class DBconfig {
 
         try {
             if(rs != null) rs.close();
-            ps.close();
-            conn.close();
+            if(ps != null) ps.close();
+            if(conn != null) conn.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

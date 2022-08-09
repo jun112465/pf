@@ -42,4 +42,10 @@ public class GroupTest {
         group.setName("newTestGroup");
         gs.updateGroupName(group);
     }
+
+    @Test
+    void 그룹찾기(){
+        Group group = new Group("test", "test");
+        System.out.println(gs.searchGroups(group));
+    }
 }
