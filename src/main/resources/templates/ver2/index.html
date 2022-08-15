@@ -37,7 +37,6 @@
     <div class="gallery-container">
         <!-- Next and previous buttons -->
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-
         <div class="gallery">
             <div class="item new-item" id="new-notice">
                 <i class="fa-solid fa-circle-plus"></i>
@@ -49,31 +48,6 @@
                 <div th></div>
             </div>
         </div>
-
-
-        <div class="gallery">
-
-            <div class="item" id="search-group">
-                <input type="text" placeholder="Found Groups">
-                <input type="button" value="search">
-            </div>
-
-            <div class="item" id="new-group">
-                <form action="/group/add-group" method="post">
-                    <input id="input-group-name" name="groupName" type="text" placeholder="group name">
-                    <input type="submit" value="create">
-                </form>
-            </div>
-
-            <div class="item" th:each="g : ${groupList}">
-                <input type="hidden" th:value="${g.getId()}">
-                <div th:text="${g.getName()}"></div>
-<!--                <div class="edit-box" th:text="${n.getContent()}"></div>-->
-<!--                <div th></div>-->
-            </div>
-        </div>
-
-
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
 
@@ -185,25 +159,6 @@
     }
 
     console.log(noticeList);
-
-
-    // find group
-    let searchGroup = document.getElementById("search-group");
-    searchGroup.children[1].addEventListener('click', ()=>{
-        let searchValue = searchGroup.children[0].value
-        fetch("/group/find-group", {
-            method: "Post",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                'id': searchValue,
-                'name': searchValue
-            })
-        }).then(result => {
-            console.log(result.json())
-        })
-    })
-
-
     /*]]>*/
 </script>
 
