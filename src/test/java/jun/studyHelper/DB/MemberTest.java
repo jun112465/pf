@@ -4,7 +4,6 @@ import jun.studyHelper.domain.member.JdbcMemberRepository;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberRepository;
 import jun.studyHelper.service.MemberService;
-import lombok.val;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
