@@ -150,6 +150,7 @@
     newNotice.addEventListener('click', ()=>{
         createItem().then((value)=>{
             if(value){
+                location.assign('/');
                 alert("노트가 생성됐습니다.")
             }else{
                 alert("이미 생성된 노트가 있습니다.")

@@ -24,7 +24,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
     public void save(Notice notice) {
         try {
             String sql = String.format(
-                    "INSERT INTO NOTICE(member_id) VALUES(\"%s\")",
+                    "INSERT INTO notice(member_id) VALUES(\"%s\")",
                     notice.getMemberId());
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
@@ -54,7 +54,7 @@ public class JdbcNoticeRepository implements NoticeRepository{
     public void remove(int id) {
         try {
             String sql = String.format(
-                    "DELETE FROM NOTICE WHERE id=\"%d\"", id);
+                    "DELETE FROM notice WHERE id=\"%d\"", id);
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
             db.getPs().executeUpdate();
