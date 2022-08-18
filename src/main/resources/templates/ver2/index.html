@@ -30,31 +30,57 @@
     </div>
 </section>
 
-<section th:unless="${user}==null" class="container">
+<section class="slide-container">
 
-
-
-    <a href="/members/logout">로그아웃</a>
-    <div class="gallery-container">
-        <!-- Next and previous buttons -->
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-
-
-        <div class="gallery">
-            <div class="item new-item" id="new-notice">
-                <i class="fa-solid fa-circle-plus"></i>
-            </div>
-            <div class="item" th:each="n : ${noticeList}">
-                <input type="hidden" th:value="${n.getId()}">
-                <div th:text="${n.getDate()}"></div>
-                <div class="edit-box" th:text="${n.getContent()}"></div>
-                <div th></div>
-            </div>
-        </div>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <div class="slide login" th:if="${user}==null">
+        <div class="login_logo">SIGN IN</div>
+        <form action="/members/login" method="post">
+            <input type="text" name="memberId" placeholder="input ID">
+            <input type="password" name="password" placeholder="input PW">
+            <input type="submit" value="login">
+        </form>
     </div>
 
+    <div class="slide gallery" th:unless="${user}==null">
+        <div class="item new-item" id="new-notice">
+            <i class="fa-solid fa-circle-plus"></i>
+        </div>
+        <div class="item" th:each="n : ${noticeList}">
+            <input type="hidden" th:value="${n.getId()}">
+            <div th:text="${n.getDate()}"></div>
+            <div class="edit-box" th:text="${n.getContent()}"></div>
+            <div th></div>
+        </div>
+    </div>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
 </section>
+<!--<section th:unless="${user}==null" class="container">-->
+
+
+
+<!--    <a href="/members/logout">로그아웃</a>-->
+<!--    <div class="gallery-container">-->
+<!--        &lt;!&ndash; Next and previous buttons &ndash;&gt;-->
+<!--        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
+
+
+<!--        <div class="gallery">-->
+<!--            <div class="item new-item" id="new-notice">-->
+<!--                <i class="fa-solid fa-circle-plus"></i>-->
+<!--            </div>-->
+<!--            <div class="item" th:each="n : ${noticeList}">-->
+<!--                <input type="hidden" th:value="${n.getId()}">-->
+<!--                <div th:text="${n.getDate()}"></div>-->
+<!--                <div class="edit-box" th:text="${n.getContent()}"></div>-->
+<!--                <div th></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <a class="next" onclick="plusSlides(1)">&#10095;</a>-->
+<!--    </div>-->
+
+<!--</section>-->
 
 
 <script>
