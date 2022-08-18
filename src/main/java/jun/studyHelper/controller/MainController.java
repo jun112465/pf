@@ -72,7 +72,7 @@ public class MainController {
 //        } catch (NullPointerException | NumberFormatException e) {
 //            e.printStackTrace();
 //        }
-        return "/ver2/index";
+        return "ver2/index";
     }
 
 
