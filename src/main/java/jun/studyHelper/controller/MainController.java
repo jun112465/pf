@@ -1,5 +1,6 @@
 package jun.studyHelper.controller;
 
+import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.service.GroupService;
 import jun.studyHelper.service.MemberService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
@@ -40,38 +43,17 @@ public class MainController {
     @GetMapping("/")
     public String rootController(
             Model model,
-            @RequestParam(value = "error-msg", required = false)String errorMsg,
-            @CookieValue(name="memberId", required = false)String memberId){
+            HttpServletRequest req,
+            @RequestParam(value = "error-msg", required = false)String errorMsg){
 
-
-        try{
-            Member member = null;
-            // 로그인 상태
-            if ((member=memberService.findOne(memberId)) != null){
-                model.addAttribute("noticeList", noticeService.findMemberNoticeList(member));
-                model.addAttribute("groupList", groupService.getMemberGroups(member));
-            }
-            // 로그아웃 상태
-            else{
-
-            }
-            // 공통 모델
-            model.addAttribute("errorMsg", errorMsg);
-            model.addAttribute("user", memberService.findOne(memberId));
-        } catch(NullPointerException e){
-            throw e;
-        } catch(Exception e){
-            throw e;
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            model.addAttribute("member", loginMember);
+        }else{
+            model.addAttribute("member", null);
         }
-//        try{
-//            System.out.println("MainController : memberId = " + memberId);
-////            model.addAttribute("user", memberService.findOne(Integer.parseInt(memberId)));
-//            model.addAttribute("memberId", memberId);
-//            model.addAttribute("noticeList", noticeService.findNoticeList(Integer.parseInt(memberId)));
-////            model.addAttribute("friendList", memberService.getFriends(new Member(Integer.parseInt(memberId))));
-//        } catch (NullPointerException | NumberFormatException e) {
-//            e.printStackTrace();
-//        }
+
         return "index";
     }
 
