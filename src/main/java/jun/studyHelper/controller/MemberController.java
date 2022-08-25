@@ -1,8 +1,10 @@
 package jun.studyHelper.controller;
 
 
+import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.member.MemberForm;
+import jun.studyHelper.dto.LoginForm;
 import jun.studyHelper.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,8 +43,8 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @PostMapping("/members/login")
-    public String login(MemberForm form, HttpServletResponse resp, RedirectAttributes redirectAttributes){
+//    @PostMapping("/members/login")
+    public String CookieLogin(LoginForm form, HttpServletResponse resp, RedirectAttributes redirectAttributes){
         String id = form.getMemberId();
         String pw = form.getPassword();
 
@@ -53,6 +56,27 @@ public class MemberController {
             Cookie idCookie = new Cookie("memberId", id);
             idCookie.setPath("/");
             resp.addCookie(idCookie);
+        }else{
+            redirectAttributes.addAttribute("error-msg", "No Member Found");
+            System.out.println("No member founded");
+        }
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/members/login")
+    public String SessionLogin(
+            LoginForm form, RedirectAttributes redirectAttributes,
+            HttpServletResponse resp, HttpServletRequest req){
+
+        String id = form.getMemberId();
+        String pw = form.getPassword();
+
+        Member loginMember = new Member(id, pw);
+
+        if(memberService.validateMemberInfo(loginMember)){
+            HttpSession session = req.getSession();
+            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         }else{
             redirectAttributes.addAttribute("error-msg", "No Member Found");
             System.out.println("No member founded");
