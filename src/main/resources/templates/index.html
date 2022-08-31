@@ -48,6 +48,8 @@
         </div>
 
         <!-- logged in -->
+
+        <!--note-gallery-->
         <div class="slide" th:unless="${member}==null">
             <div class="gallery">
                 <div class="item new-item" id="new-notice">
@@ -62,7 +64,20 @@
             </div>
         </div>
 
-        <div class="slide" th:unless="${user}==null">
+        <!--timer-gallery-->
+        <div class="slide" th:unless="${member}==null">
+            <div class="gallery">
+                <div class="item new-item">
+                    <i class="fa-solid fa-circle-plus"></i>
+                </div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+
+        <div class="slide" th:unless="${member}==null">
             <div class="info-setting">
                 <h1><a href="/members/logout">sign out</a></h1>
             </div>
@@ -100,6 +115,9 @@
 
 
 <script>
+
+
+
     // javascript for gallery slide
 
     let slideIndex = 1;
