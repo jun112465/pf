@@ -41,15 +41,17 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String rootController(
-            Model model,
-            HttpServletRequest req,
-            @RequestParam(value = "error-msg", required = false)String errorMsg){
+    public String rootController(Model model, HttpServletRequest req){
 
         HttpSession session = req.getSession(false);
         if (session != null) {
+            // add model attributes
             Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
             model.addAttribute("member", loginMember);
+            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
+//            System.out.println(loginMember);
+//
+//            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
         }else{
             model.addAttribute("member", null);
         }

@@ -19,9 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
 public class MemberController {
@@ -66,20 +63,16 @@ public class MemberController {
 
     @PostMapping("/members/login")
     public String SessionLogin(
-            LoginForm form, RedirectAttributes redirectAttributes,
-            HttpServletResponse resp, HttpServletRequest req){
+            LoginForm form, HttpServletRequest req){
 
         String id = form.getMemberId();
         String pw = form.getPassword();
 
         Member loginMember = new Member(id, pw);
 
-        if(memberService.validateMemberInfo(loginMember)){
+        if(memberService.validateMemberInfo(loginMember)) {
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        }else{
-            redirectAttributes.addAttribute("error-msg", "No Member Found");
-            System.out.println("No member founded");
         }
 
         return "redirect:/";

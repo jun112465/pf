@@ -24,7 +24,7 @@
     <section class="slide-container">
 
         <!-- logged out -->
-        <div class="slide" th:if="${user}==null">
+        <div class="slide" th:if="${member}==null">
             <div class="sign-in">
                 <div class="login_logo">SIGN IN</div>
                 <form action="/members/login" method="post">
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="slide" th:if="${user}==null">
+        <div class="slide" th:if="${member}==null">
             <!--  회원가입  -->
             <div class="sign-in">
                 <div class="login_logo">SIGN UP</div>
@@ -48,7 +48,7 @@
         </div>
 
         <!-- logged in -->
-        <div class="slide" th:unless="${user}==null">
+        <div class="slide" th:unless="${member}==null">
             <div class="gallery">
                 <div class="item new-item" id="new-notice">
                     <i class="fa-solid fa-circle-plus"></i>
