@@ -19,7 +19,7 @@
 
 <section class="container">
 
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="prev">&#10094;</a>
 
     <section class="slide-container">
 
@@ -84,7 +84,7 @@
         </div>
     </section>
 
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <a class="next">&#10095;</a>
 </section>
 
 <!--<section th:unless="${user}==null" class="container">-->
@@ -113,113 +113,19 @@
 
 <!--</section>-->
 
-
-<script>
-
-
-
-    // javascript for gallery slide
-
-    let slideIndex = 1;
-    showSlides(slideIndex);
-
-    // Next/previous controls
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-
-    // Thumbnail image controls
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
-        let i;
-        let slides = document.getElementsByClassName("slide");
-        // let dots = document.getElementsByClassName("demo");
-        // let captionText = document.getElementById("caption");
-
-        if (n > slides.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = slides.length}
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        // for (i = 0; i < dots.length; i++) {
-        //     dots[i].className = dots[i].className.replace(" active", "");
-        // }
-
-        // if(slides[slideIndex-1].style.display)
-
-        // if slide is login -> display : flex
-        // else -> display : grid
-        slides[slideIndex-1].style.display = "flex"
-
-        // dots[slideIndex-1].className += " active";
-        // captionText.innerHTML = dots[slideIndex-1].alt;
-    }
+<script src="/js/index/test.js">
 </script>
+<script src="./js/index/slides.js">
+    console.log("slideIndex")
+    console.log(slideIndex)
+</script>
+<script src="./js/index/note-gallery.js"></script>
 
 
 
 
 <script th:inline="javascript">
     /*![CDATA[*/
-    newNotice = document.getElementById("new-notice")
-    newNotice.addEventListener('click', ()=>{
-        createItem().then((value)=>{
-            if(value){
-                location.assign('/');
-                alert("노트가 생성됐습니다.")
-            }else{
-                alert("이미 생성된 노트가 있습니다.")
-            }
-        })
-    })
-
-    createItem = async ()=>{
-        let memberId = document.cookie.split(';')
-            .find(row => row.startsWith('memberId'))
-            .split('=')[1];
-
-        const resp = await fetch("/notice/add-note", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 'memberId' : memberId })
-        }).then(result => result.json())
-            .then(data => data)
-
-        return resp;
-    }
-
-    //date format function
-    function dateFormat(date) {
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-
-        month = month >= 10 ? month : '0' + month;
-        day = day >= 10 ? day : '0' + day;
-
-        return date.getFullYear() + '-' + month + '-' + day;
-    }
-
-    //set contentEditable
-    let itemList = document.getElementsByClassName("item");
-    if (itemList[1].children[1].innerHTML == dateFormat(new Date())){
-        editBox = document.getElementsByClassName("edit-box")[0];
-        editBox.setAttribute("contenteditable", "true");
-        editBox.addEventListener("input", ()=>{
-            fetch("/notice/update", {
-                method: "Post",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    'id' : itemList[1].children[0].value,
-                    'memberId' : '',
-                    'content' : editBox.innerHTML,
-                    'date' : ''
-                })
-            })
-        })
-    }
 
     // 각 notice 내부 String 값을 html 로 치환
     let editBoxList = document.getElementsByClassName("edit-box");
