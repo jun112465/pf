@@ -1,5 +1,6 @@
 package jun.studyHelper.controller;
 
+import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.member.Member;
 import jun.studyHelper.domain.notice.Notice;
 import jun.studyHelper.domain.notice.NoticeForm;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,12 +29,12 @@ public class NoticeController {
 
     @PostMapping("notice/add-note")
     @ResponseBody
-    public boolean addNote(NoticeForm noticeForm, @CookieValue(name="memberId", required = false)String memberId){
+    public boolean addNote(HttpServletRequest req){
         try{
-            Member member = new Member(memberId);
+            Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
             if(!noticeService.isTodayNoticeAdded(member)){
                 Notice notice = new Notice();
-                notice.setMemberId(memberId);
+                notice.setMemberId(member.getMemberId());
                 noticeService.add(notice);
                 return true;
             }else{
