@@ -51,6 +51,7 @@
 
         <!--note-gallery-->
         <div class="slide" th:unless="${member}==null">
+            <h2>Notice</h2>
             <div class="gallery">
                 <div class="item new-item" id="new-notice">
                     <i class="fa-solid fa-circle-plus"></i>
@@ -66,9 +67,16 @@
 
         <!--timer-gallery-->
         <div class="slide" th:unless="${member}==null">
+            <h2>Timer</h2>
             <div class="gallery">
                 <div class="item new-item">
                     <i class="fa-solid fa-circle-plus"></i>
+                </div>
+                <div class="item">
+                    <div class="time" id="timer">00:00:00</div>
+                    <input id="timer-start" type="button" value="start">
+                    <input id="timer-stop" type="hidden" value="stop" >
+                    <input id="timer-reset" type="button" value="reset">
                 </div>
                 <div class="item"></div>
                 <div class="item"></div>
@@ -112,7 +120,7 @@
 <!--    </div>-->
 
 <!--</section>-->
-
+<script src="/js/index/timer.js"></script>
 <script src="/js/index/test.js">
 </script>
 <script src="./js/index/slides.js">
