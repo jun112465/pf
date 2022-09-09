@@ -13,12 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -41,19 +43,36 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String rootController(Model model, HttpServletRequest req){
+    public String rootController(
+            Model model, HttpServletRequest req){
 
+        // check session
         HttpSession session = req.getSession(false);
-        if (session != null) {
-            // add model attributes
-            Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        // session not exist
+        if (session == null) {
+            model.addAttribute("member", null);
+            return "index";
+        }
+
+        // session exist
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (loginMember != null){
+            // login succeeded
             model.addAttribute("member", loginMember);
             model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
-//            System.out.println(loginMember);
-//
-//            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
-        }else{
-            model.addAttribute("member", null);
+        } else{
+            // redirection with login error
+            Map<String,?> flashMap = RequestContextUtils.getInputFlashMap(req);
+
+            if (flashMap!=null){
+                try{
+                    Map<String, String> errorMap = (Map<String, String>) flashMap.get("errorMap");
+                    model.addAttribute("loginErrorMsg", errorMap.get("LoginError"));
+                }catch(NullPointerException e){
+                    System.err.println("null pointer error : main controller");
+                }
+            }
         }
 
         return "index";

@@ -22,7 +22,6 @@
     <a class="prev">&#10094;</a>
 
     <section class="slide-container">
-
         <!-- logged out -->
         <div class="slide" th:if="${member}==null">
             <div class="sign-in">
@@ -32,6 +31,7 @@
                     <input type="password" name="password" placeholder="INPUT PW">
                     <input type="submit" value="SIGN IN">
                 </form>
+                <div style="color:red" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></div>
             </div>
         </div>
 

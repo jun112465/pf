@@ -1,5 +1,6 @@
 package jun.studyHelper.repository.timer;
 
+import jun.studyHelper.DBconfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +17,12 @@ public class JdbcTimerRepository implements TimerRepository{
 //    @Autowired
 //    DBconfig db;
     private final DataSource dataSource;
+    private final DBconfig db;
 
     @Autowired
-    public JdbcTimerRepository(DataSource dataSource){
+    public JdbcTimerRepository(DBconfig db, DataSource dataSource){
         this.dataSource = dataSource;
+        this.db = db;
     }
 
 
@@ -33,9 +36,13 @@ public class JdbcTimerRepository implements TimerRepository{
             String sql = String.format("INSERT INTO timer(member_id) VALUES('%s')", memberId);
             System.out.println(sql);
 
-            conn = getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.executeUpdate();
+//            conn = getConnection();
+
+            db.setConn(db.getConnection());
+            db.setPs(db.getConn().prepareStatement(sql));
+            db.getPs().executeUpdate();
+//            ps = conn.prepareStatement(sql);
+//            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

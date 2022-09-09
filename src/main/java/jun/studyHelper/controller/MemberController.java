@@ -18,6 +18,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
@@ -63,7 +65,8 @@ public class MemberController {
 
     @PostMapping("/members/login")
     public String SessionLogin(
-            LoginForm form, HttpServletRequest req){
+            LoginForm form, HttpServletRequest req,
+            HttpServletResponse resp, RedirectAttributes redirect){
 
         String id = form.getMemberId();
         String pw = form.getPassword();
@@ -71,8 +74,19 @@ public class MemberController {
         Member loginMember = new Member(id, pw);
 
         if(memberService.validateMemberInfo(loginMember)) {
+            // 사용자의 데이터를 찾은 경우
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+            // 세션 유지 시간을 최대 하루로 잡음
+            session.setMaxInactiveInterval(24*60*60);
+        }else{
+            // 사용자의 데이터를 찾지 못한 경우
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("LoginError", "No Member Found, Try Again");
+
+            // addFlashAttribute 을 통해 세션이 생성된다.
+            redirect.addFlashAttribute("errorMap", errorMap);
         }
 
         return "redirect:/";

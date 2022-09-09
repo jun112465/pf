@@ -1,5 +1,8 @@
 package jun.studyHelper;
 
+import org.springframework.jdbc.datasource.DataSourceUtils;
+
+import java.sql.*;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,12 +23,14 @@ public class DBconfig {
 
 
     public Connection getConnection(){
+        return DataSourceUtils.getConnection(dataSource);
 
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+//        try {
+//            return dataSource.getConnection();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
 //        conn = null;
 //        ps = null;
