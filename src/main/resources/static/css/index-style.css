@@ -16,6 +16,20 @@ header{
     left: 0;
     right: 0;
 }
+
+header > h1{
+    display: inline-block;
+}
+header > a{
+    position: absolute;
+    right: 30px;
+    top: 0;
+    color: white;
+    font-size: 32px;
+    text-decoration: none;
+
+    line-height: 75px;
+}
 .table{
     display: flex;
     flex-wrap: wrap;
@@ -41,10 +55,10 @@ header{
 .slide-container{
     flex: 10;
     width: 0;
+    justify-content: center;
 }
 
 .slide{
-    /*justify-content: center;*/
     overflow-x: scroll;
 }
 

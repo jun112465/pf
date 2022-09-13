@@ -93,12 +93,20 @@ public class MemberController {
     }
 
     @GetMapping ("/members/logout")
-    public String logout(HttpServletResponse resp, HttpServletRequest req){
-        Cookie cookie = new Cookie("memberId", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
+    public String logout(HttpServletRequest req, HttpServletResponse resp){
+
+        HttpSession session = req.getSession();
+
+        // 세션은 유지하되 세션과 연결된 object 삭제
+        session.removeAttribute(SessionConst.LOGIN_MEMBER);
+
+        // jsession 쿠키 삭제
+        Cookie cookie = new Cookie("JSESSIONID", null);
+        cookie.setMaxAge(-1);
         resp.addCookie(cookie);
-        System.out.println("logout");
+
+        // 세션을 풀로 돌려보내기 (세션 제거)
+        session.invalidate();
 
         return "redirect:/";
     }
