@@ -40,10 +40,12 @@ header{
 
 .slide-container{
     flex: 10;
+    width: 0;
 }
 
 .slide{
-    justify-content: center;
+    /*justify-content: center;*/
+    overflow-x: scroll;
 }
 
 .sign-in{
@@ -101,24 +103,31 @@ header{
     /*padding: 10px;*/
 
     display: flex;
-    /*flex-wrap: wrap;*/
-    justify-content: center;
-    /*justify-content: space-evenly;*/
+    padding-bottom: 10px;
+    /*scroll-padding-bottom: 20px;*/
+    /*justify-content: center;*/
+
+    /*padding: 20px;*/
+    /*width:90%;*/
+    /*width: 1200px;*/
 }
 
 .item {
-    background-color: #82ccdd;
+    background-color: #b4dbe8;
     padding: 10px;
     overflow: scroll;
 
     width: 320px;
     /*width: 30%;*/
     height: 400px;
-    margin: 2px;
+    margin: 7px;
 
     min-width: 320px;
     min-height: 400px;
+    /*max-width: 640px;*/
+    /*max-height: 550px;*/
 
+    box-shadow: 5px 5px 5px gray;
     resize: both;
 }
 .item > .edit-box{
