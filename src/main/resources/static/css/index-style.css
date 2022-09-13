@@ -174,3 +174,24 @@ header{
     /*right: 0;*/
     border-radius: 3px 0 0 3px;
 }
+
+footer{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+
+    height: 75px;
+    width: 100%;
+    background-color: #2c3e50;
+    color: white;
+    /*align-items: center;*/
+    /*justify-items: center;*/
+    /*align-content: center;*/
+    justify-content: center;
+    align-content: center;
+}
+footer > div{
+    text-align: left;
+    margin : 10px;
+    line-height: 100%;
+}

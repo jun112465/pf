@@ -12,111 +12,131 @@
     <h1>Note App</h1>
 </header>
 
-<!--&lt;!&ndash;    로그인 실패 시 에러메세지&ndash;&gt;-->
-<!--<div th:if="${errorMsg} == 'No Member Found'">-->
-<!--    <div th:text="${errorMsg}"></div>-->
-<!--</div>-->
+<div>
+    <!--&lt;!&ndash;    로그인 실패 시 에러메세지&ndash;&gt;-->
+    <!--<div th:if="${errorMsg} == 'No Member Found'">-->
+    <!--    <div th:text="${errorMsg}"></div>-->
+    <!--</div>-->
 
-<section class="container">
+    <section class="container">
 
-<!--    <a class="prev">&#10094;</a>-->
+        <!--    <a class="prev">&#10094;</a>-->
 
-    <section class="slide-container">
-        <!-- logged out -->
-        <div class="slide" th:if="${member}==null">
-            <div class="sign-in">
-                <div class="login_logo">SIGN IN</div>
-                <form action="/members/login" method="post">
-                    <input type="text" name="memberId" placeholder="INPUT ID">
-                    <input type="password" name="password" placeholder="INPUT PW">
-                    <input type="submit" value="SIGN IN">
-                </form>
-                <div style="color:red" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></div>
-            </div>
-        </div>
-
-        <div class="slide" th:if="${member}==null">
-            <!--  회원가입  -->
-            <div class="sign-in">
-                <div class="login_logo">SIGN UP</div>
-                <form action="/members/new" method="post">
-                    <input type="text" name="memberId" placeholder="INPUT ID">
-                    <input type="password" name="password" placeholder="INPUT PW">
-                    <input type="submit" value="SIGN UP">
-                </form>
-            </div>
-        </div>
-
-        <!-- logged in -->
-
-        <!--note-gallery-->
-        <div class="slide" th:unless="${member}==null">
-            <div class="gallery">
-                <div class="item new-item" id="new-notice">
-                    <i class="fa-solid fa-circle-plus"></i>
-                </div>
-
-                <div class="item" th:each="n : ${noticeList}">
-                    <input type="hidden" th:value="${n.getId()}">
-                    <div th:text="${n.getDate()}"></div>
-                    <div class="edit-box" th:text="${n.getContent()}"></div>
+        <section class="slide-container">
+            <!-- logged out -->
+            <div class="slide" th:if="${member}==null">
+                <div class="sign-in">
+                    <div class="login_logo">SIGN IN</div>
+                    <form action="/members/login" method="post">
+                        <input type="text" name="memberId" placeholder="INPUT ID">
+                        <input type="password" name="password" placeholder="INPUT PW">
+                        <input type="submit" value="SIGN IN">
+                    </form>
+                    <div style="color:red" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></div>
                 </div>
             </div>
-        </div>
 
-        <!--timer-gallery-->
-        <div class="slide" th:unless="${member}==null">
-            <h2>Timer</h2>
-            <div class="gallery">
-                <div class="item new-item">
-                    <i class="fa-solid fa-circle-plus"></i>
+            <div class="slide" th:if="${member}==null">
+                <!--  회원가입  -->
+                <div class="sign-in">
+                    <div class="login_logo">SIGN UP</div>
+                    <form action="/members/new" method="post">
+                        <input type="text" name="memberId" placeholder="INPUT ID">
+                        <input type="password" name="password" placeholder="INPUT PW">
+                        <input type="submit" value="SIGN UP">
+                    </form>
                 </div>
-                <div class="item">
-                    <div class="time" id="timer">00:00:00</div>
-                    <input id="timer-start" type="button" value="start">
-                    <input id="timer-stop" type="hidden" value="stop" >
-                    <input id="timer-reset" type="button" value="reset">
-                </div>
-                <div class="item"></div>
-                <div class="item"></div>
-                <div class="item"></div>
-                <div class="item"></div>
             </div>
-        </div>
 
-        <div class="slide" th:unless="${member}==null">
-            <div class="info-setting">
-                <h1><a href="/members/logout">sign out</a></h1>
+            <!-- logged in -->
+
+            <!--note-gallery-->
+            <div class="slide" th:unless="${member}==null">
+                <div class="gallery">
+                    <div class="item new-item" id="new-notice">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </div>
+
+                    <div class="item" th:each="n : ${noticeList}">
+                        <input type="hidden" th:value="${n.getId()}">
+                        <div th:text="${n.getDate()}"></div>
+                        <div class="edit-box" th:text="${n.getContent()}"></div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <!--timer-gallery-->
+            <div class="slide" th:unless="${member}==null">
+                <h2>Timer</h2>
+                <div class="gallery">
+                    <div class="item new-item">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </div>
+                    <div class="item">
+                        <div class="time" id="timer">00:00:00</div>
+                        <input id="timer-start" type="button" value="start">
+                        <input id="timer-stop" type="hidden" value="stop" >
+                        <input id="timer-reset" type="button" value="reset">
+                    </div>
+                    <div class="item"></div>
+                    <div class="item"></div>
+                    <div class="item"></div>
+                    <div class="item"></div>
+                </div>
+            </div>
+
+            <div class="slide" th:unless="${member}==null">
+                <div class="info-setting">
+                    <h1><a href="/members/logout">sign out</a></h1>
+                </div>
+            </div>
+        </section>
+
+
+        <!--    <a class="next">&#10095;</a>-->
     </section>
 
-<!--    <a class="next">&#10095;</a>-->
-</section>
-
-<!--<section th:unless="${user}==null" class="container">-->
+    <!--<section th:unless="${user}==null" class="container">-->
 
 
 
-<!--    <a href="/members/logout">로그아웃</a>-->
-<!--    <div class="gallery-container">-->
-<!--        &lt;!&ndash; Next and previous buttons &ndash;&gt;-->
-<!--        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
+    <!--    <a href="/members/logout">로그아웃</a>-->
+    <!--    <div class="gallery-container">-->
+    <!--        &lt;!&ndash; Next and previous buttons &ndash;&gt;-->
+    <!--        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
 
 
-<!--        <div class="gallery">-->
-<!--            <div class="item new-item" id="new-notice">-->
-<!--                <i class="fa-solid fa-circle-plus"></i>-->
-<!--            </div>-->
-<!--            <div class="item" th:each="n : ${noticeList}">-->
-<!--                <input type="hidden" th:value="${n.getId()}">-->
-<!--                <div th:text="${n.getDate()}"></div>-->
-<!--                <div class="edit-box" th:text="${n.getContent()}"></div>-->
-<!--                <div th></div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <a class="next" onclick="plusSlides(1)">&#10095;</a>-->
-<!--    </div>-->
+    <!--        <div class="gallery">-->
+    <!--            <div class="item new-item" id="new-notice">-->
+    <!--                <i class="fa-solid fa-circle-plus"></i>-->
+    <!--            </div>-->
+    <!--            <div class="item" th:each="n : ${noticeList}">-->
+    <!--                <input type="hidden" th:value="${n.getId()}">-->
+    <!--                <div th:text="${n.getDate()}"></div>-->
+    <!--                <div class="edit-box" th:text="${n.getContent()}"></div>-->
+    <!--                <div th></div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <a class="next" onclick="plusSlides(1)">&#10095;</a>-->
+
+    <!--github link-->
+    <footer>
+        <div>
+            <a href="https://github.com/jun112465/studyHelper" style="font-size:52px; color: white; margin-top: 0px;"><i class="fab fa-github"></i></a>
+        </div>
+        <div>
+            <div>
+                Gmail : ktop101777@gmail.com
+            </div>
+            <div>
+                Phone : 010-7670-xxxx
+            </div>
+            <div>
+                Blog : https://velog.io/@jun112465
+            </div>
+        </div>
+    </footer>
+</div>
 
 <!--</section>-->
 <script src="/js/index/timer.js"></script>
