@@ -56,11 +56,11 @@
                 <div class="item new-item" id="new-notice">
                     <i class="fa-solid fa-circle-plus"></i>
                 </div>
+
                 <div class="item" th:each="n : ${noticeList}">
                     <input type="hidden" th:value="${n.getId()}">
                     <div th:text="${n.getDate()}"></div>
                     <div class="edit-box" th:text="${n.getContent()}"></div>
-                    <div th></div>
                 </div>
             </div>
         </div>

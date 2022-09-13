@@ -36,6 +36,7 @@
 
     //set contentEditable
     let itemList = document.getElementsByClassName("item");
+
     if (itemList[1].children[1].innerHTML == dateFormat(new Date())){
         let editBox = document.getElementsByClassName("edit-box")[0];
         editBox.setAttribute("contenteditable", "true");
