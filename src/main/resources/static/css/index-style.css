@@ -37,7 +37,8 @@ header{
     margin: 5px;
 }
 #home_logo{
-    text-decoration-line: blink;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 header img{
