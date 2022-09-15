@@ -9,8 +9,16 @@
 <body>
 
 <header>
-    <h1>Note App</h1>
-    <a href="/members/logout"><i class="fas fa-sign-out-alt" style="color: white"></i></a>
+    <div id="home">
+        <div id="home_img">
+            <img src="/images/notebook.svg" alt="">
+        </div>
+        <div id="home_logo">
+            Study Helper
+        </div>
+    </div>
+
+    <a href="/members/logout"><i class="fas fa-sign-out-alt" style="color: black"></i></a>
 </header>
 
 <!--&lt;!&ndash;    로그인 실패 시 에러메세지&ndash;&gt;-->
@@ -51,6 +59,8 @@
         <!-- logged in -->
 
         <!--note-gallery-->
+
+        <div class="gallery-title">🌈 TIL</div>
         <div class="slide" th:unless="${member}==null">
             <div class="gallery">
                 <div class="item new-item" id="new-notice">
@@ -59,7 +69,7 @@
 
                 <div class="item" th:each="n : ${noticeList}">
                     <input type="hidden" th:value="${n.getId()}">
-                    <div th:text="${n.getDate()}"></div>
+                    <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
                     <div class="edit-box" th:text="${n.getContent()}"></div>
                 </div>
             </div>
@@ -118,6 +128,7 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--        <a class="next" onclick="plusSlides(1)">&#10095;</a>-->
+
 
 <!--github link-->
 <footer>
