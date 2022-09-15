@@ -35,10 +35,11 @@
 </section>
 
 <section class="container" th:unless="${member}==null">
-    <section class="slide-container">
-        <div class="gallery-title">🌈 TIL</div>
+
+    <section id="TIL" class="slide-container">
+        <div class="slide-title">🌈 TIL</div>
         <div class="slide">
-            <div class="gallery">
+            <div class="item-list">
                 <div class="item new-item" id="new-notice">
                     <i class="fa-solid fa-circle-plus"></i>
                 </div>
@@ -50,61 +51,9 @@
                 </div>
             </div>
         </div>
-
-        <!--timer-gallery-->
-<!--        <div class="slide" th:unless="${member}==null">-->
-<!--            <h2>Timer</h2>-->
-<!--            <div class="gallery">-->
-<!--                <div class="item new-item">-->
-<!--                    <i class="fa-solid fa-circle-plus"></i>-->
-<!--                </div>-->
-<!--                <div class="item">-->
-<!--                    <div class="time" id="timer">00:00:00</div>-->
-<!--                    <input id="timer-start" type="button" value="start">-->
-<!--                    <input id="timer-stop" type="hidden" value="stop" >-->
-<!--                    <input id="timer-reset" type="button" value="reset">-->
-<!--                </div>-->
-<!--                <div class="item"></div>-->
-<!--                <div class="item"></div>-->
-<!--                <div class="item"></div>-->
-<!--                <div class="item"></div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="slide" th:unless="${member}==null">-->
-<!--            <div class="info-setting">-->
-<!--                <h1><a href="/members/logout">sign out</a></h1>-->
-<!--            </div>-->
-<!--        </div>-->
     </section>
 
-
-    <!--    <a class="next">&#10095;</a>-->
 </section>
-
-<!--<section th:unless="${user}==null" class="container">-->
-
-
-
-<!--    <a href="/members/logout">로그아웃</a>-->
-<!--    <div class="gallery-container">-->
-<!--        &lt;!&ndash; Next and previous buttons &ndash;&gt;-->
-<!--        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
-
-
-<!--        <div class="gallery">-->
-<!--            <div class="item new-item" id="new-notice">-->
-<!--                <i class="fa-solid fa-circle-plus"></i>-->
-<!--            </div>-->
-<!--            <div class="item" th:each="n : ${noticeList}">-->
-<!--                <input type="hidden" th:value="${n.getId()}">-->
-<!--                <div th:text="${n.getDate()}"></div>-->
-<!--                <div class="edit-box" th:text="${n.getContent()}"></div>-->
-<!--                <div th></div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <a class="next" onclick="plusSlides(1)">&#10095;</a>-->
-
 
 <!--github link-->
 <footer>
