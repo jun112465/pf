@@ -1,20 +1,13 @@
 package jun.studyHelper.DB;
 
-import jun.studyHelper.domain.member.JdbcMemberRepository;
-import jun.studyHelper.domain.member.Member;
-import jun.studyHelper.domain.member.MemberRepository;
+import jun.studyHelper.repository.member.JdbcMemberRepository;
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.sql.DataSource;
 
 @SpringBootTest
 @Transactional

@@ -1,7 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.member.Member;
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.service.GroupService;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;

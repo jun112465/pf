@@ -1,8 +1,6 @@
 package jun.studyHelper.domain.group;
 
 import jun.studyHelper.DBconfig;
-import jun.studyHelper.domain.member.JdbcMemberRepository;
-import jun.studyHelper.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

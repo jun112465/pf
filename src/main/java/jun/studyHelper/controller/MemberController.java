@@ -2,7 +2,7 @@ package jun.studyHelper.controller;
 
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.member.Member;
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.member.MemberForm;
 import jun.studyHelper.dto.LoginForm;
 import jun.studyHelper.service.MemberService;

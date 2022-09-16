@@ -1,5 +1,7 @@
 package jun.studyHelper.domain.member;
 
+import jun.studyHelper.domain.entity.Member;
+
 import java.util.List;
 
 public interface FriendRepository {

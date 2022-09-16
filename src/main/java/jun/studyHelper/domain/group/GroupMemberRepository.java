@@ -1,6 +1,6 @@
 package jun.studyHelper.domain.group;
 
-import jun.studyHelper.domain.member.Member;
+import jun.studyHelper.domain.entity.Member;
 
 import java.util.List;
 

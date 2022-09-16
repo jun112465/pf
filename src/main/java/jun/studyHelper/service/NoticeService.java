@@ -1,15 +1,13 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.member.Member;
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.notice.Notice;
 import jun.studyHelper.domain.notice.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class NoticeService {

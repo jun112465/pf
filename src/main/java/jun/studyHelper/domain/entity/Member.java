@@ -1,7 +1,6 @@
-package jun.studyHelper.domain.member;
+package jun.studyHelper.domain.entity;
 
 import lombok.*;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Data
 @AllArgsConstructor

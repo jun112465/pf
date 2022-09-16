@@ -1,7 +1,7 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.member.Member;
-import jun.studyHelper.domain.member.MemberRepository;
+import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.repository.member.MemberRepository;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

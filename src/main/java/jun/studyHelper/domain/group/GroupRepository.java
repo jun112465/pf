@@ -1,8 +1,5 @@
 package jun.studyHelper.domain.group;
 
-import jun.studyHelper.domain.member.Member;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 
