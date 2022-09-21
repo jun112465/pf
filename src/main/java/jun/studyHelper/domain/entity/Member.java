@@ -2,29 +2,29 @@ package jun.studyHelper.domain.entity;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Entity
 public class Member {
 
     @NonNull
-    private String memberId;
-    private String password;
-    private String name;
-    private String profileImage;
-    private String profileMessage;
-
-    public Member(String memberId, String password){
-        this.memberId = memberId;
-        this.password = password;
-    }
+    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+    private String pw;
 
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
 
         Member m = (Member) obj;
-        return this.memberId.equals(m.memberId) && this.password.equals(m.password);
+        return this.id.equals(m.id) && this.pw.equals(m.pw);
     }
 }

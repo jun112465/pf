@@ -25,7 +25,7 @@ public class JdbcGroupMemberRepository implements GroupMemberRepository{
         try {
             String sql = String.format(
                     "INSERT INTO group_members(group_id, member_id) " +
-                            "VALUES(\"%s\", \"%s\")", group.getId(), member.getMemberId());
+                            "VALUES(\"%s\", \"%s\")", group.getId(), member.getId());
 
             db.setConn(db.getConnection());
             db.setPs(db.getConn().prepareStatement(sql));
@@ -51,7 +51,7 @@ public class JdbcGroupMemberRepository implements GroupMemberRepository{
     @Override
     public List<Group> findAllGroups(Member member) {
 
-        String sql = String.format("SELECT * FROM group_members WHERE member_id = \"%s\"", member.getMemberId());
+        String sql = String.format("SELECT * FROM group_members WHERE member_id = \"%s\"", member.getId());
 
         try {
             db.setConn(db.getConnection());

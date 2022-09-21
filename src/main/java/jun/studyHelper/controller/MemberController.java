@@ -35,33 +35,33 @@ public class MemberController {
     @PostMapping("/members/new")
     public String create(MemberForm form){
         Member member = new Member();
-        member.setMemberId(form.getMemberId());
-        member.setPassword(form.getPassword());
+        member.setId(form.getMemberId());
+        member.setPw(form.getPassword());
         memberService.join(member);
         
         return "redirect:/";
     }
 
 //    @PostMapping("/members/login")
-    public String CookieLogin(LoginForm form, HttpServletResponse resp, RedirectAttributes redirectAttributes){
-        String id = form.getMemberId();
-        String pw = form.getPassword();
-
-        Member m = new Member();
-        m.setMemberId(id);
-        m.setPassword(pw);
-
-        if(memberService.validateMemberInfo(m)){
-            Cookie idCookie = new Cookie("memberId", id);
-            idCookie.setPath("/");
-            resp.addCookie(idCookie);
-        }else{
-            redirectAttributes.addAttribute("error-msg", "No Member Found");
-            System.out.println("No member founded");
-        }
-
-        return "redirect:/";
-    }
+//    public String CookieLogin(LoginForm form, HttpServletResponse resp, RedirectAttributes redirectAttributes){
+//        String id = form.getMemberId();
+//        String pw = form.getPassword();
+//
+//        Member m = new Member();
+//        m.setId(id);
+//        m.setPw(pw);
+//
+//        if(memberService.validateMemberInfo(m)){
+//            Cookie idCookie = new Cookie("memberId", id);
+//            idCookie.setPath("/");
+//            resp.addCookie(idCookie);
+//        }else{
+//            redirectAttributes.addAttribute("error-msg", "No Member Found");
+//            System.out.println("No member founded");
+//        }
+//
+//        return "redirect:/";
+//    }
 
     @PostMapping("/members/login")
     public String SessionLogin(
@@ -73,7 +73,7 @@ public class MemberController {
 
         Member loginMember = new Member(id, pw);
 
-        if(memberService.validateMemberInfo(loginMember)) {
+        if(memberService.validateMemberInfo(loginMember) != null) {
             // 사용자의 데이터를 찾은 경우
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
@@ -111,15 +111,15 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping("/members/setting")
-    public String setting(Model model, @CookieValue(name="memberId", required = false)String memberId){
-        Member member = memberService.findOne(memberId);
-        model.addAttribute("MemberId", memberId);
-        model.addAttribute("Name", member.getName());
-//        model.addAttribute("Status", feijwj, eijfw, "eifje", )
-//        model.addAttribute("Status)
-        return "infoSetting";
-    }
+//    @GetMapping("/members/setting")
+//    public String setting(Model model, @CookieValue(name="memberId", required = false)String memberId){
+//        Member member = memberService.findOne(memberId);
+//        model.addAttribute("MemberId", memberId);
+////        model.addAttribute("Name", member.getName());
+////        model.addAttribute("Status", feijwj, eijfw, "eifje", )
+////        model.addAttribute("Status)
+//        return "infoSetting";
+//    }
 
     @PostMapping("/members/profile-update")
     public String profileUpdate(MemberForm form, @CookieValue(name="memberId", required = false)String memberId){

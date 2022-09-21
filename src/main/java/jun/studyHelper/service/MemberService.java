@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,25 +33,18 @@ public class MemberService {
     public String join(Member member) {
         validateDuplicateMember(member); //중복 회원 검증
         memberRepository.save(member);
-        return member.getMemberId();
+        return member.getId();
     }
     private void validateDuplicateMember(Member member) {
-        memberRepository.findByName(member.getName()).ifPresent(m -> {
+        memberRepository.findById(member.getId()).ifPresent(m -> {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         });
     }
 
 
-    public boolean validateMemberInfo(Member member){
-        Member find = findOne(member.getMemberId());
-
-        if(find == null){
-            return false;
-        }else if(find.equals(member)){
-            return true;
-        }else{
-            return false;
-        }
+    public Member validateMemberInfo(Member member){
+        Optional<Member> find = findOne(member.getId());
+        return find.orElse(null);
     }
 
 
@@ -59,7 +53,7 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member findOne(String memberId) {
+    public Optional<Member> findOne(String memberId) {
         return memberRepository.findById(memberId);
     }
 

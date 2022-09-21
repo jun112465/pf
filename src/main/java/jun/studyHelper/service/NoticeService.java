@@ -1,15 +1,18 @@
 package jun.studyHelper.service;
 
 import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.notice.Notice;
-import jun.studyHelper.domain.notice.NoticeRepository;
+import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.repository.notice.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional
 public class NoticeService {
     NoticeRepository noticeRepository;
 
@@ -17,12 +20,20 @@ public class NoticeService {
     public NoticeService(NoticeRepository noticeRepository){
         this.noticeRepository = noticeRepository;
     }
-    public void add(Notice notice){
-        noticeRepository.save(notice);
+    public Notice add(Notice notice){
+        return noticeRepository.save(notice);
     }
 
+    public Notice findNotice(int id){
+        return noticeRepository.findById(id);
+    }
+
+    @Modifying
+    @Transactional
     public void editNote(Notice notice){
-        noticeRepository.update(notice);
+        Notice tmp = noticeRepository.findById(notice.getId());
+        tmp.setContent(notice.getContent());
+//        noticeRepository.update(notice);
     }
 
     public void delete(int id){
@@ -34,7 +45,7 @@ public class NoticeService {
     }
 
     public List<Notice> findMemberNoticeList(Member member){
-        return noticeRepository.findByMemberId(member.getMemberId());
+        return noticeRepository.findByMemberId(member);
     }
 
     public boolean isTodayNoticeAdded(Member member){

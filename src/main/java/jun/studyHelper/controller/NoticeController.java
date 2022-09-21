@@ -2,7 +2,7 @@ package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.notice.Notice;
+import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.domain.notice.NoticeForm;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
@@ -32,7 +32,7 @@ public class NoticeController {
             Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
             if(!noticeService.isTodayNoticeAdded(member)){
                 Notice notice = new Notice();
-                notice.setMemberId(member.getMemberId());
+                notice.setMemberId(member.getId());
                 noticeService.add(notice);
                 return true;
             }else{
