@@ -1,30 +1,34 @@
 package jun.studyHelper.domain.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Cleanup;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity(name = "notice")
-@DynamicInsert
-@DynamicUpdate
+@Entity
 public class Notice {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     @Column(name = "member_id")
     String memberId;
-    String category;
+    @Column(columnDefinition = "varchar(255) default 'category'")
+    String category = "category";
     String content;
     @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
     Date date;
+
+    public Date getCurrentDate(){
+        return new Date(System.currentTimeMillis());
+    }
 }

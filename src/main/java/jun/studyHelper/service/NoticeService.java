@@ -20,7 +20,11 @@ public class NoticeService {
     public NoticeService(NoticeRepository noticeRepository){
         this.noticeRepository = noticeRepository;
     }
-    public Notice add(Notice notice){
+    public Notice add(Notice notice, Member member){
+
+        if(isTodayNoticeAdded(member, notice))
+            return null;
+
         return noticeRepository.save(notice);
     }
 
@@ -48,11 +52,14 @@ public class NoticeService {
         return noticeRepository.findByMemberId(member);
     }
 
-    public boolean isTodayNoticeAdded(Member member){
+    public boolean isTodayNoticeAdded(Member member, Notice notice){
 
         String now = LocalDate.now().toString();
         // 이미 해당하는 날짜에 만들어진 notice 가 없다면 false 반환
-        if (noticeRepository.findRecentMemberNotice(member, now) == null)
+
+        System.out.println("LOG : findRecentMemberNotice : " + noticeRepository.findRecentMemberNotice(member, notice));
+
+        if (noticeRepository.findRecentMemberNotice(member, notice) == null)
             return false;
         // 반대의 경우 true 반환
         else

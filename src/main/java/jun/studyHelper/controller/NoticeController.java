@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Controller
 public class NoticeController {
@@ -32,20 +33,17 @@ public class NoticeController {
     @PostMapping("notice/add-note")
     @ResponseBody
     public boolean addNote(HttpServletRequest req){
-        try{
-            Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-            if(!noticeService.isTodayNoticeAdded(member)){
-                Notice notice = new Notice();
-                notice.setMemberId(member.getId());
-                noticeService.add(notice);
-                return true;
-            }else{
-                return false;
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
+        Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+
+        Notice notice = new Notice();
+        notice.setMemberId(member.getId());
+        notice.setDate(new Date(System.currentTimeMillis()));
+
+        System.out.println("LOG : notice -> " + notice);
+        if(noticeService.add(notice, member) == null)
             return false;
-        }
+        else
+            return true;
     }
 
     @PostMapping("/notice/update")

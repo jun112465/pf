@@ -1,7 +1,10 @@
 package jun.studyHelper.serviceTest;
 
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,29 +17,52 @@ import org.springframework.transaction.annotation.Transactional;
 public class TestNotice {
     @Autowired
     NoticeService ns;
+    @Autowired
+    MemberService ms;
 
     @Test
-    @DisplayName("문서 작성 테스트")
+    @DisplayName("문서 생성 테스트")
     @Modifying(clearAutomatically = true)
     public void test0(){
+        //given
+        Member m = new Member("testId","testPw");
         Notice n = new Notice();
-        n.setContent("blahblah");
-        n.setMemberId("testId");
-        n = ns.add(n);
-        int id = n.getId();
 
+        n.setDate(n.getCurrentDate());
+        n.setMemberId(m.getId());
+        n.setCategory("testCategory");
 
-        Notice n1 = new Notice();
-        n1.setId(id);
-        n1.setContent("bb");
-        n1.setMemberId("testId");
-        ns.editNote(n1);
+        // when
+        ms.join(m);
 
-        n1 = ns.findNotice(id);
-        Notice n2 = ns.findNotice(id);
-        System.out.println("n1 : " + n1);
-        System.out.println("n2 : " + n2);
+        // then
+        Assertions.assertThat(ns.add(n, m)).isNotNull();
     }
+
+    @Test
+    @DisplayName("문서 생성 중복 테스트")
+    public void test1(){
+        //given
+        Member m = new Member("testId","testPw");
+        Notice n = new Notice();
+
+        n.setDate(n.getCurrentDate());
+        n.setMemberId(m.getId());
+        n.setCategory("testCategory");
+
+        Notice n2 = new Notice();
+        n2.setDate(n.getCurrentDate());
+        n2.setMemberId(m.getId());
+        n2.setCategory("testCategory");
+
+        // when
+        ms.join(m);
+        ns.add(n, m);
+
+        // then
+        Assertions.assertThat(ns.add(n2,m)).isNull();
+    }
+
 
 
 }

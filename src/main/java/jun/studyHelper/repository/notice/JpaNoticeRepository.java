@@ -26,14 +26,14 @@ public class JpaNoticeRepository implements NoticeRepository{
 
     @Override
     public Notice findById(int id) {
-        Query q = em.createQuery("SELECT n FROM notice n WHERE n.id=:id")
+        Query q = em.createQuery("SELECT n FROM Notice n WHERE n.id=:id")
                 .setParameter("id", id);
         return (Notice) q.getSingleResult();
     }
 
     @Override
     public Notice update(Notice notice) {
-        em.createQuery("UPDATE notice n SET n.content=:content WHERE n.id=:id")
+        em.createQuery("UPDATE Notice n SET n.content=:content WHERE n.id=:id")
                 .setParameter("content", notice.getContent())
                 .setParameter("id", notice.getId());
         return notice;
@@ -51,14 +51,23 @@ public class JpaNoticeRepository implements NoticeRepository{
 
     @Override
     public List<Notice> findByMemberId(Member member) {
-        Query q = em.createQuery("SELECT n FROM notice n WHERE n.memberId=:memberId ORDER BY n.date DESC ")
+        Query q = em.createQuery("SELECT n FROM Notice n WHERE n.memberId=:memberId ORDER BY n.date DESC ")
                 .setParameter("memberId", member.getId());
 
         return q.getResultList();
     }
 
     @Override
-    public Notice findRecentMemberNotice(Member member, String date) {
+    public Notice findRecentMemberNotice(Member member, Notice notice) {
+
+        Query q = em.createQuery("SELECT n FROM Notice n WHERE n.date=:date AND n.category=:category")
+                .setParameter("date", notice.getDate())
+                .setParameter("category", notice.getCategory());
+
+        List<Notice> li = q.getResultList();
+        if (li.size() > 0)
+            return li.get(0);
+
         return null;
     }
 }

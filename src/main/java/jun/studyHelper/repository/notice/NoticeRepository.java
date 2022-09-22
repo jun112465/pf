@@ -16,5 +16,5 @@ public interface NoticeRepository {
     List<Notice> findAll();
     List<Notice> findByMemberId(Member member);
 
-    Notice findRecentMemberNotice(Member member, String date);
+    Notice findRecentMemberNotice(Member member, Notice notice);
 }
