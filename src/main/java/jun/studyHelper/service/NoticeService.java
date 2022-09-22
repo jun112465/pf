@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -50,6 +53,19 @@ public class NoticeService {
 
     public List<Notice> findMemberNoticeList(Member member){
         return noticeRepository.findByMemberId(member);
+    }
+
+    public Map<String, List<Notice>> getGroupedNoticeList(Member member){
+        List<Notice> nl = findMemberNoticeList(member);
+
+        Map<String, List<Notice>> ret = new HashMap<>();
+        for (Notice n : nl){
+            if (!ret.containsKey(n.getCategory()))
+                ret.put(n.getCategory(), new ArrayList<>());
+            ret.get(n.getCategory()).add(n);
+        }
+
+        return ret;
     }
 
     public boolean isTodayNoticeAdded(Member member, Notice notice){

@@ -2,6 +2,9 @@ body{
     text-align: center;
     color: black;
     background-color: #fafafa;
+
+    text-decoration: none;
+    /*text-decoration-line: none;*/
 }
 
 header{
@@ -46,14 +49,18 @@ header img{
     height: 40px;
 }
 header > a{
+    line-height: 75px;
+    color: black;
+    font-size: 32px;
+    text-decoration: none;
+}
+header > #btn_addCategory{
+    font-size: 14px;
+}
+header > #btn_logout{
     position: absolute;
     right: 30px;
     top: 0;
-    color: white;
-    font-size: 32px;
-    text-decoration: none;
-
-    line-height: 75px;
 }
 
 .sign-in{
@@ -100,9 +107,12 @@ header > a{
 }
 
 .container{
-    text-align: center;
+    /*text-align: center;*/
     display: flex;
-    height: 100%;
+    flex-direction: row;
+    /*height: 100%;*/
+    justify-content: center;
+    align-content: center;
 
     margin-top: 30px;
 }

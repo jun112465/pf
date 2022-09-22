@@ -55,7 +55,8 @@ public class MainController {
         if (loginMember != null){
             // login succeeded
             model.addAttribute("member", loginMember);
-            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
+//            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
+            model.addAttribute("groupedNoticeListMap", noticeService.getGroupedNoticeList(loginMember));
         } else{
             // redirection with login error
             Map<String,?> flashMap = RequestContextUtils.getInputFlashMap(req);

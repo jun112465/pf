@@ -12,6 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 @SpringBootTest
 @Transactional
 public class TestNotice {
@@ -64,5 +67,16 @@ public class TestNotice {
     }
 
 
+    @Test
+    @DisplayName("카테고리별로 문서 분리시 내용 변경 여부 없음 확인 테스트")
+    public void test2(){
+        Member m = new Member("1", "1");
+
+        List<Notice> nl1 = ns.findMemberNoticeList(m);
+        Map<String, List<Notice>> nmap = ns.getGroupedNoticeList(m);
+
+        System.out.println(nl1.get(0).getContent());
+        System.out.println(nmap.get("category").get(0).getContent());
+    }
 
 }

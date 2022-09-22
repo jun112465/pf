@@ -17,8 +17,8 @@
             Study Helper
         </div>
     </div>
-
-    <a href="/members/logout"><i class="fas fa-sign-out-alt" style="color: black"></i></a>
+<!--    <a id="btn_addCategory" href="">add category</a>-->
+    <a id="btn_logout" href="/members/logout"><i class="fas fa-sign-out-alt" style="color: black"></i></a>
 </header>
 
 
@@ -34,26 +34,32 @@
     </div>
 </section>
 
-<section class="container" th:unless="${member}==null">
+<section th:unless="${member}==null">
 
-    <section id="TIL" class="slide-container">
-        <div class="slide-title">🌈 TIL</div>
-        <div class="slide">
-            <div class="item-list">
-                <div class="item new-item" id="new-notice">
-                    <i class="fa-solid fa-circle-plus"></i>
-                </div>
+    <section class="container" th:each="map : ${groupedNoticeListMap}">
+        <section id="TIL" class="slide-container">
+            <div class="slide-title">🌈 TIL</div>
+<!--            <div class="slide-title" th:text="${map.getKey()}">category</div>-->
+            <div class="slide">
+                <div class="item-list">
+                    <div class="item new-item" id="new-notice">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </div>
 
-                <div class="item" th:each="n : ${noticeList}">
-                    <input type="hidden" th:value="${n.getId()}">
-                    <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
-                    <div class="edit-box" th:text="${n.getContent()}"></div>
+                    <div class="item" th:each="n : ${map.getValue()}">
+                        <input type="hidden" th:value="${n.getId()}">
+                        <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
+                        <div th:class="${map.getKey()} + ' edit-box'" th:text="${n.getContent()}"></div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </section>
-
 </section>
+
+<div>
+    <a href="" style="font-size:22px; color: black"><i class="fas fa-plus-circle"></i></a>
+</div>
 
 <!--github link-->
 <!--<footer>-->
@@ -93,13 +99,14 @@
     /*![CDATA[*/
 
     // 각 notice 내부 String 값을 html 로 치환
-    let editBoxList = document.getElementsByClassName("edit-box");
-    let noticeList = /*[[${noticeList}]]*/;
-    for(let i=0; i<editBoxList.length; i++){
-        editBoxList[i].innerHTML = noticeList[i].content;
+    let map = /*[[${groupedNoticeListMap}]]*/;
+    for (let group in map){
+        let editBoxList = document.getElementsByClassName(group)
+        for(let i=0; i<editBoxList.length; i++){
+            editBoxList[i].innerHTML = map[group][i].content;
+        }
     }
 
-    console.log(noticeList);
     /*]]>*/
 </script>
 </html>
