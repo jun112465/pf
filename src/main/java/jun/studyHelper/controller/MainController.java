@@ -30,11 +30,6 @@ public class MainController {
     NoticeService noticeService;
     GroupService groupService;
 
-
-    @Value("${fileRoot}")
-    String fileRoot;
-
-
     @Autowired
     MainController(MemberService memberService, NoticeService noticeService, GroupService groupService){
         this.memberService = memberService;
@@ -76,49 +71,6 @@ public class MainController {
         }
 
         return "index";
-    }
-
-
-    @GetMapping("/image-uploader")
-    public String imageController(){
-        return "imageUploader";
-    }
-
-
-    @PostMapping(value="/upload", produces = "application/json")
-    @ResponseBody
-    public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
-        JSONObject jsonObject = new JSONObject();
-
-        String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
-        assert originalFileName != null;
-        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-
-        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-
-        File targetFile = new File(fileRoot + savedFileName);
-
-        try {
-            System.out.println("original file name : " + originalFileName);
-            System.out.println("saved file name : " + savedFileName);
-            InputStream fileStream = multipartFile.getInputStream();
-            FileUtils.copyInputStreamToFile(fileStream, targetFile);
-
-            jsonObject.put("url", "/getFiles/"+savedFileName);
-            jsonObject.put("responseCode", "success");
-            System.out.println(jsonObject.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return jsonObject.toString();
-    }
-
-    @ResponseBody
-    @GetMapping
-    public String viewFriendSchedule(){
-
-        return "/";
     }
 }
 

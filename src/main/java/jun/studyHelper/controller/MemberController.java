@@ -121,28 +121,28 @@ public class MemberController {
 //        return "infoSetting";
 //    }
 
-    @PostMapping("/members/profile-update")
-    public String profileUpdate(MemberForm form, @CookieValue(name="memberId", required = false)String memberId){
-        System.out.println("MemberController executed");
-
-        MultipartFile imageFile = null;
-        String message = null;
-//        Integer memberId = null;
-
-        if(! (form.getImageFile().getSize() == 0))
-            imageFile = form.getImageFile();
-//        if(form.getMemberId() != null)
-//            memberId = form.getMemberId();
-        if(!form.getMessage().equals(""))
-            message = form.getMessage();
-
-        memberService.updateMemberInfo(imageFile, message, Integer.parseInt(memberId));
-
+////    @PostMapping("/members/profile-update")
+////    public String profileUpdate(MemberForm form, @CookieValue(name="memberId", required = false)String memberId){
+////        System.out.println("MemberController executed");
+////
+////        MultipartFile imageFile = null;
+////        String message = null;
+//////        Integer memberId = null;
+////
+////        if(! (form.getImageFile().getSize() == 0))
+////            imageFile = form.getImageFile();
+//////        if(form.getMemberId() != null)
+//////            memberId = form.getMemberId();
+////        if(!form.getMessage().equals(""))
+////            message = form.getMessage();
+////
+////        memberService.updateMemberInfo(imageFile, message, Integer.parseInt(memberId));
+////
+//////
+////        System.out.println(imageFile);
+////        System.out.println(message);
+//////        System.out.println(memberId);
+////        return "redirect:/";
+////    }
 //
-        System.out.println(imageFile);
-        System.out.println(message);
-//        System.out.println(memberId);
-        return "redirect:/";
-    }
-
 }

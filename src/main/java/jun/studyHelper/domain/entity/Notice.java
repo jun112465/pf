@@ -23,6 +23,7 @@ public class Notice {
     int id;
     @Column(name = "member_id")
     String memberId;
+    String category;
     String content;
     @Temporal(TemporalType.DATE)
     Date date;
