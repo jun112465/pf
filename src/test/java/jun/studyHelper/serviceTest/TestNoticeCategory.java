@@ -25,21 +25,30 @@ public class TestNoticeCategory {
     NoticeCategoryService ncs;
 
     @Test
-    @DisplayName("카테고리 생성")
+    @DisplayName("카테고리 생성 시 중복 확인")
     public void test0(){
-
         //given
         NoticeCategory nc = new NoticeCategory();
-        nc.setCategory("testCategory");
         nc.setMemberId("testId");
+        nc.setCategory("testCategory");
+        ncr.save(nc);
+
+        NoticeCategory nc1 = new NoticeCategory();
+        nc1.setCategory("testCategory");
+        nc1.setMemberId("testId");
 
         //when
-        ncs.addCategory(nc);
+        String res="";
+        List<String> l = ncs.getCategories("testId");
+        for (String s : l){
+            if (s == nc1.getCategory()) {
+                res = "중복";
+                return;
+            }
+        }
 
         //then
-        List<String> l = ncs.getCategories("testId");
-        String category = l.get(0);
-        Assertions.assertThat(category).isEqualTo("testCategory");
+        Assertions.assertThat(res).isEqualTo("중복");
     }
 
     @Test
@@ -55,11 +64,10 @@ public class TestNoticeCategory {
         nc2.setMemberId("testId");
 
         //when
-        ncs.addCategory(nc1);
-        boolean res = ncs.addCategory(nc2);
+
 
         //then
-        Assertions.assertThat(res).isFalse();
+//        Assertions.assertThat(res).isFalse();
     }
 
 

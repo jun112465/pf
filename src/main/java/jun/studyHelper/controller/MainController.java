@@ -4,6 +4,7 @@ import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.service.GroupService;
 import jun.studyHelper.service.MemberService;
+import jun.studyHelper.service.NoticeCategoryService;
 import jun.studyHelper.service.NoticeService;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
@@ -29,12 +30,14 @@ public class MainController {
     MemberService memberService;
     NoticeService noticeService;
     GroupService groupService;
+    NoticeCategoryService noticeCategoryService;
 
     @Autowired
-    MainController(MemberService memberService, NoticeService noticeService, GroupService groupService){
+    MainController(MemberService memberService, NoticeService noticeService, GroupService groupService, NoticeCategoryService noticeCategoryService){
         this.memberService = memberService;
         this.noticeService = noticeService;
         this.groupService = groupService;
+        this.noticeCategoryService = noticeCategoryService;
     }
 
     @GetMapping("/")
@@ -56,6 +59,7 @@ public class MainController {
             // login succeeded
             model.addAttribute("member", loginMember);
 //            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
+            model.addAttribute("categories", noticeCategoryService.getCategories(loginMember.getId()));
             model.addAttribute("groupedNoticeListMap", noticeService.getGroupedNoticeList(loginMember));
         } else{
             // redirection with login error

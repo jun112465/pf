@@ -4,11 +4,13 @@ import jun.studyHelper.domain.entity.NoticeCategory;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class NoticeCategoryService {
 
     NoticeCategoryRepository ncr;
@@ -40,8 +42,12 @@ public class NoticeCategoryService {
     }
 
     public boolean validateCategory(NoticeCategory nc){
-        return getCategories(nc.getMemberId())
-                .contains(nc.getCategory());
+        List<String> noticeCategories = getCategories(nc.getMemberId());
+        for(String s : noticeCategories){
+            if (s.equals(nc.getCategory()))
+                return false;
+        }
+        return true;
     }
 
     public void deleteCategory(NoticeCategory nc){

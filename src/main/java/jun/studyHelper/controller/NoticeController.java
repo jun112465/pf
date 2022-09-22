@@ -5,6 +5,7 @@ import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.domain.entity.NoticeCategory;
 import jun.studyHelper.domain.notice.NoticeForm;
+import jun.studyHelper.dto.Category;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeCategoryService;
 import jun.studyHelper.service.NoticeService;
@@ -32,12 +33,15 @@ public class NoticeController {
 
     @PostMapping("notice/add-note")
     @ResponseBody
-    public boolean addNote(HttpServletRequest req){
+    public boolean addNote(@RequestBody Category c, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
+
         Notice notice = new Notice();
+        notice.setCategory(c.getCategory());
         notice.setMemberId(member.getId());
         notice.setDate(new Date(System.currentTimeMillis()));
+
 
         System.out.println("LOG : notice -> " + notice);
         if(noticeService.add(notice, member) == null)
@@ -55,15 +59,17 @@ public class NoticeController {
 
 
     @PostMapping("/notice/add-category")
-    @ResponseBody
-    public void addCategory(@RequestParam String category, HttpServletRequest req){
+    public String addCategory(@RequestParam String category, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
+        System.out.println("LOG: category : " + category);
         NoticeCategory nc = new NoticeCategory();
         nc.setMemberId(member.getId());
         nc.setCategory(category);
 
         noticeCategoryService.addCategory(nc);
+
+        return "redirect:/";
     }
 
     @PostMapping(value="/schedule/delete")

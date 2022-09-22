@@ -37,20 +37,22 @@
 
 <section th:unless="${member}==null">
 
-    <section class="container" th:each="map : ${groupedNoticeListMap}">
+
+    <section class="container" th:each="category : ${categories}">
         <section id="TIL" class="slide-container">
-            <div class="slide-title">🌈 TIL</div>
-<!--            <div class="slide-title" th:text="${map.getKey()}">category</div>-->
+<!--            <div class="slide-title">🌈 TIL</div>-->
+            <div class="slide-title" th:text="${category}">category</div>
             <div class="slide">
                 <div class="item-list">
                     <div class="item new-item" id="new-notice">
+                        <input type="hidden" name="category" th:value="${category}">
                         <i class="fa-solid fa-circle-plus"></i>
                     </div>
 
-                    <div class="item" th:each="n : ${map.getValue()}">
+                    <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category)}">
                         <input type="hidden" th:value="${n.getId()}">
                         <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
-                        <div th:class="${map.getKey()} + ' edit-box'" th:text="${n.getContent()}"></div>
+                        <div th:class="${category} + ' edit-box'" th:text="${n.getContent()}"></div>
                     </div>
                 </div>
             </div>
@@ -62,12 +64,16 @@
 <!--<a id="modalBtn" href="" style="font-size:22px; color: black"></a>-->
 <button id="modalBtn"><i class="fas fa-plus-circle"></i></button>
 <div id="myModal" class="modal">
+
+    <form action="/notice/add-category" method="post">
+        <div class="modal-content">
+            <input id="category_input" type="text" name="category" placeholder="Input Category Name">
+            <span class="close">&times;</span>
+            <input id="category_submit" type="submit" value="create">
+        </div>
+    </form>
     <!-- Modal content -->
-    <div class="modal-content">
-        <input id="category_input" type="text" name="" placeholder="Input Category Name">
-        <span class="close">&times;</span>
-        <input id="category_submit" type="submit" value="create">
-    </div>
+
 
 </div>
 
@@ -112,6 +118,7 @@
 
     // 각 notice 내부 String 값을 html 로 치환
     let map = /*[[${groupedNoticeListMap}]]*/;
+    console.log(map)
     for (let group in map){
         let editBoxList = document.getElementsByClassName(group)
         for(let i=0; i<editBoxList.length; i++){
