@@ -2,6 +2,7 @@ package jun.studyHelper.serviceTest;
 
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.domain.entity.NoticeCategory;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.assertj.core.api.Assertions;
@@ -38,7 +39,7 @@ public class TestNotice {
 
         n.setDate(n.getCurrentDate());
         n.setMemberId(m.getId());
-        n.setCategory("testCategory");
+//        n.setCategory("testCategory");
 
         // when
         ms.join(m);
@@ -56,12 +57,12 @@ public class TestNotice {
 
         n.setDate(n.getCurrentDate());
         n.setMemberId(m.getId());
-        n.setCategory("testCategory");
+//        n.setCategory("testCategory");
 
         Notice n2 = new Notice();
         n2.setDate(n.getCurrentDate());
         n2.setMemberId(m.getId());
-        n2.setCategory("testCategory");
+//        n2.setCategory("testCategory");
 
         // when
         ms.join(m);
@@ -78,10 +79,7 @@ public class TestNotice {
         Member m = new Member("1", "1");
 
         List<Notice> nl1 = ns.findMemberNoticeList(m);
-        Map<String, List<Notice>> nmap = ns.getGroupedNoticeList(m);
-
-        System.out.println(nl1.get(0).getContent());
-        System.out.println(nmap.get("category").get(0).getContent());
+        Map<NoticeCategory, List<Notice>> nmap = ns.getGroupedNoticeList(m);
     }
 
 

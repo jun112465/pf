@@ -46,14 +46,14 @@
             <div class="slide">
                 <div class="item-list">
                     <div class="item new-item" id="new-notice">
-                        <input type="hidden" name="category" th:value="${category.getCategory()}">
+                        <input type="hidden" name="category" th:value="${category.getId()}">
                         <i class="fa-solid fa-circle-plus"></i>
                     </div>
 
-                    <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category.getCategory())}">
+                    <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category)}">
                         <input type="hidden" th:value="${n.getId()}">
                         <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
-                        <div th:class="${category.getCategory()} + ' edit-box'" th:text="${n.getContent()}"></div>
+                        <div th:class="${category.getId()} + ' edit-box'" th:data-id="${n.getId()}" th:text="${n.getContent()}"></div>
                     </div>
                 </div>
             </div>
@@ -117,16 +117,11 @@
 <script th:inline="javascript">
     /*![CDATA[*/
 
-    // 각 notice 내부 String 값을 html 로 치환
-    let map = /*[[${groupedNoticeListMap}]]*/;
-    console.log(map)
-    for (let group in map){
-        let editBoxList = document.getElementsByClassName(group)
-        for(let i=0; i<editBoxList.length; i++){
-            editBoxList[i].innerHTML = map[group][i].content;
-        }
+    // html로 치환
+    let edits = document.getElementsByClassName("edit-box");
+    for (let i in edits){
+        edits[i].innerHTML = edits[i].innerText
     }
-
     /*]]>*/
 </script>
 </html>

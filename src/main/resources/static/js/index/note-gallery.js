@@ -4,6 +4,7 @@
     for(let i=0; i<newNotices.length; i++){
         newNotices[i].addEventListener('click', ()=>{
             let category = newNotices[i].children.namedItem("category").value;
+            console.log(category)
             createItem(category).then((value)=>{
                 if(value){
                     location.assign('/');
@@ -29,12 +30,12 @@
     //     console.log("clicked")
     // })
 
-    let createItem = async (category)=>{
+    let createItem = async (categoryId)=>{
         const resp = await fetch("/notice/add-note", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                category : category,
+                "categoryId" : categoryId
             }),
         }).then(result => result.json())
             .then(data => data)

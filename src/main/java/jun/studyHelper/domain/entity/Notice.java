@@ -21,8 +21,7 @@ public class Notice {
     int id;
     @Column(name = "member_id")
     String memberId;
-    @Column(columnDefinition = "varchar(255) default 'category'")
-    String category = "category";
+    int categoryId;
     String content;
     @Temporal(TemporalType.DATE)
     @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")

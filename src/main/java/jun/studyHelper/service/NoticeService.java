@@ -50,14 +50,6 @@ public class NoticeService {
     @Modifying
     @Transactional
     public void updateCategories(NoticeCategory noticeCategory){
-        Member m = new Member();
-        m.setId(noticeCategory.getMemberId());
-        List<Notice> notices = noticeRepository.findByMemberId(m);
-        for (Notice n : notices){
-            if (n.getId() == noticeCategory.getId())
-                n.setCategory(noticeCategory.getCategory());
-        }
-
         NoticeCategory nc = noticeCategoryRepository.findById(noticeCategory.getId());
         nc.setCategory(noticeCategory.getCategory());
     }
@@ -75,14 +67,14 @@ public class NoticeService {
         return noticeRepository.findByMemberId(member);
     }
 
-    public Map<String, List<Notice>> getGroupedNoticeList(Member member){
-        List<Notice> nl = findMemberNoticeList(member);
+    public Map<NoticeCategory, List<Notice>> getGroupedNoticeList(Member member){
 
-        Map<String, List<Notice>> ret = new HashMap<>();
-        for (Notice n : nl){
-            if (!ret.containsKey(n.getCategory()))
-                ret.put(n.getCategory(), new ArrayList<>());
-            ret.get(n.getCategory()).add(n);
+        List<NoticeCategory> noticeCategories = noticeCategoryRepository.findByMemberId(member.getId());
+
+        Map<NoticeCategory, List<Notice>> ret = new HashMap<>();
+        for(NoticeCategory nc : noticeCategories){
+            ret.put(nc, new ArrayList<>());
+            ret.put(nc, noticeRepository.findByCategoryId(nc.getId()));
         }
 
         return ret;

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -33,17 +34,15 @@ public class NoticeController {
 
     @PostMapping("notice/add-note")
     @ResponseBody
-    public boolean addNote(@RequestBody Category c, HttpServletRequest req){
+    public boolean addNote(@RequestBody Category category, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
 
         Notice notice = new Notice();
-        notice.setCategory(c.getCategory());
+        notice.setCategoryId(Integer.parseInt(category.getCategoryId()));
         notice.setMemberId(member.getId());
         notice.setDate(new Date(System.currentTimeMillis()));
 
-
-        System.out.println("LOG : notice -> " + notice);
         if(noticeService.add(notice, member) == null)
             return false;
         else

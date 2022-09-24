@@ -33,7 +33,7 @@ public class JpaNoticeRepository implements NoticeRepository{
 
     @Override
     public Notice update(Notice notice) {
-        em.createQuery("UPDATE Notice n SET n.content=:content WHERE n.id=:id")
+        em.createQuery("UPDATE Notice n SET n.content=:content WHERE n.id=:id", Notice.class)
                 .setParameter("content", notice.getContent())
                 .setParameter("id", notice.getId());
         return notice;
@@ -44,6 +44,12 @@ public class JpaNoticeRepository implements NoticeRepository{
 
     }
 
+    @Override
+    public List<Notice> findByCategoryId(int categoryId){
+        return em.createQuery("select n from Notice n where n.categoryId=:categoryId", Notice.class)
+                .setParameter("categoryId", categoryId)
+                .getResultList();
+    }
     @Override
     public List<Notice> findAll() {
         return null;
@@ -60,9 +66,9 @@ public class JpaNoticeRepository implements NoticeRepository{
     @Override
     public Notice findRecentMemberNotice(Member member, Notice notice) {
 
-        Query q = em.createQuery("SELECT n FROM Notice n WHERE n.date=:date AND n.category=:category")
+        Query q = em.createQuery("SELECT n FROM Notice n WHERE n.date=:date AND n.categoryId=:categoryId")
                 .setParameter("date", notice.getDate())
-                .setParameter("category", notice.getCategory());
+                .setParameter("categoryId", notice.getCategoryId());
 
         List<Notice> li = q.getResultList();
         if (li.size() > 0)
