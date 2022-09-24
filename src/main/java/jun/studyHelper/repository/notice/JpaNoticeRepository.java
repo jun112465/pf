@@ -40,7 +40,8 @@ public class JpaNoticeRepository implements NoticeRepository{
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(Notice notice) {
+        em.remove(notice);
 
     }
 

@@ -81,19 +81,15 @@ public class NoticeController {
         noticeService.updateCategories(noticeCategory);
     }
 
+    @GetMapping("/notice/delete-category")
+    public String deleteCategory(HttpServletRequest req, String id){
+        Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        NoticeCategory nc = new NoticeCategory();
+        nc.setId(Integer.parseInt(id));
+        noticeService.deleteNoticeListByCategory(member, nc);
+        noticeCategoryService.deleteCategory(Integer.parseInt(id));
 
-    @PostMapping(value="/schedule/delete")
-    public String deleteNote(NoticeForm form, @CookieValue(name = "memberId", required = false)String memberId) {
-        noticeService.delete(form.getId());
         return "redirect:/";
     }
 
-//    @GetMapping("/schedule/sendFriendSchedule")
-//    @ResponseBody
-//    public List<Notice> sendFriendSchedule(@RequestParam("memberId")int memberId){
-////        model.addAttribute("friendNoticeList", noticeService.findNoticeList(memberId));
-//        System.out.println(memberId);
-//        return noticeService.findNoticeList(memberId);
-////        return "index";
-//    }
 }

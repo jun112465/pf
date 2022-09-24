@@ -1,5 +1,17 @@
 // 즉시실행함수 IIDE
 (()=>{
+    let slideTitles = document.getElementsByClassName("slide-title")
+    for(let i=0; i<slideTitles.length; i++){
+        slideTitles[i].addEventListener('focus', ()=>{
+            slideTitles[i].nextElementSibling.style.display = "inline-block";
+        })
+        slideTitles[i].addEventListener('focusout', ()=>{
+            setTimeout(()=>{
+                slideTitles[i].nextElementSibling.style.display = "none";
+            }, 200);
+        })
+    }
+
     let newNotices = document.getElementsByClassName("new-item")
     for(let i=0; i<newNotices.length; i++){
         newNotices[i].addEventListener('click', ()=>{

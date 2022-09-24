@@ -42,7 +42,10 @@
     <section class="container" th:each="category : ${categories}">
         <section id="TIL" class="slide-container">
 <!--            <div class="slide-title">🌈 TIL</div>-->
-            <div class="slide-title" th:contenteditable="true" th:text="${category.getCategory()}" th:data-id="${category.getId()}">category</div>
+            <div class="slide-top">
+                <div class="slide-title" th:contenteditable="true" th:text="${category.getCategory()}" th:data-id="${category.getId()}">category</div>
+                <a th:href="'/notice/delete-category?id='+${category.getId()}" class="slide-trash"><i class="fas fa-trash" style="color: #e71c1c; font-size: 25px;"></i></a>
+            </div>
             <div class="slide">
                 <div class="item-list">
                     <div class="item new-item" id="new-notice">

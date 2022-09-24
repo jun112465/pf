@@ -43,7 +43,7 @@ public class NoticeCategoryService {
         return true;
     }
 
-    public void deleteCategory(NoticeCategory nc){
-        ncr.delete(nc);
+    public void deleteCategory(int id){
+        ncr.deleteById(id);
     }
 }

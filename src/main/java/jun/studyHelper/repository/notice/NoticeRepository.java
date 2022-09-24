@@ -12,9 +12,10 @@ public interface NoticeRepository {
 
     Notice update(Notice notice);
 
-    void remove(int id);
     List<Notice> findAll();
     List<Notice> findByMemberId(Member member);
+
+    void remove(Notice notice);
 
     List<Notice> findByCategoryId(int id);
 

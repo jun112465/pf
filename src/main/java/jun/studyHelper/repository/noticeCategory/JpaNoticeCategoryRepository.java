@@ -39,6 +39,11 @@ public class JpaNoticeCategoryRepository implements NoticeCategoryRepository{
     }
 
     @Override
+    public void deleteById(int id){
+        em.remove(em.find(NoticeCategory.class, id));
+    }
+
+    @Override
     public List<NoticeCategory> findByMemberId(String memberId) {
 
         Query q = em.createQuery("select nc from NoticeCategory nc where nc.memberId=:memberId")

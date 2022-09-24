@@ -55,8 +55,16 @@ public class NoticeService {
     }
 
 
-    public void delete(int id){
-        noticeRepository.remove(id);
+    public void delete(Notice notice){
+        noticeRepository.remove(notice);
+    }
+
+    public void deleteNoticeListByCategory(Member member, NoticeCategory noticeCategory){
+        List<Notice> notices = findMemberNoticeList(member);
+        for(Notice n : notices){
+            if (n.getCategoryId() == noticeCategory.getId())
+                noticeRepository.remove(n);
+        }
     }
 
     public List<Notice> findNoticeList(){
