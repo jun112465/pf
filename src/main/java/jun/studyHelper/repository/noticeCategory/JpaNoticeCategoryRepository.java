@@ -23,6 +23,17 @@ public class JpaNoticeCategoryRepository implements NoticeCategoryRepository{
     }
 
     @Override
+    public NoticeCategory findById(int id){
+        return em.find(NoticeCategory.class, id);
+    }
+    @Override
+    public void update(NoticeCategory noticeCategory){
+        em.createQuery("UPDATE NoticeCategory nc SET nc.category=:category WHERE nc.id=:id")
+                .setParameter("category", noticeCategory.getCategory())
+                .setParameter("id", noticeCategory.getId());
+    }
+
+    @Override
     public void delete(NoticeCategory noticeCategory) {
         em.remove(noticeCategory);
     }

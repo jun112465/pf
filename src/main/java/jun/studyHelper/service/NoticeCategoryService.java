@@ -30,21 +30,14 @@ public class NoticeCategoryService {
         return false;
     }
 
-    public List<String> getCategories(String memberId){
-        List<NoticeCategory> l = ncr.findByMemberId(memberId);
-        List<String> rtnList = new ArrayList<>();
-
-        for (NoticeCategory _l : l){
-            rtnList.add(_l.getCategory());
-        }
-
-        return rtnList;
+    public List<NoticeCategory> getCategories(String memberId){
+        return ncr.findByMemberId(memberId);
     }
 
     public boolean validateCategory(NoticeCategory nc){
-        List<String> noticeCategories = getCategories(nc.getMemberId());
-        for(String s : noticeCategories){
-            if (s.equals(nc.getCategory()))
+        List<NoticeCategory> noticeCategories = getCategories(nc.getMemberId());
+        for(NoticeCategory nc2 : noticeCategories){
+            if (nc2.getCategory().equals(nc.getCategory()))
                 return false;
         }
         return true;

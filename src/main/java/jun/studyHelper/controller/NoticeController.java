@@ -72,6 +72,17 @@ public class NoticeController {
         return "redirect:/";
     }
 
+    @PostMapping("/notice/update-category")
+    @ResponseBody
+    public void updateCategory(@RequestBody NoticeCategory noticeCategory, HttpServletRequest req){
+        System.out.println("LOG : noticeCategory : " + noticeCategory.toString());
+        Member m = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        noticeCategory.setMemberId(m.getId());
+
+        noticeService.updateCategories(noticeCategory);
+    }
+
+
     @PostMapping(value="/schedule/delete")
     public String deleteNote(NoticeForm form, @CookieValue(name = "memberId", required = false)String memberId) {
         noticeService.delete(form.getId());

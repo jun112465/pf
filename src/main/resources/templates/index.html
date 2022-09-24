@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/modal.css">
     <script src="https://kit.fontawesome.com/1155edaf9c.js" crossorigin="anonymous"></script>
     <head>
+    <script src="../static/js/index/note-gallery.js"></script>
 <body>
 
 <header>
@@ -41,18 +42,18 @@
     <section class="container" th:each="category : ${categories}">
         <section id="TIL" class="slide-container">
 <!--            <div class="slide-title">🌈 TIL</div>-->
-            <div class="slide-title" th:text="${category}">category</div>
+            <div class="slide-title" th:contenteditable="true" th:text="${category.getCategory()}" th:data-id="${category.getId()}">category</div>
             <div class="slide">
                 <div class="item-list">
                     <div class="item new-item" id="new-notice">
-                        <input type="hidden" name="category" th:value="${category}">
+                        <input type="hidden" name="category" th:value="${category.getCategory()}">
                         <i class="fa-solid fa-circle-plus"></i>
                     </div>
 
-                    <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category)}">
+                    <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category.getCategory())}">
                         <input type="hidden" th:value="${n.getId()}">
                         <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
-                        <div th:class="${category} + ' edit-box'" th:text="${n.getContent()}"></div>
+                        <div th:class="${category.getCategory()} + ' edit-box'" th:text="${n.getContent()}"></div>
                     </div>
                 </div>
             </div>

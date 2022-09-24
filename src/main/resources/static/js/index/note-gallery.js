@@ -71,4 +71,22 @@
             })
         })
     }
+
+    // category 변경 기능
+    let categories = document.getElementsByClassName("slide-title")
+    for(let i=0; i<categories.length; i++){
+        console.log("category id : " + categories[i].dataset.id)
+        categories[i].addEventListener("input", ()=>{
+            fetch("/notice/update-category", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    'id': categories[i].dataset.id,
+                    'category': categories[i].innerText,
+                })
+            })
+        })
+    }
+
+
 })()

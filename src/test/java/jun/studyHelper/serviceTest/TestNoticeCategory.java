@@ -39,9 +39,9 @@ public class TestNoticeCategory {
 
         //when
         String res="";
-        List<String> l = ncs.getCategories("testId");
-        for (String s : l){
-            if (s == nc1.getCategory()) {
+        List<NoticeCategory> l = ncs.getCategories("testId");
+        for (NoticeCategory nc2 : l){
+            if (nc.getCategory() == nc1.getCategory()) {
                 res = "중복";
                 return;
             }
