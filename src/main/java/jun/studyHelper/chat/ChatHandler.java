@@ -16,6 +16,7 @@ public class ChatHandler extends TextWebSocketHandler {
 
     private static final List<WebSocketSession> list = new ArrayList<>();
 
+
     //클라이언트가 메세지를 보냈을 때
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
