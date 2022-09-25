@@ -20,7 +20,7 @@
         </div>
     </div>
 <!--    <a id="btn_addCategory" href="">add category</a>-->
-    <a id="btn_logout" href="/members/logout"><i class="fas fa-sign-out-alt" style="color: black"></i></a>
+    <a th:if="${member!=null}" id="btn_logout" href="/members/logout"><i class="fas fa-sign-out-alt" style="color: black"></i></a>
 </header>
 
 
