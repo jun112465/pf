@@ -47,7 +47,7 @@ public class JpaNoticeRepository implements NoticeRepository{
 
     @Override
     public List<Notice> findByCategoryId(int categoryId){
-        return em.createQuery("select n from Notice n where n.categoryId=:categoryId", Notice.class)
+        return em.createQuery("select n from Notice n where n.categoryId=:categoryId order by n.date desc", Notice.class)
                 .setParameter("categoryId", categoryId)
                 .getResultList();
     }
@@ -58,7 +58,7 @@ public class JpaNoticeRepository implements NoticeRepository{
 
     @Override
     public List<Notice> findByMemberId(Member member) {
-        Query q = em.createQuery("SELECT n FROM Notice n WHERE n.memberId=:memberId ORDER BY n.date DESC ")
+        Query q = em.createQuery("SELECT n FROM Notice n WHERE n.memberId=:memberId ORDER BY n.date DESC")
                 .setParameter("memberId", member.getId());
 
         return q.getResultList();

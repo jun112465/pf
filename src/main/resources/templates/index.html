@@ -24,15 +24,21 @@
 </header>
 
 
-<section class="slide" th:if="${member}==null">
+<section class="sign-in-container" th:if="${member}==null">
     <div class="sign-in">
-        <div class="login_logo">SIGN IN</div>
-        <form action="/members/login" method="post">
+<!--        <div class="login_logo">SIGN IN</div>-->
+        <form id="sign-form" action="/members/login" method="post">
             <input type="text" name="memberId" placeholder="INPUT ID">
             <input type="password" name="password" placeholder="INPUT PW">
-            <input type="submit" value="SIGN IN">
+            <input id="btn-sign-in" type="submit" value="SIGN IN">
+            <input id="btn-sign-up" type="button" value="SIGN UP">
         </form>
-        <div style="color:red" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></div>
+        <div class="error-msg-box">
+            <div style="color:red" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></div>
+            <div style="color:red" th:if="${joinErrorMsg}" th:text="${joinErrorMsg}"></div>
+            <div style="color:red" th:if="${noTextErrorMsg}" th:text="${noTextErrorMsg}"></div>
+        </div>
+
     </div>
 </section>
 
@@ -104,6 +110,7 @@
 
 </body>
 <!--</section>-->
+<script src="/js/index/login.js"></script>
 <script src="/js/index/modal.js"></script>
 <script src="/js/index/timer.js"></script>
 <script src="/js/index/test.js">

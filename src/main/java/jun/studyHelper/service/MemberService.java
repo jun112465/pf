@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class MemberService {
     public  MemberRepository memberRepository;
 
@@ -30,15 +32,26 @@ public class MemberService {
     /**
      * 회원가입
      */
-    public String join(Member member) {
-        validateDuplicateMember(member); //중복 회원 검증
+    public boolean join(Member member) {
+        // 성공 -> true 반환
+        // 실패 -> false 반환
+        if (!validateDuplicateMember(member)){
+            return false;
+        }; //중복 회원 검증
         memberRepository.save(member);
-        return member.getId();
+        return true;
     }
-    private void validateDuplicateMember(Member member) {
-        memberRepository.findById(member.getId()).ifPresent(m -> {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        });
+    private boolean validateDuplicateMember(Member member) {
+        if(memberRepository.findById(member.getId()).isPresent())
+            return false;
+        return true;
+    }
+
+    public boolean isMemberNull(Member member){
+        if (member.getId().isBlank() || member.getPw().isBlank()){
+            return false;
+        }
+        return true;
     }
 
 

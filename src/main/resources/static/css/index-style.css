@@ -48,10 +48,15 @@ header img{
     width: 40px;
     height: 40px;
 }
-header > a{
+
+header > #btn-sign-up{
+    position: relative;
+    left: 120px;
+}
+header  a{
     line-height: 75px;
     color: black;
-    font-size: 32px;
+    font-size: 25px;
     text-decoration: none;
 }
 header > #btn_addCategory{
@@ -63,6 +68,10 @@ header > #btn_logout{
     top: 0;
 }
 
+.sign-in-container{
+    display: flex;
+    justify-content: center;
+}
 .sign-in{
     border: 5px solid lightgray;
     border-radius: 6px;
@@ -104,6 +113,13 @@ header > #btn_logout{
 .sign-in > form > input[type=submit]{
     background-color: #2c3e50;
     color: white;
+}
+.sign-in > form > input[type=button]{
+    background-color: #de5555;
+    color: white;
+}
+.error-msg-box{
+    margin: 10px;
 }
 
 .container{

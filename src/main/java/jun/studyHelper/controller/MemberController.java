@@ -33,16 +33,28 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(MemberForm form){
+    public String create(MemberForm form, RedirectAttributes redirect){
         Member member = new Member();
         member.setId(form.getMemberId());
         member.setPw(form.getPassword());
-        memberService.join(member);
-        
+
+        System.out.println("LOG : member : " + form.toString());
+
+        if(!memberService.isMemberNull(member)){
+            System.out.println("LOG: Nothing entered");
+            redirect.addFlashAttribute("noTextErrorMsg", "Nothing Entered");
+            return "redirect:/";
+        }
+
+        if(!memberService.join(member)){
+            // 회원가입 실패
+            redirect.addFlashAttribute("joinErrorMsg", "Duplicate Id Found");
+        }
+
         return "redirect:/";
     }
 
-//    @PostMapping("/members/login")
+//    @PostMapping("/members/login");
 //    public String CookieLogin(LoginForm form, HttpServletResponse resp, RedirectAttributes redirectAttributes){
 //        String id = form.getMemberId();
 //        String pw = form.getPassword();
@@ -85,8 +97,10 @@ public class MemberController {
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("LoginError", "No Member Found, Try Again");
 
+            String msg = "No Member Found, Try Again";
+
             // addFlashAttribute 을 통해 세션이 생성된다.
-            redirect.addFlashAttribute("errorMap", errorMap);
+            redirect.addFlashAttribute("loginErrorMsg", msg);
         }
 
         return "redirect:/";
