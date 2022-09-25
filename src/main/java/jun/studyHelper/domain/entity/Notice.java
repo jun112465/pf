@@ -22,6 +22,7 @@ public class Notice {
     @Column(name = "member_id")
     String memberId;
     int categoryId;
+    @Column(columnDefinition = "MEDIUMTEXT")
     String content;
     @Temporal(TemporalType.DATE)
     @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
