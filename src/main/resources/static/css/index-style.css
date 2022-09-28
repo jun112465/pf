@@ -123,9 +123,9 @@ header > #btn_logout{
 }
 
 .container{
-    /*text-align: center;*/
+    text-align: center;
     display: flex;
-    flex-direction: row;
+    /*flex-direction: row;*/
     /*height: 100%;*/
     justify-content: center;
     align-content: center;
@@ -135,20 +135,22 @@ header > #btn_logout{
 
 .slide-container{
     flex: 10;
-    width: 0;
+    /*width: 100%;*/
+    overflow-x: scroll;
     justify-content: center;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .slide-top{
     display: flex;
+    width: 100%;
     /*flex-direction: row;*/
     border-bottom: 2px solid gray;
     padding: 3px;
 }
 
 .slide-title{
-    flex: 8;
+    flex: 10;
     font-weight: bold;
     font-size: 40px;
     text-align: left;
@@ -165,12 +167,12 @@ header > #btn_logout{
 .slide-trash{
     font-size: 20px;
     /*line-height: 50px;*/
-    flex: 2;
+    flex: 1;
 
     position: relative;
     top: 15px;
     display: none;
-    /*right: 0px;*/
+    right: 0px;
     /*position: absolute;*/
     /*top: 0px;*/
     /*right: 0px;*/
@@ -193,7 +195,7 @@ header > #btn_logout{
     padding: 10px;
     overflow: scroll;
 
-    width: 320px;
+    width: 400px;
     height: 400px;
     /*margin: 7px;*/
     margin-right: 14px;
@@ -201,7 +203,7 @@ header > #btn_logout{
     /*border: 2px solid #d9d9d9;*/
     border-radius: 7px;
 
-    min-width: 320px;
+    min-width: 400px;
     min-height: 400px;
 
     box-shadow: 2px 3px 5px 1px gray;
@@ -209,7 +211,7 @@ header > #btn_logout{
 
     font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-    font-size: small;
+    font-size: 15px;
 
     text-align: left;
 }
@@ -238,7 +240,7 @@ header > #btn_logout{
     outline: 0px solid transparent;
 
     /*font-weight: bold;*/
-    font-size: 14px;
+    font-size: 15px;
     margin-top: 10px;
     margin-right: 10px;
 

@@ -78,29 +78,27 @@
         // let eb = notices[i].children[2]
         let eb = editors[i].children[0]
         let tar = editors[i].children[1]
+        let loading = false
         eb.setAttribute("contenteditable", "true");
         eb.addEventListener("input", ()=>{
-
-            console.log(eb.value)
-            console.log(eb.textContent)
             tar.innerHTML = converter.makeHtml(eb.value)
-
-            // console.log(eb.innerHTML)
-            // console.log(turndownService.turndown(eb.innerText))
-            // const markdown = turndownService.turndown(eb.innerText)
-            // console.log(markdown)
-
-
-            fetch("/notice/update", {
-                method: "Post",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    'id' : notices[i].children[0].value,
-                    'memberId' : '',
-                    'content' : eb.value,
-                    'date' : ''
-                })
-            })
+            if (!loading){
+                setTimeout(()=>{
+                    fetch("/notice/update", {
+                        method: "Post",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            'id' : notices[i].children[0].value,
+                            'memberId' : '',
+                            'content' : eb.value,
+                            'date' : ''
+                        })
+                    })
+                    loading = !loading
+                    console.log("Note Saved!")
+                }, 1500)
+                loading = !loading
+            }
         })
     }
 
@@ -114,7 +112,8 @@
                 contents[i].style.display = "none"
                 editors[i].style.display = "flex"
 
-                notices[i].style.width = "640px"
+                notices[i].style.width = "720px"
+                notices[i].style.minWidth = "720px"
 
             }else{
                 btns_editOrsave[i].value = "edit"
@@ -123,7 +122,8 @@
                 contents[i].innerHTML = converter.makeHtml(editors[i].children[0].value)
 
 
-                notices[i].style.width = "320px"
+                notices[i].style.width = "400px"
+                notices[i].style.minWidth = "400px"
             }
         })
     }
