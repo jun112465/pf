@@ -74,7 +74,17 @@
     let turndownService = new TurndownService()
     let notices = document.getElementsByClassName("notice")
     let editors = document.getElementsByClassName("editor")
+    const onresize = (dom, callback)=>{
+        const resizeObserver = new ResizeObserver(()=>callback())
+        resizeObserver.observe(dom)
+    }
+
     for (let i=0; i<notices.length; i++){
+        // onresize(notices[i], ()=>{
+        //     // notices[i].style.minHeight = notices[i].style.width
+        //     notices[i].style.minWidth = notices[i].style.width
+        //     notices[i].style.minHeight = notices[i].style.height
+        // })
         // let eb = notices[i].children[2]
         let eb = editors[i].children[0]
         let tar = editors[i].children[1]
@@ -112,8 +122,8 @@
                 contents[i].style.display = "none"
                 editors[i].style.display = "flex"
 
-                notices[i].style.width = "720px"
-                notices[i].style.minWidth = "720px"
+                notices[i].style.width = "900px"
+                notices[i].style.minWidth = "900px"
 
             }else{
                 btns_editOrsave[i].value = "edit"
@@ -122,8 +132,8 @@
                 contents[i].innerHTML = converter.makeHtml(editors[i].children[0].value)
 
 
-                notices[i].style.width = "400px"
-                notices[i].style.minWidth = "400px"
+                notices[i].style.width = "500px"
+                notices[i].style.minWidth = "500px"
             }
         })
     }
