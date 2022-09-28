@@ -66,17 +66,25 @@
         return date.getFullYear() + '-' + month + '-' + day;
     }
 
+    // add event to edit_or_save btn
+
+
     //set contentEditable
     let converter = new showdown.Converter()
     let turndownService = new TurndownService()
     let notices = document.getElementsByClassName("notice")
+    let editors = document.getElementsByClassName("editor")
     for (let i=0; i<notices.length; i++){
-        let eb = notices[i].children[2]
+        // let eb = notices[i].children[2]
+        let eb = editors[i].children[0]
+        let tar = editors[i].children[1]
         eb.setAttribute("contenteditable", "true");
         eb.addEventListener("input", ()=>{
 
             console.log(eb.value)
             console.log(eb.textContent)
+            tar.innerHTML = converter.makeHtml(eb.value)
+
             // console.log(eb.innerHTML)
             // console.log(turndownService.turndown(eb.innerText))
             // const markdown = turndownService.turndown(eb.innerText)
@@ -93,6 +101,30 @@
                     'date' : ''
                 })
             })
+        })
+    }
+
+    let btns_editOrsave = document.getElementsByClassName("btn_edit_or_save")
+    let contents = document.getElementsByClassName("content")
+    for(let i=0; i<btns_editOrsave.length; i++){
+        btns_editOrsave[i].addEventListener('click', ()=>{
+            console.log("btn clicked")
+            if (btns_editOrsave[i].value == "edit"){
+                btns_editOrsave[i].value = "save"
+                contents[i].style.display = "none"
+                editors[i].style.display = "flex"
+
+                notices[i].style.width = "640px"
+
+            }else{
+                btns_editOrsave[i].value = "edit"
+                contents[i].style.display = "block"
+                editors[i].style.display = "none"
+                contents[i].innerHTML = converter.makeHtml(editors[i].children[0].value)
+
+
+                notices[i].style.width = "320px"
+            }
         })
     }
 

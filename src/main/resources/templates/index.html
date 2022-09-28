@@ -61,10 +61,17 @@
 
                     <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category)}">
                         <input type="hidden" th:value="${n.getId()}">
-                        <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
+                        <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
+                        <input class="btn_edit_or_save" type="button" value="edit">
 <!--                        <div th:class="${category.getId()} + ' edit-box'" th:data-id="${n.getId()}" th:text="${n.getContent()}"></div>-->
+                        <div class="content" th:text="${n.getContent()}">
+                        </div>
+
+                        <div class="editor">
                             <textarea th:class="${category.getId()} + ' edit-box'" th:data-id="${n.getId()}" th:text="${n.getContent()}"></textarea>
                             <div class="target"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -138,6 +145,11 @@
     let converter = new showdown.Converter()
     let turndownService = new TurndownService()
     let target = document.getElementsByClassName("target")
+    let contents = document.getElementsByClassName("content")
+
+    for(let i=0; i<contents.length; i++){
+        contents[i].innerHTML = converter.makeHtml(contents[i].textContent)
+    }
 
     for (let i=0; i<edits.length; i++){
         console.log(edits[i].textContent)
