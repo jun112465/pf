@@ -67,18 +67,29 @@
     }
 
     //set contentEditable
+    let converter = new showdown.Converter()
+    let turndownService = new TurndownService()
     let notices = document.getElementsByClassName("notice")
     for (let i=0; i<notices.length; i++){
         let eb = notices[i].children[2]
         eb.setAttribute("contenteditable", "true");
         eb.addEventListener("input", ()=>{
+
+            console.log(eb.value)
+            console.log(eb.textContent)
+            // console.log(eb.innerHTML)
+            // console.log(turndownService.turndown(eb.innerText))
+            // const markdown = turndownService.turndown(eb.innerText)
+            // console.log(markdown)
+
+
             fetch("/notice/update", {
                 method: "Post",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     'id' : notices[i].children[0].value,
                     'memberId' : '',
-                    'content' : eb.innerHTML,
+                    'content' : eb.value,
                     'date' : ''
                 })
             })

@@ -62,7 +62,9 @@
                     <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category)}">
                         <input type="hidden" th:value="${n.getId()}">
                         <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left;"></div>
-                        <div th:class="${category.getId()} + ' edit-box'" th:data-id="${n.getId()}" th:text="${n.getContent()}"></div>
+<!--                        <div th:class="${category.getId()} + ' edit-box'" th:data-id="${n.getId()}" th:text="${n.getContent()}"></div>-->
+                            <textarea th:class="${category.getId()} + ' edit-box'" th:data-id="${n.getId()}" th:text="${n.getContent()}"></textarea>
+                            <div class="target"></div>
                     </div>
                 </div>
             </div>
@@ -110,6 +112,10 @@
 
 </body>
 <!--</section>-->
+<!--html to md-->
+<script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+<!--md to html-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 <script src="/js/index/login.js"></script>
 <script src="/js/index/modal.js"></script>
 <script src="/js/index/timer.js"></script>
@@ -129,9 +135,18 @@
 
     // html로 치환
     let edits = document.getElementsByClassName("edit-box");
-    for (let i in edits){
-        edits[i].innerHTML = edits[i].innerText
+    let converter = new showdown.Converter()
+    let turndownService = new TurndownService()
+    let target = document.getElementsByClassName("target")
+
+    for (let i=0; i<edits.length; i++){
+        console.log(edits[i].textContent)
+        console.log(converter.makeHtml(edits[i].textContent))
+        new_html = converter.makeHtml(edits[i].textContent)
+        target[i].innerHTML = new_html
+        // edits[i].innerHTML = new_html
     }
+
     /*]]>*/
 </script>
 </html>
