@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Repository
-public class JpaMemberRepository implements MemberRepository{
+//@Repository
+public class JpaMemberRepository<M, S> implements MemberRepository{
 
     private final EntityManager em;
 
