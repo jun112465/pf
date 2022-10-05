@@ -1,8 +1,8 @@
 package jun.studyHelper.repository.notice;
 
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.entity.Member;
+import jun.studyHelper.entity.Notice;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

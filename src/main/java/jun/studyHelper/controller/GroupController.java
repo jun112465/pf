@@ -1,7 +1,7 @@
 package jun.studyHelper.controller;
 
-import jun.studyHelper.domain.group.Group;
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.entity.Group;
+import jun.studyHelper.entity.Member;
 import jun.studyHelper.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

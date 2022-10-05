@@ -1,4 +1,4 @@
-package jun.studyHelper.domain.entity;
+package jun.studyHelper.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;

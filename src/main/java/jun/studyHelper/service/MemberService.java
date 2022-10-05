@@ -1,22 +1,13 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.entity.Member;
 import jun.studyHelper.repository.member.JpaMemberRepo;
-import jun.studyHelper.repository.member.MemberRepository;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional

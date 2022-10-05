@@ -1,7 +1,7 @@
 package jun.studyHelper.service;
 
 import jun.studyHelper.domain.member.FriendRepository;
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.entity.Member;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

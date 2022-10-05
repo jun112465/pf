@@ -1,6 +1,6 @@
 package jun.studyHelper.DB;
 
-import jun.studyHelper.domain.group.Group;
+import jun.studyHelper.entity.Group;
 import jun.studyHelper.service.GroupService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package jun.studyHelper.repository.noticeCategory;
 
-import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.domain.entity.NoticeCategory;
+import jun.studyHelper.entity.NoticeCategory;
 
 import java.util.List;
 

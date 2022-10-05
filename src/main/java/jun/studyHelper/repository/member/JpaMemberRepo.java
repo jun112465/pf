@@ -1,6 +1,6 @@
 package jun.studyHelper.repository.member;
 
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.entity.Member;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

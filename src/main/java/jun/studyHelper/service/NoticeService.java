@@ -1,8 +1,8 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.domain.entity.NoticeCategory;
+import jun.studyHelper.entity.Member;
+import jun.studyHelper.entity.Notice;
+import jun.studyHelper.entity.NoticeCategory;
 import jun.studyHelper.repository.notice.NoticeRepository;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

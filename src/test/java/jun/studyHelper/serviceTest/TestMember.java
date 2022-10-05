@@ -1,7 +1,7 @@
 package jun.studyHelper.serviceTest;
 
 
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.entity.Member;
 import jun.studyHelper.repository.member.MemberRepository;
 import jun.studyHelper.service.MemberService;
 import org.assertj.core.api.Assertions;

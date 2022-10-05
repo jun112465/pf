@@ -1,8 +1,5 @@
 package jun.studyHelper;
 
-import jun.studyHelper.domain.group.Group;
-
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
