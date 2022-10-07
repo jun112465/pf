@@ -2,8 +2,8 @@ package jun.studyHelper.controller;
 
 
 import jun.studyHelper.SessionConst;
+import jun.studyHelper.dto.MemberDTO;
 import jun.studyHelper.entity.Member;
-import jun.studyHelper.domain.member.MemberForm;
 import jun.studyHelper.dto.LoginForm;
 import jun.studyHelper.service.MemberService;
 
@@ -31,7 +31,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(MemberForm form, RedirectAttributes redirect){
+    public String create(MemberDTO form, RedirectAttributes redirect){
         Member member = new Member();
         member.setId(form.getMemberId());
         member.setPw(form.getPassword());

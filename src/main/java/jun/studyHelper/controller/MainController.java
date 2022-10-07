@@ -2,7 +2,6 @@ package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.entity.Member;
-import jun.studyHelper.service.GroupService;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeCategoryService;
 import jun.studyHelper.service.NoticeService;
@@ -22,14 +21,12 @@ public class MainController {
 
     MemberService memberService;
     NoticeService noticeService;
-    GroupService groupService;
     NoticeCategoryService noticeCategoryService;
 
     @Autowired
-    MainController(MemberService memberService, NoticeService noticeService, GroupService groupService, NoticeCategoryService noticeCategoryService){
+    MainController(MemberService memberService, NoticeService noticeService, NoticeCategoryService noticeCategoryService){
         this.memberService = memberService;
         this.noticeService = noticeService;
-        this.groupService = groupService;
         this.noticeCategoryService = noticeCategoryService;
     }
 
