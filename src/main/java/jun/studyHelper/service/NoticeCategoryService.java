@@ -1,22 +1,23 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.entity.NoticeCategory;
+import jun.studyHelper.entity.NoticeCategory;
+import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepo;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class NoticeCategoryService {
 
-    NoticeCategoryRepository ncr;
+//    NoticeCategoryRepository ncr;
+    NoticeCategoryRepo ncr;
 
     @Autowired
-    public NoticeCategoryService(NoticeCategoryRepository ncr) {
+    public NoticeCategoryService(NoticeCategoryRepo ncr) {
         this.ncr = ncr;
     }
 

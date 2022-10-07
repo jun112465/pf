@@ -1,15 +1,15 @@
 package jun.studyHelper.repository.notice;
 
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.entity.Member;
+import jun.studyHelper.entity.Notice;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
-@Repository
+//@Repository
 public class JpaNoticeRepository implements NoticeRepository{
 
     private final EntityManager em;

@@ -1,8 +1,9 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.domain.entity.NoticeCategory;
+import jun.studyHelper.entity.Member;
+import jun.studyHelper.entity.Notice;
+import jun.studyHelper.entity.NoticeCategory;
+import jun.studyHelper.repository.notice.NoticeRepo;
 import jun.studyHelper.repository.notice.NoticeRepository;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,12 @@ import java.util.Map;
 @Service
 @Transactional
 public class NoticeService {
-    NoticeRepository noticeRepository;
+//    NoticeRepository noticeRepository;
+    NoticeRepo noticeRepository;
     NoticeCategoryRepository noticeCategoryRepository;
 
     @Autowired
-    public NoticeService(NoticeRepository noticeRepository, NoticeCategoryRepository noticeCategoryRepository){
+    public NoticeService(NoticeRepo noticeRepository, NoticeCategoryRepository noticeCategoryRepository){
         this.noticeRepository = noticeRepository;
         this.noticeCategoryRepository = noticeCategoryRepository;
     }
@@ -36,13 +38,14 @@ public class NoticeService {
     }
 
     public Notice findNotice(int id){
-        return noticeRepository.findById(id);
+        return noticeRepository.findById(id).get();
     }
+
 
     @Modifying
     @Transactional
     public void editNote(Notice notice){
-        Notice tmp = noticeRepository.findById(notice.getId());
+        Notice tmp = noticeRepository.findById(notice.getId()).get();
         tmp.setContent(notice.getContent());
 //        noticeRepository.update(notice);
     }
@@ -55,15 +58,15 @@ public class NoticeService {
     }
 
 
-    public void delete(Notice notice){
-        noticeRepository.remove(notice);
-    }
+//    public void delete(Notice notice){
+//        noticeRepository.remove(notice);
+//    }
 
     public void deleteNoticeListByCategory(Member member, NoticeCategory noticeCategory){
         List<Notice> notices = findMemberNoticeList(member);
         for(Notice n : notices){
             if (n.getCategoryId() == noticeCategory.getId())
-                noticeRepository.remove(n);
+                noticeRepository.deleteById(n.getId());
         }
     }
 
@@ -72,7 +75,7 @@ public class NoticeService {
     }
 
     public List<Notice> findMemberNoticeList(Member member){
-        return noticeRepository.findByMemberId(member);
+        return noticeRepository.findByMemberId(member.getId());
     }
 
     public Map<NoticeCategory, List<Notice>> getGroupedNoticeList(Member member){
@@ -93,9 +96,11 @@ public class NoticeService {
         String now = LocalDate.now().toString();
         // 이미 해당하는 날짜에 만들어진 notice 가 없다면 false 반환
 
-        System.out.println("LOG : findRecentMemberNotice : " + noticeRepository.findRecentMemberNotice(member, notice));
+//        System.out.println("LOG : findRecentMemberNotice : " + noticeRepository.findRecentMemberNotice(member, notice));
 
-        if (noticeRepository.findRecentMemberNotice(member, notice) == null)
+        List<Notice> noticeList = noticeRepository.findByMemberId(member.getId());
+
+        if(noticeList.get(0).getDate().equals(now))
             return false;
         // 반대의 경우 true 반환
         else

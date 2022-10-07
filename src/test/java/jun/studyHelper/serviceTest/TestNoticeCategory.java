@@ -1,13 +1,12 @@
 package jun.studyHelper.serviceTest;
 
-import jun.studyHelper.domain.entity.NoticeCategory;
+import jun.studyHelper.entity.NoticeCategory;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import jun.studyHelper.service.NoticeCategoryService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,42 +1,32 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.service.GroupService;
+import jun.studyHelper.entity.Member;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeCategoryService;
 import jun.studyHelper.service.NoticeService;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class MainController {
 
     MemberService memberService;
     NoticeService noticeService;
-    GroupService groupService;
     NoticeCategoryService noticeCategoryService;
 
     @Autowired
-    MainController(MemberService memberService, NoticeService noticeService, GroupService groupService, NoticeCategoryService noticeCategoryService){
+    MainController(MemberService memberService, NoticeService noticeService, NoticeCategoryService noticeCategoryService){
         this.memberService = memberService;
         this.noticeService = noticeService;
-        this.groupService = groupService;
         this.noticeCategoryService = noticeCategoryService;
     }
 

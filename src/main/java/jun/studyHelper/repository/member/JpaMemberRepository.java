@@ -1,15 +1,14 @@
 package jun.studyHelper.repository.member;
 
-import jun.studyHelper.domain.entity.Member;
-import org.springframework.stereotype.Repository;
+import jun.studyHelper.entity.Member;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Repository
-public class JpaMemberRepository implements MemberRepository{
+//@Repository
+public class JpaMemberRepository<M, S> implements MemberRepository{
 
     private final EntityManager em;
 

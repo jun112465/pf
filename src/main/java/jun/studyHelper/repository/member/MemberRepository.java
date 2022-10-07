@@ -1,6 +1,6 @@
 package jun.studyHelper.repository.member;
 
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.entity.Member;
 
 import java.util.List;
 import java.util.Map;

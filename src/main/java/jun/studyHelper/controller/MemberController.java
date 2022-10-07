@@ -2,16 +2,14 @@ package jun.studyHelper.controller;
 
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.member.MemberForm;
+import jun.studyHelper.dto.MemberDTO;
+import jun.studyHelper.entity.Member;
 import jun.studyHelper.dto.LoginForm;
 import jun.studyHelper.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -33,7 +31,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(MemberForm form, RedirectAttributes redirect){
+    public String create(MemberDTO form, RedirectAttributes redirect){
         Member member = new Member();
         member.setId(form.getMemberId());
         member.setPw(form.getPassword());

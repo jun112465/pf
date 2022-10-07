@@ -1,32 +1,25 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.repository.member.MemberRepository;
-import org.apache.commons.io.FileUtils;
+import jun.studyHelper.entity.Member;
+import jun.studyHelper.repository.member.JpaMemberRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
 public class MemberService {
-    public  MemberRepository memberRepository;
+//    public  MemberRepository memberRepository;
+    public JpaMemberRepo memberRepository;
 
 //    @Value("${fileRoot}")
 //    String fileRoot;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository){
+    public MemberService(JpaMemberRepo memberRepository){
         this.memberRepository = memberRepository;
     }
     /**
@@ -72,10 +65,6 @@ public class MemberService {
 
     public void addFriend(Member me, Member friend){
 //        memberRepository.addFriend(me,friend);
-    }
-    public Map<Integer, String> getFriends(Member me){
-        Map<Integer, String> list = memberRepository.getFriends(me);
-        return list;
     }
 
 //    public Map<Integer, String> deleteFriend(String memberId, int friendId){

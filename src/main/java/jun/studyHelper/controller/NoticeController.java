@@ -1,10 +1,9 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.domain.entity.NoticeCategory;
-import jun.studyHelper.domain.notice.NoticeForm;
+import jun.studyHelper.entity.Member;
+import jun.studyHelper.entity.Notice;
+import jun.studyHelper.entity.NoticeCategory;
 import jun.studyHelper.dto.Category;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeCategoryService;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 

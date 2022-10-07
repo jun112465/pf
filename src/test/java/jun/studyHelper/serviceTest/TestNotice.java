@@ -1,8 +1,8 @@
 package jun.studyHelper.serviceTest;
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.domain.entity.NoticeCategory;
+import jun.studyHelper.entity.Member;
+import jun.studyHelper.entity.Notice;
+import jun.studyHelper.entity.NoticeCategory;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.assertj.core.api.Assertions;
