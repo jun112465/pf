@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
-@Repository
+//@Repository
 public class JpaNoticeRepository implements NoticeRepository{
 
     private final EntityManager em;
