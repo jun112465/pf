@@ -9,26 +9,33 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
 public class Notice {
 
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @Column(name = "member_id")
+
     String memberId;
+
     int categoryId;
+
     @Column(columnDefinition = "MEDIUMTEXT")
     String content;
-    @Temporal(TemporalType.DATE)
-    @Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
-    Date date;
 
-    public Date getCurrentDate(){
-        return new Date(System.currentTimeMillis());
+    String date;
+
+    public Notice() {
+        setCurrentDate();
+    }
+
+    public void setCurrentDate(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.setDate(simpleDateFormat.format(new Date()));
     }
 }

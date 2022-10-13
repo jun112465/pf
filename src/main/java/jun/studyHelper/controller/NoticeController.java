@@ -35,16 +35,12 @@ public class NoticeController {
     public boolean addNote(@RequestBody Category category, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
-
         Notice notice = new Notice();
         notice.setCategoryId(Integer.parseInt(category.getCategoryId()));
         notice.setMemberId(member.getId());
-        notice.setDate(new Date(System.currentTimeMillis()));
 
-        if(noticeService.add(notice, member) == null)
-            return false;
-        else
-            return true;
+        if(noticeService.add(notice) == null) return false;
+        else return true;
     }
 
     @PostMapping("/notice/update")

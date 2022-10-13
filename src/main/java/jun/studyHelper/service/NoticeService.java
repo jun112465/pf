@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +21,6 @@ import java.util.Map;
 @Service
 @Transactional
 public class NoticeService {
-//    NoticeRepository noticeRepository;
     NoticeRepo noticeRepository;
     NoticeCategoryRepository noticeCategoryRepository;
 
@@ -29,12 +29,11 @@ public class NoticeService {
         this.noticeRepository = noticeRepository;
         this.noticeCategoryRepository = noticeCategoryRepository;
     }
-    public Notice add(Notice notice, Member member){
 
-        if(isTodayNoticeAdded(member, notice))
+    public Notice add(Notice notice){
+        if(isTodayNoticeAdded(notice))
             return null;
-
-        return noticeRepository.save(notice);
+        return noticeRepository.saveAndFlush(notice);
     }
 
     public Notice findNotice(int id){
@@ -79,31 +78,37 @@ public class NoticeService {
     }
 
     public Map<NoticeCategory, List<Notice>> getGroupedNoticeList(Member member){
+        // group by 로 코드 고치기
 
         List<NoticeCategory> noticeCategories = noticeCategoryRepository.findByMemberId(member.getId());
 
         Map<NoticeCategory, List<Notice>> ret = new HashMap<>();
         for(NoticeCategory nc : noticeCategories){
             ret.put(nc, new ArrayList<>());
-            ret.put(nc, noticeRepository.findByCategoryId(nc.getId()));
+            ret.put(nc, noticeRepository.findByCategoryIdOrderByDateAsc(nc.getId()));
         }
 
         return ret;
     }
 
-    public boolean isTodayNoticeAdded(Member member, Notice notice){
 
-        String now = LocalDate.now().toString();
-        // 이미 해당하는 날짜에 만들어진 notice 가 없다면 false 반환
+    /**
+     *
+     * @param notice
+     * @return
+     * 노트가 이미 추가됨 : true 반환
+     * 노트가 아직 안추가됨 : false 반환
+     *
+     * 하루에 노트는 하나만 추가가 가능하다
+     * 이미 추가된 노트가 있는지 확인해주는 메서드다.
+     */
+    public boolean isTodayNoticeAdded(Notice notice){
+        List<Notice> noticeList = noticeRepository.findByCategoryIdOrderByDateAsc(notice.getCategoryId());
+        if (noticeList.size() > 0) {
+            String recentNoteDate = String.valueOf(noticeList.get(0).getDate());
+            return notice.getDate().equals(recentNoteDate);
+        }
 
-//        System.out.println("LOG : findRecentMemberNotice : " + noticeRepository.findRecentMemberNotice(member, notice));
-
-        List<Notice> noticeList = noticeRepository.findByMemberId(member.getId());
-
-        if(noticeList.get(0).getDate().equals(now))
-            return false;
-        // 반대의 경우 true 반환
-        else
-            return true;
+        return false;
     }
 }

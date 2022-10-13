@@ -9,10 +9,9 @@ import java.util.Optional;
 
 // https://jobc.tistory.com/120
 public interface NoticeRepo extends JpaRepository<Notice, Integer> {
+
     @Override
-    default <S extends Notice> S save(S entity) {
-        return null;
-    }
+    <S extends Notice> S saveAndFlush(S entity);
 
     @Override
     Optional<Notice> findById(Integer integer);
@@ -25,5 +24,5 @@ public interface NoticeRepo extends JpaRepository<Notice, Integer> {
 
     // 쿼리 메소드 추가
     List<Notice> findByMemberId(String memberId);
-    List<Notice> findByCategoryId(Integer categoryId);
+    List<Notice> findByCategoryIdOrderByDateAsc(int categoryId);
 }
