@@ -6,8 +6,7 @@ import jun.studyHelper.repository.notice.NoticeRepo;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,25 +24,36 @@ public class TestNoticeService {
     MemberService ms;
     @Autowired
     EntityManager em;
-
     @Autowired
     NoticeRepo nr;
+    Member member;
+
+    @BeforeEach
+    public void beforeEach(){
+        // 멤버 등록
+        member = new Member();
+        member.setId(String.valueOf(UUID.randomUUID()));
+        member.setPw(String.valueOf(UUID.randomUUID()));
+        ms.join(member);
+    }
+
+    @AfterEach
+    public void afterEach(){
+        // 멤버 삭제
+        ms.deleteMember(member);
+    }
+
 
     @Test
     @DisplayName("문서 생성 테스트")
     @Modifying(clearAutomatically = true)
     public void test0(){
         //given
-        Member member = new Member();
-        member.setId(String.valueOf(UUID.randomUUID()));
-        member.setPw(String.valueOf(UUID.randomUUID()));
-
         Notice n = new Notice();
         n.setMemberId(member.getId());
         n.setCategoryId(1);
 
         //when
-        ms.join(member);
         ns.add(n);
 
         //then
@@ -54,16 +64,11 @@ public class TestNoticeService {
     @DisplayName("문서 중복 생성 테스트")
     public void test1(){
         //given
-        Member member = new Member();
-        member.setId(String.valueOf(UUID.randomUUID()));
-        member.setPw(String.valueOf(UUID.randomUUID()));
-
         Notice n = new Notice();
         n.setMemberId(member.getId());
         n.setCategoryId(1);
 
         //when
-        ms.join(member);
         ns.add(n);
 
         //then

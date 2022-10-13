@@ -12,11 +12,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class MemberService {
-//    public  MemberRepository memberRepository;
     public JpaMemberRepo memberRepository;
-
-//    @Value("${fileRoot}")
-//    String fileRoot;
 
     @Autowired
     public MemberService(JpaMemberRepo memberRepository){
@@ -38,6 +34,10 @@ public class MemberService {
         if(memberRepository.findById(member.getId()).isPresent())
             return false;
         return true;
+    }
+
+    public void deleteMember(Member member){
+        memberRepository.delete(member);
     }
 
     public boolean isMemberNull(Member member){
@@ -66,36 +66,6 @@ public class MemberService {
     public void addFriend(Member me, Member friend){
 //        memberRepository.addFriend(me,friend);
     }
-
-//    public Map<Integer, String> deleteFriend(String memberId, int friendId){
-//        memberRepository.deleteFriend(memberId, friendId);
-//        return memberRepository.getFriends(new Member(memberId));
-//    }
-
-//    public void updateMemberInfo(MultipartFile profileImage, String profileMessage, int memberId){
-//        String fileName = null;
-//        if(!profileImage.isEmpty())
-//            fileName = saveFileToServer(profileImage);
-//        memberRepository.updateMemberInfo(fileName, profileMessage, memberId);
-//    }
-
-//    public String saveFileToServer(MultipartFile profileImage){
-//        String originalFileName = profileImage.getOriginalFilename();	//오리지날 파일명
-//        assert originalFileName != null;
-//        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-//
-//        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-//
-//        File targetFile = new File(fileRoot + savedFileName);
-//        InputStream fileStream = null;
-//        try {
-//            fileStream = profileImage.getInputStream();
-//            FileUtils.copyInputStreamToFile(fileStream, targetFile);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return savedFileName;
-//    }
 }
 
 
