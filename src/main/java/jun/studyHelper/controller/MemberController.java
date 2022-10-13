@@ -2,9 +2,9 @@ package jun.studyHelper.controller;
 
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.dto.MemberDTO;
-import jun.studyHelper.entity.Member;
-import jun.studyHelper.dto.LoginForm;
+import jun.studyHelper.domain.dto.MemberDTO;
+import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.domain.dto.LoginForm;
 import jun.studyHelper.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;

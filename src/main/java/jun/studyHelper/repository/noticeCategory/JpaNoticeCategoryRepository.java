@@ -1,6 +1,6 @@
 package jun.studyHelper.repository.noticeCategory;
 
-import jun.studyHelper.entity.NoticeCategory;
+import jun.studyHelper.domain.entity.NoticeCategory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

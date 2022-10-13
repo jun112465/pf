@@ -1,19 +1,15 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.entity.Member;
-import jun.studyHelper.entity.Notice;
-import jun.studyHelper.entity.NoticeCategory;
+import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.domain.entity.NoticeCategory;
 import jun.studyHelper.repository.notice.NoticeRepo;
-import jun.studyHelper.repository.notice.NoticeRepository;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,21 +70,19 @@ public class NoticeService {
     }
 
     public List<Notice> findMemberNoticeList(Member member){
-        return noticeRepository.findByMemberId(member.getId());
+        return noticeRepository.findByMemberIdOrderByDateAsc(member.getId());
     }
 
-    public Map<NoticeCategory, List<Notice>> getGroupedNoticeList(Member member){
-        // group by 로 코드 고치기
+    public Map<NoticeCategory, List<Notice>> getNoticeListGroupedByCategory(Member member){
 
         List<NoticeCategory> noticeCategories = noticeCategoryRepository.findByMemberId(member.getId());
 
-        Map<NoticeCategory, List<Notice>> ret = new HashMap<>();
+        Map<NoticeCategory, List<Notice>> noticeCategoryListMap = new HashMap<>();
         for(NoticeCategory nc : noticeCategories){
-            ret.put(nc, new ArrayList<>());
-            ret.put(nc, noticeRepository.findByCategoryIdOrderByDateAsc(nc.getId()));
+            noticeCategoryListMap.put(nc, noticeRepository.findByCategoryIdOrderByDateAsc(nc.getId()));
         }
 
-        return ret;
+        return noticeCategoryListMap;
     }
 
 

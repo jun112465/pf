@@ -1,7 +1,7 @@
 package jun.studyHelper.repository.notice;
 
-import jun.studyHelper.entity.Member;
-import jun.studyHelper.entity.Notice;
+import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.domain.entity.Notice;
 
 import java.util.List;
 

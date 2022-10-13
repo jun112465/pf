@@ -1,6 +1,6 @@
 package jun.studyHelper.reflectionTest;
 
-import jun.studyHelper.entity.Member;
+import jun.studyHelper.domain.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

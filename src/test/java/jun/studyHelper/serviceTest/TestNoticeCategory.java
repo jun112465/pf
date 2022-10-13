@@ -1,6 +1,6 @@
 package jun.studyHelper.serviceTest;
 
-import jun.studyHelper.entity.NoticeCategory;
+import jun.studyHelper.domain.entity.NoticeCategory;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import jun.studyHelper.service.NoticeCategoryService;
 import org.assertj.core.api.Assertions;

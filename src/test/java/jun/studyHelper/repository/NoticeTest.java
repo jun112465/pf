@@ -1,17 +1,14 @@
 package jun.studyHelper.repository;
 
-import jun.studyHelper.entity.Member;
-import jun.studyHelper.entity.Notice;
+import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.repository.notice.NoticeRepo;
-import jun.studyHelper.repository.notice.NoticeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
 
 @SpringBootTest
 @Transactional

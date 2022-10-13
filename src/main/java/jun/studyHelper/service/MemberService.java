@@ -1,6 +1,6 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.entity.Member;
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.repository.member.JpaMemberRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

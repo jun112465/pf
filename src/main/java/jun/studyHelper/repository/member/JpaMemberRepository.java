@@ -1,6 +1,6 @@
 package jun.studyHelper.repository.member;
 
-import jun.studyHelper.entity.Member;
+import jun.studyHelper.domain.entity.Member;
 
 import javax.persistence.EntityManager;
 import java.util.List;

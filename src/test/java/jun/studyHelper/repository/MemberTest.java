@@ -1,7 +1,7 @@
 package jun.studyHelper.repository;
 
 
-import jun.studyHelper.entity.Member;
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.repository.member.JpaMemberRepo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package jun.studyHelper.entity;
+package jun.studyHelper.domain.entity;
 
 import lombok.*;
 

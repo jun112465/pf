@@ -1,6 +1,6 @@
 package jun.studyHelper.repository.notice;
 
-import jun.studyHelper.entity.Notice;
+import jun.studyHelper.domain.entity.Notice;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -23,6 +23,6 @@ public interface NoticeRepo extends JpaRepository<Notice, Integer> {
     void deleteById(Integer integer);
 
     // 쿼리 메소드 추가
-    List<Notice> findByMemberId(String memberId);
+    List<Notice> findByMemberIdOrderByDateAsc(String memberId);
     List<Notice> findByCategoryIdOrderByDateAsc(int categoryId);
 }

@@ -1,7 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.entity.Member;
+import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeCategoryService;
 import jun.studyHelper.service.NoticeService;
@@ -50,7 +50,7 @@ public class MainController {
             model.addAttribute("member", loginMember);
 //            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
             model.addAttribute("categories", noticeCategoryService.getCategories(loginMember.getId()));
-            model.addAttribute("groupedNoticeListMap", noticeService.getGroupedNoticeList(loginMember));
+            model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginMember));
         } else{
             // redirection with login error
             Map<String,?> flashMap = RequestContextUtils.getInputFlashMap(req);

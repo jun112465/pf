@@ -1,7 +1,7 @@
 package jun.studyHelper.serviceTest;
 
-import jun.studyHelper.entity.Member;
-import jun.studyHelper.entity.Notice;
+import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.repository.notice.NoticeRepo;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;

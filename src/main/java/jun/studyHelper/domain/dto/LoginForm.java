@@ -1,4 +1,4 @@
-package jun.studyHelper.dto;
+package jun.studyHelper.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
