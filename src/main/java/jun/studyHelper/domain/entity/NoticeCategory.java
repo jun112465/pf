@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Entity
 public class NoticeCategory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String memberId;
+    long id;
+    long memberId;
     String category;
 }

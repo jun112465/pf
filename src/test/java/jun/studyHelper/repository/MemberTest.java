@@ -31,16 +31,15 @@ public class MemberTest {
         new Random().nextBytes(array);
         String pw = new String(array, StandardCharsets.UTF_8);
 
-        Member member = new Member(id, pw);
+        Member member = new Member();
+        member.setUid(id);
+        member.setPw(pw);
 
         //when
-        repo.save(member);
+        repo.saveAndFlush(member);
 
         //then
-        Assertions.assertThat(repo.getById(id)).isEqualTo(member);
-        for (Member m : repo.findAll()){
-            System.out.println(m);
-        }
+        Assertions.assertThat(repo.findByUid(id).get(0)).isEqualTo(member);
     }
 
 //    @Test

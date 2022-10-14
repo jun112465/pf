@@ -30,9 +30,10 @@ public class NoticeCategoryService {
         return false;
     }
 
-    public List<NoticeCategory> getCategories(String memberId){
+    public List<NoticeCategory> getCategories(long memberId){
         return ncr.findByMemberId(memberId);
     }
+
 
     public boolean validateCategory(NoticeCategory nc){
         List<NoticeCategory> noticeCategories = getCategories(nc.getMemberId());
@@ -43,7 +44,7 @@ public class NoticeCategoryService {
         return true;
     }
 
-    public void deleteCategory(int id){
+    public void deleteCategory(Long id){
         ncr.deleteById(id);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface NoticeCategoryRepo extends JpaRepository<NoticeCategory, Integer> {
+public interface NoticeCategoryRepo extends JpaRepository<NoticeCategory, Long> {
 
     @Override
     List<NoticeCategory> findAll();
@@ -14,8 +14,8 @@ public interface NoticeCategoryRepo extends JpaRepository<NoticeCategory, Intege
     <S extends NoticeCategory> S save(S entity);
 
     @Override
-    void deleteById(Integer integer);
+    void deleteById(Long id);
 
     // Query
-    List<NoticeCategory> findByMemberId(String memberId);
+    List<NoticeCategory> findByMemberId(Long memberId);
 }

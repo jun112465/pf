@@ -24,13 +24,12 @@ public class NoticeTest {
         //given
         Notice n1 = new Notice();
         n1.setCategoryId(1);
-        n1.setMemberId("1");
 
         //when
         nr.saveAndFlush(n1);
 
         //then
-        System.out.println(nr.findByMemberId("1"));
+//        System.out.println(nr.findByMemberId("1"));
     }
 
     @Test
@@ -38,8 +37,6 @@ public class NoticeTest {
     public void test1(){
         //given
         Notice n1 = new Notice();
-        n1.setContent("write 1");
-        n1.setMemberId("testId");
         nr.save(n1);
         Assertions.assertThat(n1.getContent()).isEqualTo("write 1");
 
@@ -47,12 +44,6 @@ public class NoticeTest {
         n1.setContent("write 2");
 
         //then
-    }
-
-    @Test
-    @DisplayName("모든 문서 읽어오기")
-    public void test2(){
-        Member member = new Member("ktop1017", "jkc1073");
     }
 
 }

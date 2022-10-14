@@ -80,7 +80,7 @@ public class NoticeController {
         NoticeCategory nc = new NoticeCategory();
         nc.setId(Integer.parseInt(id));
         noticeService.deleteNoticeListByCategory(member, nc);
-        noticeCategoryService.deleteCategory(Integer.parseInt(id));
+        noticeCategoryService.deleteCategory(Long.valueOf(id));
 
         return "redirect:/";
     }

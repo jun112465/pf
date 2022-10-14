@@ -33,18 +33,18 @@ public class MemberController {
     @PostMapping("/members/new")
     public String create(MemberDTO form, RedirectAttributes redirect){
         Member member = new Member();
-        member.setId(form.getMemberId());
+        member.setUid(form.getMemberId());
         member.setPw(form.getPassword());
 
         System.out.println("LOG : member : " + form.toString());
 
-        if(!memberService.isMemberNull(member)){
+        if(memberService.isMemberBlank(member)){
             System.out.println("LOG: Nothing entered");
             redirect.addFlashAttribute("noTextErrorMsg", "Nothing Entered");
             return "redirect:/";
         }
 
-        if(!memberService.join(member)){
+        if(memberService.join(member) == null){
             // 회원가입 실패
             redirect.addFlashAttribute("joinErrorMsg", "Duplicate Id Found");
         }
@@ -52,39 +52,22 @@ public class MemberController {
         return "redirect:/";
     }
 
-//    @PostMapping("/members/login");
-//    public String CookieLogin(LoginForm form, HttpServletResponse resp, RedirectAttributes redirectAttributes){
-//        String id = form.getMemberId();
-//        String pw = form.getPassword();
-//
-//        Member m = new Member();
-//        m.setId(id);
-//        m.setPw(pw);
-//
-//        if(memberService.validateMemberInfo(m)){
-//            Cookie idCookie = new Cookie("memberId", id);
-//            idCookie.setPath("/");
-//            resp.addCookie(idCookie);
-//        }else{
-//            redirectAttributes.addAttribute("error-msg", "No Member Found");
-//            System.out.println("No member founded");
-//        }
-//
-//        return "redirect:/";
-//    }
-
     @PostMapping("/members/login")
     public String SessionLogin(
             LoginForm form, HttpServletRequest req,
             HttpServletResponse resp, RedirectAttributes redirect){
 
-        String id = form.getMemberId();
+        String uId = form.getMemberId();
         String pw = form.getPassword();
 
-        Member loginMember = new Member(id, pw);
+        Member loginMember = new Member();
+        loginMember.setUid(uId);
+        loginMember.setPw(pw);
 
-        if(memberService.validateMemberInfo(loginMember) != null) {
+
+        if(memberService.validateMemberInfo(loginMember)) {
             // 사용자의 데이터를 찾은 경우
+            loginMember = memberService.findMemberByUId(loginMember).get();
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
@@ -123,38 +106,4 @@ public class MemberController {
         return "redirect:/";
     }
 
-//    @GetMapping("/members/setting")
-//    public String setting(Model model, @CookieValue(name="memberId", required = false)String memberId){
-//        Member member = memberService.findOne(memberId);
-//        model.addAttribute("MemberId", memberId);
-////        model.addAttribute("Name", member.getName());
-////        model.addAttribute("Status", feijwj, eijfw, "eifje", )
-////        model.addAttribute("Status)
-//        return "infoSetting";
-//    }
-
-////    @PostMapping("/members/profile-update")
-////    public String profileUpdate(MemberForm form, @CookieValue(name="memberId", required = false)String memberId){
-////        System.out.println("MemberController executed");
-////
-////        MultipartFile imageFile = null;
-////        String message = null;
-//////        Integer memberId = null;
-////
-////        if(! (form.getImageFile().getSize() == 0))
-////            imageFile = form.getImageFile();
-//////        if(form.getMemberId() != null)
-//////            memberId = form.getMemberId();
-////        if(!form.getMessage().equals(""))
-////            message = form.getMessage();
-////
-////        memberService.updateMemberInfo(imageFile, message, Integer.parseInt(memberId));
-////
-//////
-////        System.out.println(imageFile);
-////        System.out.println(message);
-//////        System.out.println(memberId);
-////        return "redirect:/";
-////    }
-//
 }

@@ -9,13 +9,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface JpaMemberRepo extends JpaRepository<Member, String> {
+public interface JpaMemberRepo extends JpaRepository<Member, Long> {
     @Override
     <S extends Member> S save(S entity);
 
     @Override
-    Optional<Member> findById(String s);
+    Optional<Member> findById(Long id);
 
     @Override
     List<Member> findAll(Sort sort);
+
+
+    /**
+     * query methods
+     * @param uid
+     * @return
+     */
+    List<Member> findByUid(String uid);
+
 }

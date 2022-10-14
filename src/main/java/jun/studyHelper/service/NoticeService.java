@@ -4,6 +4,7 @@ import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.domain.entity.NoticeCategory;
 import jun.studyHelper.repository.notice.NoticeRepo;
+import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepo;
 import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,10 +19,10 @@ import java.util.Map;
 @Transactional
 public class NoticeService {
     NoticeRepo noticeRepository;
-    NoticeCategoryRepository noticeCategoryRepository;
+    NoticeCategoryRepo noticeCategoryRepository;
 
     @Autowired
-    public NoticeService(NoticeRepo noticeRepository, NoticeCategoryRepository noticeCategoryRepository){
+    public NoticeService(NoticeRepo noticeRepository, NoticeCategoryRepo noticeCategoryRepository){
         this.noticeRepository = noticeRepository;
         this.noticeCategoryRepository = noticeCategoryRepository;
     }
@@ -32,7 +33,7 @@ public class NoticeService {
         return noticeRepository.saveAndFlush(notice);
     }
 
-    public Notice findNotice(int id){
+    public Notice findNotice(long id){
         return noticeRepository.findById(id).get();
     }
 
@@ -48,14 +49,9 @@ public class NoticeService {
     @Modifying
     @Transactional
     public void updateCategories(NoticeCategory noticeCategory){
-        NoticeCategory nc = noticeCategoryRepository.findById(noticeCategory.getId());
+        NoticeCategory nc = noticeCategoryRepository.findById(noticeCategory.getId()).get();
         nc.setCategory(noticeCategory.getCategory());
     }
-
-
-//    public void delete(Notice notice){
-//        noticeRepository.remove(notice);
-//    }
 
     public void deleteNoticeListByCategory(Member member, NoticeCategory noticeCategory){
         List<Notice> notices = findMemberNoticeList(member);

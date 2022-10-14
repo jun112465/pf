@@ -19,11 +19,11 @@ public class Notice {
 
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    long id;
 
-    String memberId;
+    long memberId;
 
-    int categoryId;
+    long categoryId;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     String content;

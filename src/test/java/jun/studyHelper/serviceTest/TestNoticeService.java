@@ -32,7 +32,7 @@ public class TestNoticeService {
     public void beforeEach(){
         // 멤버 등록
         member = new Member();
-        member.setId(String.valueOf(UUID.randomUUID()));
+        member.setUid(String.valueOf(UUID.randomUUID()));
         member.setPw(String.valueOf(UUID.randomUUID()));
         ms.join(member);
     }
