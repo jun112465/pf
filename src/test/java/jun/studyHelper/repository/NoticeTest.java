@@ -2,7 +2,8 @@ package jun.studyHelper.repository;
 
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.repository.notice.NoticeRepo;
+import jun.studyHelper.repository.member.JpaMemberRepo;
+import jun.studyHelper.repository.notice.JpaNoticeRepo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class NoticeTest {
 
     @Autowired
-    NoticeRepo nr;
+    JpaNoticeRepo nr;
+    @Autowired
+    JpaMemberRepo mr;
 
     @Test
     @DisplayName("문서 생성하기")
@@ -23,10 +26,20 @@ public class NoticeTest {
 
         //given
         Notice n1 = new Notice();
-        n1.setCategoryId(1);
+
+        Member m = new Member();
+        m.setUid("233");
+        m.setPw("wfe");
+
+        mr.saveAndFlush(m);
 
         //when
+        m = mr.findByUid(m.getUid()).get(0);
+        n1.setMember(m);
         nr.saveAndFlush(n1);
+
+        System.out.println(nr.findAll());
+        System.out.println(nr.findByMember(m));
 
         //then
 //        System.out.println(nr.findByMemberId("1"));
@@ -45,5 +58,6 @@ public class NoticeTest {
 
         //then
     }
+
 
 }

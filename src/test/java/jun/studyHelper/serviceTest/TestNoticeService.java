@@ -2,7 +2,7 @@ package jun.studyHelper.serviceTest;
 
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.repository.notice.NoticeRepo;
+import jun.studyHelper.repository.notice.JpaNoticeRepo;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
 import org.assertj.core.api.Assertions;
@@ -25,7 +25,7 @@ public class TestNoticeService {
     @Autowired
     EntityManager em;
     @Autowired
-    NoticeRepo nr;
+    JpaNoticeRepo nr;
     Member member;
 
     @BeforeEach
@@ -50,8 +50,7 @@ public class TestNoticeService {
     public void test0(){
         //given
         Notice n = new Notice();
-        n.setMemberId(member.getId());
-        n.setCategoryId(1);
+        n.setMember(member);
 
         //when
         ns.add(n);
@@ -65,8 +64,7 @@ public class TestNoticeService {
     public void test1(){
         //given
         Notice n = new Notice();
-        n.setMemberId(member.getId());
-        n.setCategoryId(1);
+        n.setMember(member);
 
         //when
         ns.add(n);

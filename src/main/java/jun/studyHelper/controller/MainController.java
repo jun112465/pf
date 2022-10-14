@@ -2,8 +2,8 @@ package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.MemberService;
-import jun.studyHelper.service.NoticeCategoryService;
 import jun.studyHelper.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,13 +21,13 @@ public class MainController {
 
     MemberService memberService;
     NoticeService noticeService;
-    NoticeCategoryService noticeCategoryService;
+    CategoryService categoryService;
 
     @Autowired
-    MainController(MemberService memberService, NoticeService noticeService, NoticeCategoryService noticeCategoryService){
+    MainController(MemberService memberService, NoticeService noticeService, CategoryService categoryService){
         this.memberService = memberService;
         this.noticeService = noticeService;
-        this.noticeCategoryService = noticeCategoryService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/")
@@ -49,7 +49,7 @@ public class MainController {
             // login succeeded
             model.addAttribute("member", loginMember);
 //            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
-            model.addAttribute("categories", noticeCategoryService.getCategories(loginMember.getId()));
+            model.addAttribute("categories", categoryService.getCategories(loginMember));
             model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginMember));
         } else{
             // redirection with login error

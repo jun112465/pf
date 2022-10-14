@@ -11,7 +11,6 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
     private String uid; // 변경 가능한 아이디 값
     private String pw;
 

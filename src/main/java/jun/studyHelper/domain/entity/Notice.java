@@ -1,11 +1,7 @@
 package jun.studyHelper.domain.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Cleanup;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -21,9 +17,13 @@ public class Notice {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    long memberId;
+    @ManyToOne
+    @JoinColumn (name = "member_id")
+    Member member;
 
-    long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    Category category;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     String content;

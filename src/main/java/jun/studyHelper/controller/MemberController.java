@@ -67,7 +67,7 @@ public class MemberController {
 
         if(memberService.validateMemberInfo(loginMember)) {
             // 사용자의 데이터를 찾은 경우
-            loginMember = memberService.findMemberByUId(loginMember).get();
+            loginMember = memberService.findMemberByUid(loginMember).get();
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 

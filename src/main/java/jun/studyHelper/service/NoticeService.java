@@ -2,10 +2,9 @@ package jun.studyHelper.service;
 
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.domain.entity.NoticeCategory;
-import jun.studyHelper.repository.notice.NoticeRepo;
-import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepo;
-import jun.studyHelper.repository.noticeCategory.NoticeCategoryRepository;
+import jun.studyHelper.domain.entity.Category;
+import jun.studyHelper.repository.notice.JpaNoticeRepo;
+import jun.studyHelper.repository.category.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -18,64 +17,64 @@ import java.util.Map;
 @Service
 @Transactional
 public class NoticeService {
-    NoticeRepo noticeRepository;
-    NoticeCategoryRepo noticeCategoryRepository;
+    JpaNoticeRepo jpaNoticeRepository;
+    CategoryRepo categoryRepository;
 
     @Autowired
-    public NoticeService(NoticeRepo noticeRepository, NoticeCategoryRepo noticeCategoryRepository){
-        this.noticeRepository = noticeRepository;
-        this.noticeCategoryRepository = noticeCategoryRepository;
+    public NoticeService(JpaNoticeRepo jpaNoticeRepository, CategoryRepo categoryRepository){
+        this.jpaNoticeRepository = jpaNoticeRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public Notice add(Notice notice){
         if(isTodayNoticeAdded(notice))
             return null;
-        return noticeRepository.saveAndFlush(notice);
+        return jpaNoticeRepository.saveAndFlush(notice);
     }
 
     public Notice findNotice(long id){
-        return noticeRepository.findById(id).get();
+        return jpaNoticeRepository.findById(id).get();
     }
 
 
     @Modifying
     @Transactional
     public void editNote(Notice notice){
-        Notice tmp = noticeRepository.findById(notice.getId()).get();
+        Notice tmp = jpaNoticeRepository.findById(notice.getId()).get();
         tmp.setContent(notice.getContent());
 //        noticeRepository.update(notice);
     }
 
     @Modifying
     @Transactional
-    public void updateCategories(NoticeCategory noticeCategory){
-        NoticeCategory nc = noticeCategoryRepository.findById(noticeCategory.getId()).get();
-        nc.setCategory(noticeCategory.getCategory());
+    public void updateCategories(Category noticeCategory){
+        Category nc = categoryRepository.findById(noticeCategory.getId()).get();
+        nc.setName(noticeCategory.getName());
     }
 
-    public void deleteNoticeListByCategory(Member member, NoticeCategory noticeCategory){
+    public void deleteNoticeListByCategory(Member member, Category noticeCategory){
         List<Notice> notices = findMemberNoticeList(member);
         for(Notice n : notices){
-            if (n.getCategoryId() == noticeCategory.getId())
-                noticeRepository.deleteById(n.getId());
+            if (n.getCategory().equals(noticeCategory))
+                jpaNoticeRepository.deleteById(n.getId());
         }
     }
 
     public List<Notice> findNoticeList(){
-        return noticeRepository.findAll();
+        return jpaNoticeRepository.findAll();
     }
 
     public List<Notice> findMemberNoticeList(Member member){
-        return noticeRepository.findByMemberIdOrderByDateAsc(member.getId());
+        return jpaNoticeRepository.findByMemberIdOrderByDateAsc(member.getId());
     }
 
-    public Map<NoticeCategory, List<Notice>> getNoticeListGroupedByCategory(Member member){
+    public Map<Category, List<Notice>> getNoticeListGroupedByCategory(Member member){
 
-        List<NoticeCategory> noticeCategories = noticeCategoryRepository.findByMemberId(member.getId());
+        List<Category> noticeCategories = categoryRepository.findByMemberId(member.getId());
 
-        Map<NoticeCategory, List<Notice>> noticeCategoryListMap = new HashMap<>();
-        for(NoticeCategory nc : noticeCategories){
-            noticeCategoryListMap.put(nc, noticeRepository.findByCategoryIdOrderByDateAsc(nc.getId()));
+        Map<Category, List<Notice>> noticeCategoryListMap = new HashMap<>();
+        for(Category nc : noticeCategories){
+            noticeCategoryListMap.put(nc, jpaNoticeRepository.findByCategoryOrderByDateAsc(nc));
         }
 
         return noticeCategoryListMap;
@@ -93,7 +92,7 @@ public class NoticeService {
      * 이미 추가된 노트가 있는지 확인해주는 메서드다.
      */
     public boolean isTodayNoticeAdded(Notice notice){
-        List<Notice> noticeList = noticeRepository.findByCategoryIdOrderByDateAsc(notice.getCategoryId());
+        List<Notice> noticeList = jpaNoticeRepository.findByCategoryOrderByDateAsc(notice.getCategory());
         if (noticeList.size() > 0) {
             String recentNoteDate = String.valueOf(noticeList.get(0).getDate());
             return notice.getDate().equals(recentNoteDate);

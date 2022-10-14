@@ -19,6 +19,10 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
+    public Member findMember(Member member){
+        return memberRepository.findById(member.getId()).get();
+    }
+
 
     /**
      * 회원가입을 진행하는 메서드.
@@ -30,7 +34,7 @@ public class MemberService {
         if(!validateDuplicateMember(member))
             return null;
 
-        return memberRepository.save(member);
+        return memberRepository.saveAndFlush(member);
     }
 
     /**
@@ -76,13 +80,16 @@ public class MemberService {
      * @return
      */
     public boolean validateMemberInfo(Member member){
-        Optional<Member> find = memberRepository.findById(member.getId());
 
-        if (find.isEmpty())
+        // 동일한 uid 를 가진 유저 있는가?
+        List<Member> find = memberRepository.findByUid(member.getUid());
+        if(find.isEmpty())
             return false;
 
-        return find.equals(member);
+        return find.get(0).equals(member);
     }
+
+
 
 
 
@@ -90,7 +97,7 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Optional<Member> findMemberByUId(Member member) {
+    public Optional<Member> findMemberByUid(Member member) {
         return Optional.ofNullable(
                 memberRepository
                         .findByUid(member.getUid())
