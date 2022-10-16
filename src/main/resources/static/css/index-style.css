@@ -62,11 +62,21 @@ header  a{
 header > #btn_addCategory{
     font-size: 14px;
 }
-header > #btn_logout{
+
+header > #user_ctrl{
     position: absolute;
     right: 30px;
     top: 0;
 }
+header > #user_ctrl > *{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+/*header > #btn_logout{*/
+/*    position: absolute;*/
+/*    right: 30px;*/
+/*    top: 0;*/
+/*}*/
 
 .sign-in-container{
     display: flex;
