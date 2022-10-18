@@ -1,6 +1,11 @@
 package jun.studyHelper.controller;
 
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import jun.studyHelper.AwsS3Config;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.dto.MemberDTO;
 import jun.studyHelper.domain.entity.Member;
@@ -8,14 +13,17 @@ import jun.studyHelper.domain.dto.LoginForm;
 import jun.studyHelper.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +33,9 @@ public class MemberController {
 
     public MemberService memberService;
 
-    @Autowired //이 어노테이션이 붙은 생성자는 연관된 객체를 스프링 컨테이너에서 자동으로 넣어준다.
-    public MemberController(MemberService memberService){
+
+
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -105,5 +114,6 @@ public class MemberController {
 
         return "redirect:/";
     }
+
 
 }
