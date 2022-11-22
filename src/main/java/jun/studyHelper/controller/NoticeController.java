@@ -1,6 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
+import jun.studyHelper.domain.dto.CategoryVO;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.domain.entity.Category;
@@ -30,15 +31,17 @@ public class NoticeController {
 
     @PostMapping("notice/add-note")
     @ResponseBody
-    public boolean addNote(@RequestBody Category category, HttpServletRequest req){
+    public boolean addNote(@RequestBody CategoryVO categoryVO, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        Category category = categoryService.findCategory(new Category(categoryVO.getCategoryId()));
 
         Notice notice = new Notice();
         notice.setCategory(category);
         notice.setMember(member);
 
-        if(noticeService.add(notice) == null) return false;
-        else return true;
+        noticeService.add(notice);
+
+        return true;
     }
 
     @PostMapping("/notice/update")

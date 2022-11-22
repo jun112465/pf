@@ -21,6 +21,10 @@ public class CategoryService {
         this.ncr = ncr;
     }
 
+    public Category findCategory(Category category){
+        return ncr.getById(category.getId());
+    }
+
     public boolean addCategory(Category nc){
         if(validateCategory(nc)){
             ncr.save(nc);
