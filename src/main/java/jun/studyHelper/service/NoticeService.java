@@ -55,12 +55,8 @@ public class NoticeService {
         nc.setName(noticeCategory.getName());
     }
 
-    public void deleteNoticeListByCategory(Member member, Category noticeCategory){
-        List<Notice> notices = findMemberNoticeList(member);
-        for(Notice n : notices){
-            if (n.getCategory().equals(noticeCategory))
-                jpaNoticeRepository.deleteById(n.getId());
-        }
+    public void deleteNoticeListByCategory(Category noticeCategory){
+        jpaNoticeRepository.deleteAllByCategory(noticeCategory);
     }
 
     public List<Notice> findNoticeList(){

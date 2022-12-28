@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,6 +14,12 @@ public class Member {
 
     private String uid; // 변경 가능한 아이디 값
     private String pw;
+
+    public Member(String uid, String pw){
+        this.uid = uid;
+        this.pw = pw;
+    }
+
 
     @Override
     public boolean equals(Object obj) {

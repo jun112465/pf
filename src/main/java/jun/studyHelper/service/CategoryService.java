@@ -15,6 +15,7 @@ public class CategoryService {
 
 //    NoticeCategoryRepository ncr;
     CategoryRepo ncr;
+    NoticeService noticeService;
 
     @Autowired
     public CategoryService(CategoryRepo ncr) {
@@ -49,7 +50,9 @@ public class CategoryService {
         return true;
     }
 
-    public void deleteCategory(long id){
+    public void deleteCategory(Category category, long id){
+        noticeService.deleteNoticeListByCategory(category);
         ncr.deleteById(id);
     }
+
 }

@@ -77,11 +77,10 @@ public class NoticeController {
 
     @GetMapping("/notice/delete-category")
     public String deleteCategory(HttpServletRequest req, String id){
-        Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         Category nc = new Category();
         nc.setId(Integer.parseInt(id));
-        noticeService.deleteNoticeListByCategory(member, nc);
-        categoryService.deleteCategory(Long.valueOf(id));
+
+        categoryService.deleteCategory(nc, Long.valueOf(id));
 
         return "redirect:/";
     }
