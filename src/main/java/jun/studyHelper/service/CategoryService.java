@@ -18,8 +18,9 @@ public class CategoryService {
     NoticeService noticeService;
 
     @Autowired
-    public CategoryService(CategoryRepo ncr) {
+    public CategoryService(CategoryRepo ncr, NoticeService noticeService) {
         this.ncr = ncr;
+        this.noticeService = noticeService;
     }
 
     public Category findCategory(Category category){
@@ -47,12 +48,16 @@ public class CategoryService {
             if (nc2.equals(nc))
                 return false;
         }
+
         return true;
     }
+
 
     public void deleteCategory(Category category, long id){
         noticeService.deleteNoticeListByCategory(category);
         ncr.deleteById(id);
     }
+
+
 
 }

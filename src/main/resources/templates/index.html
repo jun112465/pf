@@ -10,24 +10,24 @@
     <script src="../static/js/index/note-gallery.js"></script>
 <body>
 
-<header>
-    <div id="home">
-        <div id="home_img">
-            <img src="/images/notebook.svg" alt="">
-        </div>
-        <div id="home_logo">
-            Study Helper
-        </div>
+<header id="nav">
+<!--    logo-->
+    <div id="nav_logo">
+        <img src="/images/notebook.svg" alt="" width="40px">
+        Note App
     </div>
-<!--    <a id="btn_addCategory" href="">add category</a>-->
+<!--    search-->
 
-    <div id="user_ctrl" th:if="${member!=null}">
-        <input type="text" name="" id="" placeholder="search">
-        <input type="button">
-        <a href="/info-setting">set info</a>
-        <a href="">new category</a>
-        <a th:if="${member!=null}" id="btn_logout" href="/members/logout"><i class="fas fa-sign-out-alt" style="color: black"></i></a>
-        <img src="/file/get-profile" alt="profile_img">
+<!--    ctrl-->
+    <div id="nav_ctrl" th:if="${member!=null}">
+        <div id="nav_search">
+            <input type="text" name="" id="wef" placeholder="search something">
+            <input type="button" value="search">
+        </div>
+        <div><a href="/info-setting">set info</a></div>
+        <div><a href="#" id="newCategoryBtn">add category</a></div>
+        <div><a th:if="${member!=null}" id="btn_logout" href="/members/logout">logout</a></div>
+        <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>
     </div>
 </header>
 
@@ -85,8 +85,9 @@
 
 <!--<input type="button" id="modalBtn" value="Open Modal">-->
 <!--<a id="modalBtn" href="" style="font-size:22px; color: black"></a>-->
+<!--modal for adding new category -->
 <section th:if="${member!=null}">
-    <button id="modalBtn" style="font-size: 25px; margin:10px;"><i class="fas fa-plus-circle"></i></button>
+<!--    <button id="modalBtn" style="font-size: 25px; margin:10px;"><i class="fas fa-plus-circle"></i></button>-->
     <div id="myModal" class="modal">
         <form action="/notice/add-category" method="post">
             <div class="modal-content">
