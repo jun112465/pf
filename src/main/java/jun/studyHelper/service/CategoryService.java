@@ -15,10 +15,16 @@ public class CategoryService {
 
 //    NoticeCategoryRepository ncr;
     CategoryRepo ncr;
+    NoticeService noticeService;
 
     @Autowired
-    public CategoryService(CategoryRepo ncr) {
+    public CategoryService(CategoryRepo ncr, NoticeService noticeService) {
         this.ncr = ncr;
+        this.noticeService = noticeService;
+    }
+
+    public Category findCategory(Category category){
+        return ncr.getById(category.getId());
     }
 
     public boolean addCategory(Category nc){
@@ -42,10 +48,16 @@ public class CategoryService {
             if (nc2.equals(nc))
                 return false;
         }
+
         return true;
     }
 
-    public void deleteCategory(long id){
+
+    public void deleteCategory(Category category, long id){
+        noticeService.deleteNoticeListByCategory(category);
         ncr.deleteById(id);
     }
+
+
+
 }

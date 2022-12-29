@@ -2,6 +2,7 @@ package jun.studyHelper.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.persistence.Entity;

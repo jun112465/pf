@@ -1,6 +1,7 @@
 package jun.studyHelper.serviceTest;
 
 
+import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.repository.member.JpaMemberRepo;
 import jun.studyHelper.service.MemberService;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @SpringBootTest
@@ -41,18 +45,18 @@ public class TestMemberService {
     public void loginTest(){
 
         // given
-        Member member = new Member();
-        member.setUid(String.valueOf(UUID.randomUUID()));
-        member.setPw(String.valueOf(UUID.randomUUID()));
-        ms.join(member);
+        Member signUpMember = new Member();
+        signUpMember.setUid(String.valueOf(UUID.randomUUID()));
+        signUpMember.setPw(String.valueOf(UUID.randomUUID()));
+        ms.join(signUpMember);
 
         // when
-        Member loginMember = ms.findMemberByUid(member).get();
-        System.out.println(loginMember);
+        Member loginMember = new Member();
+        loginMember.setUid(signUpMember.getUid());
+        loginMember.setPw(signUpMember.getPw());
 
         // then
         Assertions.assertThat(ms.validateMemberInfo(loginMember)).isTrue();
 
     }
-
 }

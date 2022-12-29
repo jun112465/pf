@@ -9,6 +9,9 @@ import java.util.List;
 public interface CategoryRepo extends JpaRepository<Category, Long> {
 
     @Override
+    Category getById(Long aLong);
+
+    @Override
     List<Category> findAll();
 
     @Override

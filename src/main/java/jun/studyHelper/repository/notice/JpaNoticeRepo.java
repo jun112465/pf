@@ -12,6 +12,10 @@ import java.util.Optional;
 // https://jobc.tistory.com/120
 public interface JpaNoticeRepo extends JpaRepository<Notice, Long> {
 
+
+    @Override
+    void deleteAll(Iterable<? extends Notice> entities);
+
     @Override
     <S extends Notice> S saveAndFlush(S entity);
 
@@ -27,6 +31,7 @@ public interface JpaNoticeRepo extends JpaRepository<Notice, Long> {
     // 쿼리 메소드 추가
     List<Notice> findByMemberIdOrderByDateAsc(long memberId);
     List<Notice> findByCategoryOrderByDateAsc(Category noticeCategory);
+    void deleteAllByCategory(Category category);
 
 
     List<Notice> findByMember(Member member);

@@ -1,5 +1,6 @@
 package jun.studyHelper.service;
 
+import jun.studyHelper.domain.dto.NoticeDTO;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.domain.entity.Category;
@@ -27,8 +28,10 @@ public class NoticeService {
     }
 
     public Notice add(Notice notice){
-        if(isTodayNoticeAdded(notice))
-            return null;
+        return jpaNoticeRepository.saveAndFlush(notice);
+    }
+    public Notice add(NoticeDTO noticeDTO){
+        Notice notice = new Notice();
         return jpaNoticeRepository.saveAndFlush(notice);
     }
 
@@ -52,12 +55,8 @@ public class NoticeService {
         nc.setName(noticeCategory.getName());
     }
 
-    public void deleteNoticeListByCategory(Member member, Category noticeCategory){
-        List<Notice> notices = findMemberNoticeList(member);
-        for(Notice n : notices){
-            if (n.getCategory().equals(noticeCategory))
-                jpaNoticeRepository.deleteById(n.getId());
-        }
+    public void deleteNoticeListByCategory(Category noticeCategory){
+        jpaNoticeRepository.deleteAllByCategory(noticeCategory);
     }
 
     public List<Notice> findNoticeList(){

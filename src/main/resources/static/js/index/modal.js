@@ -3,17 +3,22 @@
     // Get the modal
     let modal = document.getElementById('myModal');
 
+    let newCategoryBtn = document.getElementById("newCategoryBtn");
 // Get the button that opens the modal
-    let btn = document.getElementById("modalBtn");
+//     let btn = document.getElementById("modalBtn");
 
 // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal
-    btn.onclick = function() {
+    newCategoryBtn.onclick = ()=>{
         console.log("clicked");
         modal.style.display = "block";
     }
+    // btn.onclick = function() {
+    //     console.log("clicked");
+    //     modal.style.display = "block";
+    // }
 
 // When the user clicks on <span> (x), close the modal
     span.onclick = function() {

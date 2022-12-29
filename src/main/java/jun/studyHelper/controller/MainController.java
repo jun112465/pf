@@ -73,6 +73,11 @@ public class MainController {
 
         return "index";
     }
+
+    @GetMapping("info-setting")
+    public String infoSetting(){
+        return "infoSetting";
+    }
 }
 
 
