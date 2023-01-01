@@ -9,26 +9,38 @@
 </head>
 <body>
 
-<div class="container">
-    <h2>개인정보 설정 페이지</h2>
-    <p>변경하고 싶은 정보를 채운 후 <code>submit</code> 버튼을 눌러주시기 바랍니다</p>
+<header id="nav">
+    <!--    logo-->
+    <div id="nav_logo">
+        <img src="/images/notebook.svg" alt="" width="40px">
+        Note App
+    </div>
+    <!--    search-->
 
+    <div id="nav_ctrl">
+        <div>개인정보 설정 페이지</div>
+    </div>
+</header>
+
+<div class="container">
     <form id="imgForm" method="post" action="/profile-upload" enctype="multipart/form-data">
         <div class="mb-3">
             <div class="align-middle text-center">
-                <div>Profile Image</div>
-                <img id="preview-image" src="../images/profile.png" alt="profile-image" class="form-label"/>
+                <img id="preview-image" src="/file/get-profile" alt="profile-image" class="form-label"/>
             </div>
+            <label for="exampleInputEmail1" class="form-label">PROFILE IMAGE</label>
             <input type='file' class="form-control" id="input-image" name="file" accept="image/*"/>
+            <div class="form-text">SELECT A NEW PROFILE IMAGE</div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">MemberId</label>
+            <label for="exampleInputEmail1" class="form-label">ID</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="text" class="form-text">We'll never share your email with anyone else.</div>
+            <div class="form-text">ENTER A NEW ID</div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Profile Message</label>
+            <label for="exampleInputPassword1" class="form-label">PASSWORD</label>
             <input type="text" class="form-control" id="exampleInputPassword1">
+            <div class="form-text">ENTER A NEW PASSWORD</div>
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
