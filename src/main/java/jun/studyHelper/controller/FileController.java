@@ -14,18 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.UUID;
-
-import static org.springframework.core.io.buffer.DataBufferUtils.readInputStream;
 
 @Controller
 public class FileController {
@@ -63,8 +61,40 @@ public class FileController {
     @ResponseBody
     public byte[] getProfile(HttpServletRequest req) throws MalformedURLException {
         Member loginMember = (Member)req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        return fileService.getProfileImg(loginMember);
+
+
+        byte[] img = fileService.getProfileImg(loginMember);
+        ByteArrayInputStream bis = new ByteArrayInputStream(img);
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(bis);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //png to jpg
+        BufferedImage toJpg = new BufferedImage(
+                image.getWidth(),
+                image.getHeight(),
+                BufferedImage.TYPE_INT_RGB);
+        toJpg.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+        image = toJpg;
+
+        // create the object of ByteArrayOutputStream class
+        ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+
+        // write the image into the object of ByteArrayOutputStream class
+        try {
+            ImageIO.write(image, "jpg", outStreamObj);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // create the byte array from image
+        byte [] byteArray = outStreamObj.toByteArray();
+        return byteArray;
 //        return fileService.downloadFromS3(String.valueOf(loginMember.getId()));
+//        return fileService.getProfileImg(loginMember);
     }
 
     @GetMapping(value = "file/get-profile-test", produces = MediaType.ALL_VALUE)

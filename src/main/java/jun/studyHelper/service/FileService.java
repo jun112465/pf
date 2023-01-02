@@ -63,7 +63,7 @@ public class FileService {
 
     public byte[] getProfileImg(Member member) throws MalformedURLException {
         String fileName = String.valueOf(member.getId());
-        URL url = new URL("https://integrated-bucket.s3-ap-northeast-2.amazonaws.com/profiles/" + fileName + ".jpg");
+        URL url = new URL("https://integrated-bucket.s3-ap-northeast-2.amazonaws.com/profiles/" + fileName);
 
         HttpURLConnection conn = null;
         InputStream inputStream = null;
