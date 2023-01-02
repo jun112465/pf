@@ -23,23 +23,23 @@
 </header>
 
 <div class="container">
-    <form id="imgForm" method="post" action="/profile-upload" enctype="multipart/form-data">
+    <form id="imgForm" method="post" action="/members/update" enctype="multipart/form-data">
         <div class="mb-3">
             <div class="align-middle text-center">
                 <img id="preview-image" src="/file/get-profile" alt="profile-image" class="form-label"/>
             </div>
             <label for="exampleInputEmail1" class="form-label">PROFILE IMAGE</label>
-            <input type='file' class="form-control" id="input-image" name="file" accept="image/*"/>
+            <input type='file' class="form-control" id="input-image" name="profile" accept="image/*"/>
             <div class="form-text">SELECT A NEW PROFILE IMAGE</div>
         </div>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">ID</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input name="id" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             <div class="form-text">ENTER A NEW ID</div>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">PASSWORD</label>
-            <input type="text" class="form-control" id="exampleInputPassword1">
+            <input name="pw" type="text" class="form-control" id="exampleInputPassword1">
             <div class="form-text">ENTER A NEW PASSWORD</div>
         </div>
         <div class="mb-3 form-check">

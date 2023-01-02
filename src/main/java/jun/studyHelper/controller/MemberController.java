@@ -10,6 +10,7 @@ import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.dto.MemberDTO;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.dto.LoginForm;
+import jun.studyHelper.service.FileService;
 import jun.studyHelper.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,13 @@ import java.util.Map;
 public class MemberController {
 
     public MemberService memberService;
+    public FileService fileService;
 
 
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, FileService fileService) {
         this.memberService = memberService;
+        this.fileService = fileService;
     }
 
     @PostMapping("/members/new")
@@ -116,5 +119,36 @@ public class MemberController {
     }
 
 
+    @PostMapping("/members/update")
+    public String updateProfile(
+            @RequestParam("profile") MultipartFile profileImg,
+            @RequestParam("id") String id,
+            @RequestParam("pw") String pw,
+            HttpServletRequest req
+    ){
+        Member member = (Member)req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+
+
+        if(!profileImg.isEmpty()){
+            String PATH = "profiles/";
+            String newFileName = PATH + member.getId();
+            System.out.println("newFileName : " + newFileName);
+            try {
+                fileService.uploadToS3(profileImg, newFileName);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(!id.isEmpty()){
+            member.setUid(id);
+        }
+
+        if(!pw.isEmpty()){
+            member.setPw(pw);
+        }
+
+        return "redirect:/";
+    }
 
 }
