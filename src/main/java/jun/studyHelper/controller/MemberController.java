@@ -8,11 +8,15 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import jun.studyHelper.AwsS3Config;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.dto.MemberDTO;
+import jun.studyHelper.domain.entity.Category;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.dto.LoginForm;
+import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.FileService;
 import jun.studyHelper.service.MemberService;
 
+import jun.studyHelper.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,12 +38,21 @@ public class MemberController {
 
     public MemberService memberService;
     public FileService fileService;
+    public NoticeService noticeService;
+    public CategoryService categoryService;
 
 
 
-    public MemberController(MemberService memberService, FileService fileService) {
+    public MemberController(
+            MemberService memberService,
+            FileService fileService,
+            NoticeService noticeService,
+            CategoryService categoryService
+    ) {
         this.memberService = memberService;
         this.fileService = fileService;
+        this.noticeService = noticeService;
+        this.categoryService = categoryService;
     }
 
     @PostMapping("/members/new")
@@ -60,6 +73,21 @@ public class MemberController {
             // 회원가입 실패
             redirect.addFlashAttribute("joinErrorMsg", "Duplicate Id Found");
         }
+
+        // 초기 카테고리 & 노트 생성
+        member = memberService.findMember(member);
+
+        Category category = new Category();
+        category.setMember(member);
+        category.setName("Set Category Name");
+        categoryService.addCategory(category);
+
+        Notice notice = new Notice();
+        category = categoryService.findCategory(category);
+        notice.setMember(member);
+        notice.setCategory(category);
+        notice.setContent("first note");
+        noticeService.add(notice);
 
         return "redirect:/";
     }
