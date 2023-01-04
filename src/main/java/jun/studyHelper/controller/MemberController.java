@@ -72,6 +72,7 @@ public class MemberController {
         if(memberService.join(member) == null){
             // 회원가입 실패
             redirect.addFlashAttribute("joinErrorMsg", "Duplicate Id Found");
+            return "redirect:/sign-up";
         }
 
         // 초기 카테고리 & 노트 생성

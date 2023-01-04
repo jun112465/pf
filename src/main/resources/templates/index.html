@@ -14,7 +14,7 @@
 <!--    logo-->
     <div id="nav_logo">
         <img src="/images/notebook.svg" alt="" width="40px">
-        Note App
+        <a href="/">Note App</a>
     </div>
 <!--    search-->
 
@@ -38,8 +38,8 @@
             <input type="text" name="memberId" placeholder="INPUT ID">
             <input type="password" name="password" placeholder="INPUT PW">
             <input id="btn-sign-in" type="submit" value="SIGN IN">
-            <input id="btn-sign-up" type="button" value="SIGN UP">
         </form>
+        <a href="/sign-up">SIGN UP</a>
         <div class="error-msg-box">
             <div style="color:red" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></div>
             <div style="color:red" th:if="${joinErrorMsg}" th:text="${joinErrorMsg}"></div>
@@ -61,12 +61,20 @@
                     <div class="item new-item" id="new-notice">
                         <input type="hidden" name="category" th:value="${category.getId()}">
                         <i class="fa-solid fa-circle-plus"></i>
+
                     </div>
 
                     <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category)}">
                         <input type="hidden" th:value="${n.getId()}">
-                        <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
-                        <input class="btn_edit_or_save" type="button" value="edit">
+                        <div class="note-top">
+                            <div>
+                                <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
+                                <input class="btn_edit_or_save" type="button" value="edit">
+                            </div>
+                            <a th:href="'/notice/delete?id=' + ${n.getId()}">
+                                <i class="fas fa-trash" style="color: #e71c1c; font-size: 20px; position: relative; left:0"></i>
+                            </a>
+                        </div>
 <!--                        <div th:class="${category.getId()} + ' edit-box'" th:data-id="${n.getId()}" th:text="${n.getContent()}"></div>-->
                         <div class="content" th:text="${n.getContent()}">
                         </div>

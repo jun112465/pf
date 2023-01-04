@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:input="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/signUpPage.css">
+</head>
+<body>
+<header id="nav">
+    <!--    logo-->
+    <div id="nav_logo">
+        <img src="/images/notebook.svg" alt="" width="40px">
+        <a href="/">Note App</a>
+    </div>
+    <!--    search-->
+
+    <div id="nav_ctrl">
+        <div>회원가입 페이지</div>
+    </div>
+</header>
+
+
+<section class="sign-in-container">
+    <div class="sign-in">
+        <form id="sign-form" action="/members/new" method="post">
+            <input type="text" name="memberId" placeholder="INPUT ID">
+            <input type="password" name="password" placeholder="INPUT PW">
+            <input id="btn-sign-in" type="submit" value="SIGN UP">
+            <div class="error-msg-box">
+                <div style="color:red" th:if="${joinErrorMsg}" th:text="${joinErrorMsg}"></div>
+                <div style="color:red" th:if="${noTextErrorMsg}" th:text="${noTextErrorMsg}"></div>
+            </div>
+        </form>
+    </div>
+</section>
+
+</body>
+</html>

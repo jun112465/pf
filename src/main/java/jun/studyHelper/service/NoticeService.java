@@ -35,6 +35,10 @@ public class NoticeService {
         return jpaNoticeRepository.saveAndFlush(notice);
     }
 
+    public void delete(Long noticeId){
+        jpaNoticeRepository.deleteById(noticeId);
+    }
+
     public Notice findNotice(long id){
         return jpaNoticeRepository.findById(id).get();
     }
