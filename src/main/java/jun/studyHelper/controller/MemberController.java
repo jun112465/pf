@@ -12,6 +12,8 @@ import jun.studyHelper.domain.entity.Category;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.dto.LoginForm;
 import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.exception.ErrorCode;
+import jun.studyHelper.exception.IdDuplicateException;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.FileService;
 import jun.studyHelper.service.MemberService;
@@ -64,9 +66,9 @@ public class MemberController {
         System.out.println("LOG : member : " + form.toString());
 
         if(memberService.isMemberBlank(member)){
-            System.out.println("LOG: Nothing entered");
-            redirect.addFlashAttribute("noTextErrorMsg", "Nothing Entered");
-            return "redirect:/";
+            throw new IdDuplicateException("ID duplicated", ErrorCode.ID_DUPLICATION);
+//            redirect.addFlashAttribute("noTextErrorMsg", "Nothing Entered");
+//            return "redirect:/";
         }
 
         if(memberService.join(member) == null){
