@@ -22,17 +22,16 @@
 
 <section class="sign-in-container">
     <div class="sign-in">
-        <form id="sign-form" action="/members/new" method="post">
-            <input type="text" name="memberId" placeholder="INPUT ID">
-            <input type="password" name="password" placeholder="INPUT PW">
-            <input id="btn-sign-in" type="submit" value="SIGN UP">
+        <div id="sign-form">
+            <input type="text" name="memberId" placeholder="INPUT ID" id="form-id">
+            <input type="password" name="password" placeholder="INPUT PW" id="form-pw">
+            <input id="btn-sign-up" type="button" value="SIGN UP">
             <div class="error-msg-box">
-                <div style="color:red" th:if="${joinErrorMsg}" th:text="${joinErrorMsg}"></div>
-                <div style="color:red" th:if="${noTextErrorMsg}" th:text="${noTextErrorMsg}"></div>
+                <div style="color:red" id="error-msg"></div>
             </div>
-        </form>
+        </div>
     </div>
 </section>
-
+<script src="./js/signUp.js"></script>
 </body>
 </html>

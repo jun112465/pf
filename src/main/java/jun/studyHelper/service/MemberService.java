@@ -1,12 +1,15 @@
 package jun.studyHelper.service;
 
 import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.exception.ErrorCode;
+import jun.studyHelper.exception.IdDuplicateException;
 import jun.studyHelper.repository.member.JpaMemberRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -31,8 +34,10 @@ public class MemberService {
      * @return
      */
     public Member join(Member member) {
+        if(isMemberBlank(member))
+            throw new NoSuchElementException();
         if(!validateDuplicateMember(member))
-            return null;
+            throw new IdDuplicateException("id duplicated", ErrorCode.ID_DUPLICATION);
 
         return memberRepository.saveAndFlush(member);
     }
