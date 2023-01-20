@@ -43,6 +43,12 @@ public class NoticeController {
         return true;
     }
 
+    @GetMapping("notice/delete")
+    public String deleteNote(@RequestParam String id){
+        noticeService.delete(Long.valueOf(id));
+        return "redirect:/";
+    }
+
     @PostMapping("/notice/update")
     @ResponseBody
     public void editNote(@RequestBody Notice note){

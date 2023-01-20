@@ -1,6 +1,7 @@
 body{
     padding: 10px;
-
+    text-decoration: none;
+    color: black
 }
 
 #nav{

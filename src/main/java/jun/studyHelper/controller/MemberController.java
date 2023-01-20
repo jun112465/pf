@@ -12,6 +12,8 @@ import jun.studyHelper.domain.entity.Category;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.dto.LoginForm;
 import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.exception.ErrorCode;
+import jun.studyHelper.exception.IdDuplicateException;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.FileService;
 import jun.studyHelper.service.MemberService;
@@ -56,23 +58,26 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(MemberDTO form, RedirectAttributes redirect){
+    public String create(@RequestBody MemberDTO form, RedirectAttributes redirect){
         Member member = new Member();
         member.setUid(form.getMemberId());
         member.setPw(form.getPassword());
 
         System.out.println("LOG : member : " + form.toString());
 
-        if(memberService.isMemberBlank(member)){
-            System.out.println("LOG: Nothing entered");
-            redirect.addFlashAttribute("noTextErrorMsg", "Nothing Entered");
-            return "redirect:/";
-        }
+        memberService.join(member);
 
-        if(memberService.join(member) == null){
-            // 회원가입 실패
-            redirect.addFlashAttribute("joinErrorMsg", "Duplicate Id Found");
-        }
+//        if(memberService.isMemberBlank(member)){
+//            throw new IdDuplicateException("ID duplicated", ErrorCode.ID_DUPLICATION);
+////            redirect.addFlashAttribute("noTextErrorMsg", "Nothing Entered");
+////            return "redirect:/";
+//        }
+//
+//        if(memberService.join(member) == null){
+//            // 회원가입 실패
+//            redirect.addFlashAttribute("joinErrorMsg", "Duplicate Id Found");
+//            return "redirect:/sign-up";
+//        }
 
         // 초기 카테고리 & 노트 생성
         member = memberService.findMember(member);
