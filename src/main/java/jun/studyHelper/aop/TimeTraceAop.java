@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class TimeTraceAop {
 
     // 모든 메소드에 적용하기
-//    @Around("execution(* jun.studyHelper..*(..))")
+    @Around("execution(* jun.studyHelper..*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         System.out.println("START: " + joinPoint.toString());
