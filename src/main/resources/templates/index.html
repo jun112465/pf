@@ -20,10 +20,10 @@
 
 <!--    ctrl-->
     <div id="nav_ctrl" th:if="${member!=null}">
-        <div id="nav_search">
-            <input type="text" name="" id="wef" placeholder="search something">
-            <input type="button" value="search">
-        </div>
+<!--        <div id="nav_search">-->
+<!--            <input type="text" name="" id="wef" placeholder="search something">-->
+<!--            <input type="button" value="search">-->
+<!--        </div>-->
         <div><a href="/info-setting">set info</a></div>
         <div><a href="#" id="newCategoryBtn">add category</a></div>
         <div><a th:if="${member!=null}" id="btn_logout" href="/members/logout">logout</a></div>
@@ -40,11 +40,6 @@
             <input id="btn-sign-in" type="submit" value="SIGN IN">
         </form>
         <a href="/sign-up">SIGN UP</a>
-        <div class="error-msg-box">
-            <div style="color:red" th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></div>
-            <div style="color:red" th:if="${joinErrorMsg}" th:text="${joinErrorMsg}"></div>
-            <div style="color:red" th:if="${noTextErrorMsg}" th:text="${noTextErrorMsg}"></div>
-        </div>
     </div>
 </section>
 

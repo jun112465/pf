@@ -14,13 +14,19 @@
                 'password': form_pw.value,
             })
         }).then(
-            response => response.json()
+            response => {
+                console.log(response)
+                response.json()
+            }
         ).then(
             data => {
-                console.log(data);
-                error_msg.innerHTML = data.message;
+                if(data == undefined)
+                    window.location.href = "/";
+                else {
+                    console.log(data)
+                    error_msg.innerHTML = data.message
+                }
             }
-
         );
     })
 })()

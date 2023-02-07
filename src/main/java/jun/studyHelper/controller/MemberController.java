@@ -1,31 +1,19 @@
 package jun.studyHelper.controller;
 
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import jun.studyHelper.AwsS3Config;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.domain.dto.MemberDTO;
 import jun.studyHelper.domain.entity.Category;
 import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.dto.LoginForm;
 import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.exception.ErrorCode;
-import jun.studyHelper.exception.IdDuplicateException;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.FileService;
 import jun.studyHelper.service.MemberService;
-
 import jun.studyHelper.service.NoticeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,7 +46,8 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(@RequestBody MemberDTO form, RedirectAttributes redirect){
+    @ResponseBody
+    public String create(@RequestBody MemberDTO form){
         Member member = new Member();
         member.setUid(form.getMemberId());
         member.setPw(form.getPassword());
@@ -66,18 +55,6 @@ public class MemberController {
         System.out.println("LOG : member : " + form.toString());
 
         memberService.join(member);
-
-//        if(memberService.isMemberBlank(member)){
-//            throw new IdDuplicateException("ID duplicated", ErrorCode.ID_DUPLICATION);
-////            redirect.addFlashAttribute("noTextErrorMsg", "Nothing Entered");
-////            return "redirect:/";
-//        }
-//
-//        if(memberService.join(member) == null){
-//            // 회원가입 실패
-//            redirect.addFlashAttribute("joinErrorMsg", "Duplicate Id Found");
-//            return "redirect:/sign-up";
-//        }
 
         // 초기 카테고리 & 노트 생성
         member = memberService.findMember(member);
@@ -94,13 +71,15 @@ public class MemberController {
         notice.setContent("first note");
         noticeService.add(notice);
 
-        return "redirect:/";
+
+        return null;
     }
 
     @PostMapping("/members/login")
     public String SessionLogin(
-            LoginForm form, HttpServletRequest req,
-            HttpServletResponse resp, RedirectAttributes redirect){
+            MemberDTO form,
+            HttpServletRequest req,
+            RedirectAttributes redirect){
 
         String uId = form.getMemberId();
         String pw = form.getPassword();

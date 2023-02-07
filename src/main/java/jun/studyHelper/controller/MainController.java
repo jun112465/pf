@@ -51,27 +51,14 @@ public class MainController {
 //            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
             model.addAttribute("categories", categoryService.getCategories(loginMember));
             model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginMember));
-        } else{
-            // redirection with login error
-            Map<String,?> flashMap = RequestContextUtils.getInputFlashMap(req);
-
-            if (flashMap!=null){
-                try{
-//                    Map<String, String> errorMap = (Map<String, String>) flashMap.get("errorMap");
-//                    model.addAttribute("loginErrorMsg", errorMap.get("LoginError"));
-                    String loginErrorMsg = (String) flashMap.get("loginErrorMsg");
-                    String joinErrorMsg = (String) flashMap.get("joinErrorMsg");
-                    String noTextErrorMsg = (String) flashMap.get("noTextErrorMsg");
-                    model.addAttribute("loginErrorMsg", loginErrorMsg);
-                    model.addAttribute("joinErrorMsg", joinErrorMsg);
-                    model.addAttribute("noTextErrorMsg", noTextErrorMsg);
-                }catch(NullPointerException e){
-                    System.err.println("null pointer error : main controller");
-                }
-            }
         }
 
         return "index";
+    }
+
+    @GetMapping("sign-up")
+    public String signUp(){
+        return "signUpPage";
     }
 
     @GetMapping("info-setting")
@@ -79,24 +66,6 @@ public class MainController {
         return "infoSetting";
     }
 
-    @GetMapping("sign-up")
-    public String signUp(
-            Model model, HttpServletRequest req){
-        Map<String,?> flashMap = RequestContextUtils.getInputFlashMap(req);
-
-        if (flashMap!=null){
-            try{
-                String joinErrorMsg = (String) flashMap.get("joinErrorMsg");
-                String noTextErrorMsg = (String) flashMap.get("noTextErrorMsg");
-                model.addAttribute("joinErrorMsg", joinErrorMsg);
-                model.addAttribute("noTextErrorMsg", noTextErrorMsg);
-            }catch(NullPointerException e){
-                System.err.println("null pointer error : main controller");
-            }
-        }
-
-        return "signUpPage";
-    }
 }
 
 

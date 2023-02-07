@@ -1,7 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.dto.CategoryVO;
+import jun.studyHelper.domain.dto.CategoryDTO;
 import jun.studyHelper.domain.entity.Member;
 import jun.studyHelper.domain.entity.Notice;
 import jun.studyHelper.domain.entity.Category;
@@ -30,9 +30,9 @@ public class NoticeController {
 
     @PostMapping("notice/add-note")
     @ResponseBody
-    public boolean addNote(@RequestBody CategoryVO categoryVO, HttpServletRequest req){
+    public boolean addNote(@RequestBody CategoryDTO categoryDTO, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        Category category = categoryService.findCategory(new Category(categoryVO.getCategoryId()));
+        Category category = categoryService.findCategory(new Category(categoryDTO.getCategoryId()));
 
         Notice notice = new Notice();
         notice.setCategory(category);
