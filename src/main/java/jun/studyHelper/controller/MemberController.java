@@ -152,10 +152,13 @@ public class MemberController {
             }
         }
 
+        System.out.println(id);
         if(!id.isEmpty()){
             member.setUid(id);
+
         }
 
+        System.out.println(pw);
         if(!pw.isEmpty()){
             member.setPw(pw);
         }

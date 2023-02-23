@@ -14,12 +14,11 @@
                 'password': form_pw.value,
             })
         }).then(
-            response => {
-                console.log(response)
-                response.json()
-            }
+            response=>response.json()
         ).then(
             data => {
+                console.log(data);
+                error_msg.innerHTML = data.message;
                 if(data == undefined)
                     window.location.href = "/";
                 else {
