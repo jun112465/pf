@@ -1,16 +1,34 @@
 package jun.studyHelper.repository.member;
 
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.model.entity.Member;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-public interface MemberRepository {
-    Member save(Member member);
-    Optional<Member> findById(String id);
-    List<Member> findAll();
-    Map<Integer, String> getFriends(Member me);
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    @Override
+    <S extends Member> S save(S entity);
 
-    void updateMemberInfo(String profileFileName, String profileMessage, int memberId);
+    @Override
+    Optional<Member> findById(Long id);
+
+    @Override
+    List<Member> findAll(Sort sort);
+
+    @Override
+    <S extends Member> Optional<S> findOne(Example<S> example);
+
+    /**
+     * query methods
+     * @param uid
+     * @return
+     */
+    List<Member> findByUid(String uid);
+
+    Optional<Member> findOptionalByUid(String uid);
 }

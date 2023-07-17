@@ -2,10 +2,12 @@ package jun.studyHelper.controller;
 
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.dto.MemberDTO;
-import jun.studyHelper.domain.entity.Category;
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.model.dto.CategoryDTO;
+import jun.studyHelper.model.dto.MemberDTO;
+import jun.studyHelper.model.dto.NoticeDTO;
+import jun.studyHelper.model.entity.Category;
+import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.FileService;
 import jun.studyHelper.service.MemberService;
@@ -47,49 +49,47 @@ public class MemberController {
 
     @PostMapping("/members/new")
     @ResponseBody
-    public String create(@RequestBody MemberDTO form){
-        Member member = new Member();
-        member.setUid(form.getMemberId());
-        member.setPw(form.getPassword());
-
-        System.out.println("LOG : member : " + form.toString());
-
-        memberService.join(member);
+    public void create(@RequestBody MemberDTO memberDTO){
+        memberService.join(memberDTO);
 
         // 초기 카테고리 & 노트 생성
-        member = memberService.findMember(member);
 
-        Category category = new Category();
-        category.setMember(member);
-        category.setName("Set Category Name");
-        categoryService.addCategory(category);
-
-        Notice notice = new Notice();
-        category = categoryService.findCategory(category);
-        notice.setMember(member);
-        notice.setCategory(category);
-        notice.setContent("first note");
-        noticeService.add(notice);
+        // add member
+        Member member = memberService.findMember(memberDTO).orElse(null);
 
 
-        return null;
+        // add first category
+        CategoryDTO categoryDTO = CategoryDTO.builder()
+                .memberId(member.getId())
+                .name("Set Category Name")
+                .build();
+        Category category = categoryService.addCategory(categoryDTO);
+
+        // add first note
+        NoticeDTO noticeDTO = NoticeDTO.builder()
+                .memberId(member.getId())
+                .categoryId(category.getId())
+                .content("first note")
+                .date(Notice.getCurrentDate())
+                .build();
+        noticeService.add(noticeDTO);
     }
 
     @PostMapping("/members/login")
     public String SessionLogin(
-            MemberDTO form,
+            MemberDTO memberDTO,
             HttpServletRequest req,
             RedirectAttributes redirect){
 
-        String uId = form.getMemberId();
-        String pw = form.getPassword();
+        String uId = memberDTO.getUid();
+        String pw = memberDTO.getPassword();
 
         Member loginMember = new Member();
         loginMember.setUid(uId);
         loginMember.setPw(pw);
 
 
-        if(memberService.validateMemberInfo(loginMember)) {
+        if(memberService.validateMemberInfo(memberDTO)) {
             // 사용자의 데이터를 찾은 경우
             loginMember = memberService.findMemberByUid(loginMember).get();
             HttpSession session = req.getSession();

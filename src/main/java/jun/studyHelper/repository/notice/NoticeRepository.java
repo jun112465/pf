@@ -1,23 +1,44 @@
 package jun.studyHelper.repository.notice;
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
+import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.Notice;
+import jun.studyHelper.model.entity.Category;
+import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface NoticeRepository {
-    Notice save(Notice notice);
+// https://jobc.tistory.com/120
+public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-    Notice findById(int id);
 
-    Notice update(Notice notice);
+    @Override
+    <S extends Notice> S save(S entity);
 
-    List<Notice> findAll();
-    List<Notice> findByMemberId(Member member);
+    @Override
+    void deleteAll(Iterable<? extends Notice> entities);
 
-    void remove(Notice notice);
+    @Override
+    <S extends Notice> S saveAndFlush(S entity);
 
-    List<Notice> findByCategoryId(int id);
+//    @Override
+//    Notice getById(Long aLong);
 
-    Notice findRecentMemberNotice(Member member, Notice notice);
+    @Override
+    Optional<Notice> findById(Long aLong);
+
+    @Override
+    <S extends Notice> List<S> findAll(Example<S> example);
+
+    @Override
+    void deleteById(Long id);
+
+    // 쿼리 메소드 추가
+    List<Notice> findByMemberIdOrderByDateAsc(long memberId);
+    List<Notice> findByCategoryOrderByDateAsc(Category noticeCategory);
+    void deleteAllByCategory(Category category);
+
+
+    List<Notice> findByMember(Member member);
 }

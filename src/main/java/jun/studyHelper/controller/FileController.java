@@ -3,7 +3,7 @@ package jun.studyHelper.controller;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.model.entity.Member;
 import jun.studyHelper.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

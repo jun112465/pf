@@ -1,7 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.entity.Member;
+import jun.studyHelper.model.entity.Member;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @Controller
 public class MainController {
@@ -49,8 +47,8 @@ public class MainController {
             // login succeeded
             model.addAttribute("member", loginMember);
 //            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
-            model.addAttribute("categories", categoryService.getCategories(loginMember));
-            model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginMember));
+//            model.addAttribute("categories", categoryService.getCategories(loginMember));
+//            model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginMember));
         }
 
         return "index";

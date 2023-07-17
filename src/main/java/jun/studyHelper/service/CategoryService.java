@@ -1,51 +1,73 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Category;
-import jun.studyHelper.repository.category.CategoryRepo;
+import jun.studyHelper.model.dto.CategoryDTO;
+import jun.studyHelper.model.dto.MemberDTO;
+import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.Category;
+import jun.studyHelper.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class CategoryService {
 
-//    NoticeCategoryRepository ncr;
-    CategoryRepo ncr;
+    CategoryRepository categoryRepository;
+    MemberService memberService;
+
     NoticeService noticeService;
 
+
+
     @Autowired
-    public CategoryService(CategoryRepo ncr, NoticeService noticeService) {
-        this.ncr = ncr;
+    public CategoryService(CategoryRepository categoryRepository, MemberService memberService, NoticeService noticeService) {
+        this.categoryRepository = categoryRepository;
+        this.memberService = memberService;
         this.noticeService = noticeService;
     }
 
-    public Category findCategory(Category category){
-        return ncr.getById(category.getId());
+    public Category findCategory(CategoryDTO categoryDTO){
+        return categoryRepository.findById(categoryDTO.getId()).orElse(null);
     }
 
-    public boolean addCategory(Category nc){
-        if(validateCategory(nc)){
-            ncr.save(nc);
-            return true;
+    /**
+     * 성공하면 entity 반환
+     * 실패 시 null 반환
+     *
+     * @param categoryDTO
+     * @return
+     */
+    public Category addCategory(CategoryDTO categoryDTO){
+        Category category = null;
+        if(validateCategory(categoryDTO)){
+            Member member = memberService.findMember(MemberDTO
+                    .builder()
+                    .id(categoryDTO.getMemberId())
+                    .build())
+                    .orElse(null);
+
+            category = categoryRepository.save(Category.builder()
+                    .name(categoryDTO.getName())
+                    .member(member)
+                    .build());
         }
 
-        System.err.println("중복된 카테고리 ");
-        return false;
+        return category;
     }
 
-    public List<Category> getCategories(Member member){
-        return ncr.findByMember(member);
+    public List<Category> getCategories(MemberDTO memberDTO){
+        return categoryRepository.findAllByMemberId(memberDTO.getId());
     }
 
 
-    public boolean validateCategory(Category nc){
-        List<Category> noticeCategories = getCategories(nc.getMember());
-        for(Category nc2 : noticeCategories){
-            if (nc2.equals(nc))
+    public boolean validateCategory(CategoryDTO categoryDTO){
+        List<Category> noticeCategories =categoryRepository.findAllByMemberId(categoryDTO.getMemberId());
+        for(Category c : noticeCategories){
+            if (c.getName().equals(categoryDTO.getName()))
                 return false;
         }
 
@@ -53,9 +75,18 @@ public class CategoryService {
     }
 
 
-    public void deleteCategory(Category category, long id){
-        noticeService.deleteNoticeListByCategory(category);
-        ncr.deleteById(id);
+    public void deleteCategory(CategoryDTO categoryDTO){
+        noticeService.deleteNoticeListByCategory(categoryDTO);
+        categoryRepository.deleteById(categoryDTO.getId());
+//        noticeService.deleteNoticeListByCategory(categoryDTO.);
+//        noticeService.deleteNoticeListByCategory(categoryDTO);
+//        ncr.deleteById(id);
+    }
+
+    public Category findByMemberAndName(CategoryDTO categoryDTO){
+        return categoryRepository
+                .findCategoryByMemberIdAndName(categoryDTO.getMemberId(), categoryDTO.getName())
+                .orElse(null);
     }
 
 

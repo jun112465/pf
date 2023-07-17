@@ -1,10 +1,11 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.domain.dto.CategoryDTO;
-import jun.studyHelper.domain.entity.Member;
-import jun.studyHelper.domain.entity.Notice;
-import jun.studyHelper.domain.entity.Category;
+import jun.studyHelper.model.dto.CategoryDTO;
+import jun.studyHelper.model.dto.NoticeDTO;
+import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.Notice;
+import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
@@ -32,13 +33,15 @@ public class NoticeController {
     @ResponseBody
     public boolean addNote(@RequestBody CategoryDTO categoryDTO, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        Category category = categoryService.findCategory(new Category(categoryDTO.getCategoryId()));
 
-        Notice notice = new Notice();
-        notice.setCategory(category);
-        notice.setMember(member);
+        NoticeDTO noticeDTO = NoticeDTO.builder()
+                .memberId(member.getId())
+                .categoryId(categoryDTO.getId())
+                .content("note")
+                .date(Notice.getCurrentDate())
+                .build();
 
-        noticeService.add(notice);
+        noticeService.add(noticeDTO);
 
         return true;
     }
@@ -58,15 +61,13 @@ public class NoticeController {
 
 
     @PostMapping("/notice/add-category")
-    public String addCategory(@RequestParam String category, HttpServletRequest req){
+    public String addCategory(@RequestParam String categoryName, HttpServletRequest req){
         Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
-        System.out.println("LOG: category : " + category);
-        Category nc = new Category();
-        nc.setMember(member);
-        nc.setName(category);
-
-        categoryService.addCategory(nc);
+        categoryService.addCategory(CategoryDTO.builder()
+                .memberId(member.getId())
+                .name(categoryName)
+                .build());
 
         return "redirect:/";
     }
@@ -83,10 +84,10 @@ public class NoticeController {
 
     @GetMapping("/notice/delete-category")
     public String deleteCategory(HttpServletRequest req, String id){
-        Category nc = new Category();
-        nc.setId(Integer.parseInt(id));
-
-        categoryService.deleteCategory(nc, Long.valueOf(id));
+        CategoryDTO categoryDTO = CategoryDTO.builder()
+                .id(Long.valueOf(id))
+                .build();
+        categoryService.deleteCategory(categoryDTO);
 
         return "redirect:/";
     }
