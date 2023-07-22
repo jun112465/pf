@@ -1,6 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
+import jun.studyHelper.model.dto.MemberDTO;
 import jun.studyHelper.model.entity.Member;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.MemberService;
@@ -42,12 +43,20 @@ public class MainController {
         }
 
         // session exist
+        System.out.println("Session exist");
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
         if (loginMember != null){
+            System.out.println();
+            MemberDTO loginDTO = MemberDTO.builder()
+                    .id(loginMember.getId())
+                    .uid(loginMember.getUid())
+                    .pwd(loginMember.getPw())
+                    .build();
             // login succeeded
             model.addAttribute("member", loginMember);
 //            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
-//            model.addAttribute("categories", categoryService.getCategories(loginMember));
+//            model.addAttribute("categories", categoryService.getCategories(loginDTO));
 //            model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginMember));
         }
 

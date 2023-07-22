@@ -5,9 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class MemberDTO {
-    long id;
+public class NewMemberDTO {
     String uid;
     String pwd;
 }

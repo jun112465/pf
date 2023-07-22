@@ -31,4 +31,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findByUid(String uid);
 
     Optional<Member> findOptionalByUid(String uid);
+
+//    @Override
+//    void flush();
 }

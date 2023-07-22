@@ -30,7 +30,7 @@ public class CategoryServiceTest {
 
         member = memberService.join(MemberDTO.builder()
                 .uid("testId")
-                .password("testPw")
+                .pwd("testPw")
                 .build());
 
         categoryDTO = CategoryDTO.builder()

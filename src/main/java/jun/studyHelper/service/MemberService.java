@@ -30,8 +30,11 @@ public class MemberService {
      * @return
      */
     public Optional<Member> findMember(MemberDTO memberDTO){
-        return memberRepository.findById(memberDTO.getId());
-//        return memberRepository.findOptionalByUid(memberDTO.getUid()).orElse(null);
+
+        if(memberDTO.getId()!=0)
+            return memberRepository.findById(memberDTO.getId());
+        else
+            return Optional.ofNullable(memberRepository.findByUid(memberDTO.getUid()).get(0));
     }
 
 
@@ -50,7 +53,7 @@ public class MemberService {
 
         return memberRepository.save(Member.builder()
                 .uid(memberDTO.getUid())
-                .pw(memberDTO.getPassword())
+                .pw(memberDTO.getPwd())
                 .build());
     }
 
@@ -85,7 +88,7 @@ public class MemberService {
      * @return
      */
     public boolean isMemberBlank(MemberDTO memberDTO){
-        if (memberDTO.getUid().isBlank() || memberDTO.getPassword().isBlank()){
+        if (memberDTO.getUid().isBlank() || memberDTO.getPwd().isBlank()){
             return true;
         }
         return false;
@@ -104,12 +107,15 @@ public class MemberService {
      */
     public boolean validateMemberInfo(MemberDTO member){
 
-        // 동일한 uid 를 가진 유저 있는가?
-        List<Member> find = memberRepository.findByUid(member.getUid());
-        if(find.isEmpty())
-            return false;
+        Optional<Member> find = memberRepository.findOptionalByUid(member.getUid());
+        return find.isPresent();
 
-        return find.get(0).equals(member);
+        // 동일한 uid 를 가진 유저 있는가?
+//        List<Member> find = memberRepository.findByUid(member.getUid());
+//        if(find.isEmpty())
+//            return false;
+
+//        return find.get(0).equals(member);
     }
 
 
@@ -117,10 +123,10 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Optional<Member> findMemberByUid(Member member) {
+    public Optional<Member> findMemberByUid(String uid) {
         return Optional.ofNullable(
                 memberRepository
-                        .findByUid(member.getUid())
+                        .findByUid(uid)
                         .get(0)
         );
     }

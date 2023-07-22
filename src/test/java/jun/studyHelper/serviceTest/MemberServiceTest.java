@@ -30,14 +30,14 @@ public class MemberServiceTest {
         // given
         MemberDTO memberDTO = MemberDTO.builder()
                 .uid("testID")
-                .password("testPW")
+                .pwd("testPW")
                 .build();
 
         // when
         memberService.join(memberDTO);
 
         // then
-        Assertions.assertThat(memberService.findMember(memberDTO).get().getUid()).isEqualTo("testID");
+        Assertions.assertThat(memberService.findMember(memberDTO).get().getUid()).isEqualTo(memberDTO.getUid());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class MemberServiceTest {
         // given
         MemberDTO memberDTO = MemberDTO.builder()
                 .uid("testID")
-                .password("testPW")
+                .pwd("testPW")
                 .build();
         memberService.join(memberDTO);
 

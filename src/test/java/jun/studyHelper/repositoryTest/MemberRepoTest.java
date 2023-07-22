@@ -47,20 +47,19 @@ public class MemberRepoTest {
         Assertions.assertThat(tmpMember.getPw()).isEqualTo(tmpPw);
     }
 
-//    @Test
-//    @DisplayName("회원 존재 여부 테스트")
-//    public void check(){
-//        //given
-//        Member member = new Member("testid", "testpw");
-//        Member member1 = new Member("testid", "testpw");
-//        //when
+    @Test
+    @DisplayName("회원 존재 여부 테스트")
+    public void check(){
+        //given
+        Member member = new Member("testid", "testpw");
+        //when
+        repo.save(member);
+        repo.flush();
 //        memberRepository.save(member);
-//
-//        try{
-//            memberRepository.save(member1);
-//        }catch(Exception e){
-//            System.err.println(e);
-//        }
-//    }
+
+        Assertions.assertThat(repo.findByUid(member.getUid()).get(0)).isEqualTo(repo.findOptionalByUid(member.getUid()).get());
+//        System.out.println(repo.findByUid(member.getUid()));
+//        System.out.println(repo.findOptionalByUid(member.getUid()));
+    }
 
 }

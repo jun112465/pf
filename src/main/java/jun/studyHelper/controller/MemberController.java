@@ -4,6 +4,7 @@ package jun.studyHelper.controller;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDTO;
 import jun.studyHelper.model.dto.MemberDTO;
+import jun.studyHelper.model.dto.NewMemberDTO;
 import jun.studyHelper.model.dto.NoticeDTO;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.Member;
@@ -12,6 +13,7 @@ import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.FileService;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +37,7 @@ public class MemberController {
 
 
 
+    @Autowired
     public MemberController(
             MemberService memberService,
             FileService fileService,
@@ -50,12 +53,20 @@ public class MemberController {
     @PostMapping("/members/new")
     @ResponseBody
     public void create(@RequestBody MemberDTO memberDTO){
-        memberService.join(memberDTO);
 
+        System.out.println(memberDTO);
+//        System.out.println(newMemberDTO.toString());
+////        System.out.println(map.toString());
+//        MemberDTO memberDTO = MemberDTO.builder()
+//                .uid(newMemberDTO.getUid())
+//                .password(newMemberDTO.getPwd())
+//                .build();
+
+        Member member = memberService.join(memberDTO);
         // 초기 카테고리 & 노트 생성
 
         // add member
-        Member member = memberService.findMember(memberDTO).orElse(null);
+        System.out.println("멤버 등록 후 " + member.toString());
 
 
         // add first category
@@ -81,17 +92,18 @@ public class MemberController {
             HttpServletRequest req,
             RedirectAttributes redirect){
 
-        String uId = memberDTO.getUid();
-        String pw = memberDTO.getPassword();
+        System.out.println("SessionLogin");
+        System.out.println(memberDTO);
 
-        Member loginMember = new Member();
-        loginMember.setUid(uId);
-        loginMember.setPw(pw);
-
-
+        System.out.println("조건문 직전");
         if(memberService.validateMemberInfo(memberDTO)) {
             // 사용자의 데이터를 찾은 경우
-            loginMember = memberService.findMemberByUid(loginMember).get();
+            System.out.println("조건문 통과");
+            System.out.println(memberService.findMember(memberDTO));
+            Member loginMember = memberService.findMember(memberDTO).orElse(null);
+            System.out.println("founded member");
+            System.out.println(loginMember);
+
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 

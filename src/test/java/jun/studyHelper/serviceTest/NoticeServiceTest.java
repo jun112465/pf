@@ -47,7 +47,7 @@ public class NoticeServiceTest {
     public void beforeEach(){
         testMemberDTO = MemberDTO.builder()
                 .uid("testId")
-                .password("testPw")
+                .pwd("testPw")
                 .build();
         member = memberService.join(testMemberDTO);
 
