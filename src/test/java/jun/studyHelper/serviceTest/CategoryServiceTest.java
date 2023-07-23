@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @SpringBootTest
 public class CategoryServiceTest {
@@ -45,6 +47,12 @@ public class CategoryServiceTest {
         Assertions.assertThat(category.getId()).isEqualTo(1);
 
         category = categoryService.findByMemberAndName(categoryDTO);
+        List<Category> list = categoryService.getCategories(MemberDTO.builder()
+                .id(member.getId())
+                .uid(member.getUid())
+                .pwd(member.getPw())
+                .build());
+        System.out.println(list);
         Assertions.assertThat(category.getId()).isEqualTo(1);
     }
 

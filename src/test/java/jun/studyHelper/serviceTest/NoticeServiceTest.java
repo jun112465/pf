@@ -52,7 +52,7 @@ public class NoticeServiceTest {
         member = memberService.join(testMemberDTO);
 
         testCategoryDTO = CategoryDTO.builder()
-                .memberId(testMemberDTO.getId())
+                .memberId(member.getId())
                 .name("testCategory")
                 .build();
         category = categoryService.addCategory(testCategoryDTO);
@@ -74,5 +74,8 @@ public class NoticeServiceTest {
 
         //then
         Assertions.assertThat(noticeService.findNoticeList().get(0)).isEqualTo(notice);
+        System.out.println(noticeService.findMemberNoticeList(member));
     }
+
+
 }

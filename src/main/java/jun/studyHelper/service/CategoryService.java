@@ -5,6 +5,8 @@ import jun.studyHelper.model.dto.MemberDTO;
 import jun.studyHelper.model.entity.Member;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.repository.category.CategoryRepository;
+import jun.studyHelper.repository.member.MemberRepository;
+import jun.studyHelper.repository.notice.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class CategoryService {
 
     CategoryRepository categoryRepository;
+    MemberRepository memberRepository;
+    NoticeRepository noticeRepository;
     MemberService memberService;
 
     NoticeService noticeService;
@@ -24,8 +28,10 @@ public class CategoryService {
 
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository, MemberService memberService, NoticeService noticeService) {
+    public CategoryService(CategoryRepository categoryRepository, MemberService memberService, NoticeService noticeService, MemberRepository memberRepository, NoticeRepository noticeRepository) {
         this.categoryRepository = categoryRepository;
+        this.memberRepository = memberRepository;
+        this.noticeRepository = noticeRepository;
         this.memberService = memberService;
         this.noticeService = noticeService;
     }
@@ -44,11 +50,7 @@ public class CategoryService {
     public Category addCategory(CategoryDTO categoryDTO){
         Category category = null;
         if(validateCategory(categoryDTO)){
-            Member member = memberService.findMember(MemberDTO
-                    .builder()
-                    .id(categoryDTO.getMemberId())
-                    .build())
-                    .orElse(null);
+            Member member = memberRepository.findById(categoryDTO.getMemberId()).orElse(null);
 
             category = categoryRepository.save(Category.builder()
                     .name(categoryDTO.getName())
@@ -76,7 +78,8 @@ public class CategoryService {
 
 
     public void deleteCategory(CategoryDTO categoryDTO){
-        noticeService.deleteNoticeListByCategory(categoryDTO);
+        Category category = categoryRepository.getById(categoryDTO.getId());
+        noticeRepository.deleteAllByCategory(category);
         categoryRepository.deleteById(categoryDTO.getId());
 //        noticeService.deleteNoticeListByCategory(categoryDTO.);
 //        noticeService.deleteNoticeListByCategory(categoryDTO);

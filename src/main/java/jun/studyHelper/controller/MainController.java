@@ -48,16 +48,21 @@ public class MainController {
 
         if (loginMember != null){
             System.out.println();
+            System.out.println(loginMember.getId());
+
             MemberDTO loginDTO = MemberDTO.builder()
                     .id(loginMember.getId())
                     .uid(loginMember.getUid())
                     .pwd(loginMember.getPw())
                     .build();
+
+            System.out.println();
+            System.out.println(categoryService.getCategories(loginDTO));
             // login succeeded
             model.addAttribute("member", loginMember);
-//            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
-//            model.addAttribute("categories", categoryService.getCategories(loginDTO));
-//            model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginMember));
+            model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginMember));
+            model.addAttribute("categories", categoryService.getCategories(loginDTO));
+            model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginDTO));
         }
 
         return "index";
