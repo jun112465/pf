@@ -31,10 +31,14 @@ public class MemberService {
      */
     public Optional<Member> findMember(MemberDTO memberDTO){
 
+
         if(memberDTO.getId()!=0)
             return memberRepository.findById(memberDTO.getId());
-        else
-            return Optional.ofNullable(memberRepository.findByUid(memberDTO.getUid()).get(0));
+
+
+        List<Member> memberList = memberRepository.findByUid(memberDTO.getUid());
+        if(memberList.isEmpty()) return Optional.ofNullable(null);
+        else return Optional.ofNullable(memberList.get(0));
     }
 
 

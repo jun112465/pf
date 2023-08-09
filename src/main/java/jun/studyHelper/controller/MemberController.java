@@ -40,19 +40,19 @@ public class MemberController {
     @Autowired
     public MemberController(
             MemberService memberService,
-            FileService fileService,
+//            FileService fileService,
             NoticeService noticeService,
             CategoryService categoryService
     ) {
         this.memberService = memberService;
-        this.fileService = fileService;
+//        this.fileService = fileService;
         this.noticeService = noticeService;
         this.categoryService = categoryService;
     }
 
     @PostMapping("/members/new")
     @ResponseBody
-    public void create(@RequestBody MemberDTO memberDTO){
+    public String create(@RequestBody MemberDTO memberDTO){
 
         System.out.println(memberDTO);
 //        System.out.println(newMemberDTO.toString());
@@ -61,6 +61,12 @@ public class MemberController {
 //                .uid(newMemberDTO.getUid())
 //                .password(newMemberDTO.getPwd())
 //                .build();
+
+        if(memberService.findMember(memberDTO).isPresent())
+            return "DUPLICATED UID";
+//
+//        if(memberService.isMemberBlank(memberDTO))
+//            return "PLEASE ENTER TEXT";
 
         Member member = memberService.join(memberDTO);
         // 초기 카테고리 & 노트 생성
@@ -84,6 +90,8 @@ public class MemberController {
                 .date(Notice.getCurrentDate())
                 .build();
         noticeService.add(noticeDTO);
+
+        return "new member added";
     }
 
     @PostMapping("/members/login")
