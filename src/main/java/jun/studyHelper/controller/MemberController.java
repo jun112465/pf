@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
@@ -68,7 +69,7 @@ public class MemberController {
 //        if(memberService.isMemberBlank(memberDTO))
 //            return "PLEASE ENTER TEXT";
 
-        Member member = memberService.join(memberDTO);
+        Member member = memberService.join(memberDTO).orElse(null);
         // 초기 카테고리 & 노트 생성
 
         // add member
@@ -80,7 +81,7 @@ public class MemberController {
                 .memberId(member.getId())
                 .name("Set Category Name")
                 .build();
-        Category category = categoryService.addCategory(categoryDTO);
+        Category category = categoryService.addCategory(categoryDTO).orElse(null);
 
         // add first note
         NoticeDTO noticeDTO = NoticeDTO.builder()

@@ -49,13 +49,13 @@ public class NoticeServiceTest {
                 .uid("testId")
                 .pwd("testPw")
                 .build();
-        member = memberService.join(testMemberDTO);
+        member = memberService.join(testMemberDTO).orElse(null);
 
         testCategoryDTO = CategoryDTO.builder()
                 .memberId(member.getId())
                 .name("testCategory")
                 .build();
-        category = categoryService.addCategory(testCategoryDTO);
+        category = categoryService.addCategory(testCategoryDTO).orElse(null);
 
 
     }

@@ -49,16 +49,16 @@ public class MemberService {
      * @param memberDTO
      * @return
      */
-    public Member join(MemberDTO memberDTO) {
+    public Optional<Member> join(MemberDTO memberDTO) {
         if(isMemberBlank(memberDTO))
             throw new NoSuchElementException();
         if(!validateDuplicateMember(memberDTO))
             throw new IdDuplicateException("id duplicated", ErrorCode.ID_DUPLICATION);
 
-        return memberRepository.save(Member.builder()
+        return Optional.ofNullable(memberRepository.save(Member.builder()
                 .uid(memberDTO.getUid())
                 .pw(memberDTO.getPwd())
-                .build());
+                .build()));
     }
 
     public void deleteMember(MemberDTO memberDTO){

@@ -47,7 +47,7 @@ public class CategoryService {
      * @param categoryDTO
      * @return
      */
-    public Category addCategory(CategoryDTO categoryDTO){
+    public Optional<Category> addCategory(CategoryDTO categoryDTO){
         Category category = null;
         if(validateCategory(categoryDTO)){
             Member member = memberRepository.findById(categoryDTO.getMemberId()).orElse(null);
@@ -58,7 +58,7 @@ public class CategoryService {
                     .build());
         }
 
-        return category;
+        return Optional.ofNullable(category);
     }
 
     public List<Category> getCategories(MemberDTO memberDTO){

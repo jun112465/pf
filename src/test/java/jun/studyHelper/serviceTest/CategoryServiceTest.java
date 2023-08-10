@@ -33,7 +33,8 @@ public class CategoryServiceTest {
         member = memberService.join(MemberDTO.builder()
                 .uid("testId")
                 .pwd("testPw")
-                .build());
+                .build())
+                .orElse(null);
 
         categoryDTO = CategoryDTO.builder()
                 .name("testCategory")
@@ -43,7 +44,7 @@ public class CategoryServiceTest {
 
     @Test
     public void createCategoryTest(){
-        Category category = categoryService.addCategory(categoryDTO);
+        Category category = categoryService.addCategory(categoryDTO).orElse(null);
         Assertions.assertThat(category.getId()).isEqualTo(1);
 
         category = categoryService.findByMemberAndName(categoryDTO);
@@ -60,7 +61,7 @@ public class CategoryServiceTest {
     public void deleteCategoryTest(){
 
         //given
-        Category category = categoryService.addCategory(categoryDTO);
+        Category category = categoryService.addCategory(categoryDTO).orElse(null);
         categoryDTO.setId(category.getId());
 
         //when

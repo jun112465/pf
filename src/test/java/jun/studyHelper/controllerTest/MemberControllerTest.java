@@ -6,6 +6,7 @@ import jun.studyHelper.controller.MemberController;
 import jun.studyHelper.model.dto.MemberDTO;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.MemberService;
 import jun.studyHelper.service.NoticeService;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -74,15 +76,35 @@ public class MemberControllerTest {
     @DisplayName("회원가입 정상 예제")
     void signUP() throws Exception {
 
+        Member testMember = Member.builder()
+                .uid("testId")
+                .pw("testPw")
+                .build();
+
+        Category testCategory = Category.builder()
+                .member(testMember)
+                .name("testName")
+                .build();
+
         given(memberService.findMember(any())).willReturn(Optional.empty());
         given(memberService.join(any())).willReturn(
-                Member.builder()
-                        .uid("testId")
+                Optional.ofNullable(Member.builder()
+                        .uid("testUid")
                         .pw("testPw")
+                        .build())
+        );
+        given(categoryService.addCategory(any())).willReturn(
+                Optional.ofNullable(Category.builder()
+                        .member(null)
+                        .name("")
+                        .build())
+        );
+        given(noticeService.add(any())).willReturn(
+                Notice.builder()
+                        .member(null)
+                        .category(null)
                         .build()
         );
-        given(categoryService.addCategory(any())).willReturn(null);
-        given(noticeService.add(any())).willReturn(null);
 
         String testUid = "testUid";
         String testPwd = "testPwd";
