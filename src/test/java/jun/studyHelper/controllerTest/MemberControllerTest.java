@@ -1,6 +1,7 @@
 package jun.studyHelper.controllerTest;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jun.studyHelper.controller.MemberController;
 import jun.studyHelper.model.dto.MemberDTO;
@@ -22,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -75,17 +77,6 @@ public class MemberControllerTest {
     @Test
     @DisplayName("회원가입 정상 예제")
     void signUP() throws Exception {
-
-        Member testMember = Member.builder()
-                .uid("testId")
-                .pw("testPw")
-                .build();
-
-        Category testCategory = Category.builder()
-                .member(testMember)
-                .name("testName")
-                .build();
-
         given(memberService.findMember(any())).willReturn(Optional.empty());
         given(memberService.join(any())).willReturn(
                 Optional.ofNullable(Member.builder()
@@ -94,30 +85,30 @@ public class MemberControllerTest {
                         .build())
         );
         given(categoryService.addCategory(any())).willReturn(
-                Optional.ofNullable(Category.builder()
-                        .member(null)
-                        .name("")
-                        .build())
+                Optional.ofNullable(Category.builder().build())
         );
         given(noticeService.add(any())).willReturn(
-                Notice.builder()
-                        .member(null)
-                        .category(null)
-                        .build()
+                Optional.ofNullable(Notice.builder().build())
         );
 
+
+        // given
         String testUid = "testUid";
         String testPwd = "testPwd";
-
         MemberDTO memberDTO = MemberDTO.builder()
                 .uid(testUid)
                 .pwd(testPwd)
                 .build();
 
-        mockMvc.perform(post("/members/new")
+        //when
+        ResultActions actions = mockMvc.perform(post("/members/new")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(memberDTO)))
+                        .content(objectMapper.writeValueAsString(memberDTO)));
+
+        //then
+        actions
                 .andExpect(status().isOk())
+                .andExpect(content().string("new member added"))
                 .andDo(print());
     }
 
@@ -139,5 +130,34 @@ public class MemberControllerTest {
                 .andDo(print());
 
     }
+
+    @Test
+    @DisplayName("로그인 테스트")
+    void loginTest() throws Exception {
+        given(memberService.validateMemberInfo(any())).willReturn(true);
+
+        //given
+        // given
+        String testUid = "testUid";
+        String testPwd = "testPwd";
+        MemberDTO memberDTO = MemberDTO.builder()
+                .uid(testUid)
+                .pwd(testPwd)
+                .build();
+
+        //when
+        ResultActions actions = mockMvc.perform(post("/members/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(memberDTO)));
+
+        //then
+        actions.andExpect(status().is(302))
+                .andDo(print());
+
+
+
+    }
+
+
     
 }

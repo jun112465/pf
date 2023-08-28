@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,14 +33,14 @@ public class NoticeService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Notice add(NoticeDTO noticeDTO){
+    public Optional<Notice> add(NoticeDTO noticeDTO){
 
-        return noticeRepository.save(Notice.builder()
+        return Optional.ofNullable(noticeRepository.save(Notice.builder()
                 .member(memberRepository.findById(noticeDTO.getMemberId()).orElse(null))
                 .category(categoryRepository.findById(noticeDTO.getCategoryId()).orElse(null))
                 .content(noticeDTO.getContent())
                 .date(noticeDTO.getDate())
-                .build());
+                .build()));
     }
 
     public void delete(Long noticeId){

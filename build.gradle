@@ -27,6 +27,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-text
 	implementation group: 'org.apache.commons', name: 'commons-text', version: '1.9'
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.1.2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 
 	// https://mvnrepository.com/artifact/org.json/json

@@ -55,25 +55,16 @@ public class MemberController {
     @ResponseBody
     public String create(@RequestBody MemberDTO memberDTO){
 
-        System.out.println(memberDTO);
-//        System.out.println(newMemberDTO.toString());
-////        System.out.println(map.toString());
-//        MemberDTO memberDTO = MemberDTO.builder()
-//                .uid(newMemberDTO.getUid())
-//                .password(newMemberDTO.getPwd())
-//                .build();
-
         if(memberService.findMember(memberDTO).isPresent())
             return "DUPLICATED UID";
-//
-//        if(memberService.isMemberBlank(memberDTO))
-//            return "PLEASE ENTER TEXT";
 
         Member member = memberService.join(memberDTO).orElse(null);
         // 초기 카테고리 & 노트 생성
 
         // add member
         System.out.println("멤버 등록 후 " + member.toString());
+        System.out.println("memberId : " + member.getId());
+        System.out.println(member);
 
 
         // add first category
@@ -82,6 +73,8 @@ public class MemberController {
                 .name("Set Category Name")
                 .build();
         Category category = categoryService.addCategory(categoryDTO).orElse(null);
+        System.out.println("categoryId : " + category.getId());
+        System.out.println(category);
 
         // add first note
         NoticeDTO noticeDTO = NoticeDTO.builder()
@@ -114,7 +107,7 @@ public class MemberController {
             System.out.println(loginMember);
 
             HttpSession session = req.getSession();
-            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+            session.setAttribute(SessionConst.LOGIN_MEMBER + "", loginMember);
 
             // 세션 유지 시간을 최대 하루로 잡음
             session.setMaxInactiveInterval(24*60*60);

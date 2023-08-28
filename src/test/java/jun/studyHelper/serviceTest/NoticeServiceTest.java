@@ -70,7 +70,7 @@ public class NoticeServiceTest {
                 .build();
 
         //when
-        Notice notice = noticeService.add(testNoticeDTO);
+        Notice notice = noticeService.add(testNoticeDTO).orElse(null);
 
         //then
         Assertions.assertThat(noticeService.findNoticeList().get(0)).isEqualTo(notice);
