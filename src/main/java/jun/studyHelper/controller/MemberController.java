@@ -9,11 +9,9 @@ import jun.studyHelper.model.dto.NoticeDTO;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.Member;
 import jun.studyHelper.model.entity.Notice;
-import jun.studyHelper.service.CategoryService;
-import jun.studyHelper.service.FileService;
-import jun.studyHelper.service.MemberService;
-import jun.studyHelper.service.NoticeService;
+import jun.studyHelper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +30,7 @@ import java.util.Optional;
 public class MemberController {
 
     public MemberService memberService;
+    public LoginService loginService;
     public FileService fileService;
     public NoticeService noticeService;
     public CategoryService categoryService;
@@ -41,11 +40,13 @@ public class MemberController {
     @Autowired
     public MemberController(
             MemberService memberService,
+            LoginService loginService,
 //            FileService fileService,
             NoticeService noticeService,
             CategoryService categoryService
     ) {
         this.memberService = memberService;
+        this.loginService = loginService;
 //        this.fileService = fileService;
         this.noticeService = noticeService;
         this.categoryService = categoryService;
@@ -89,6 +90,16 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
+    public String Login(
+            MemberDTO memberDTO
+    ){
+        //검증
+        //세션 추가
+        //리턴
+        return null;
+    }
+
+//    @PostMapping("/members/login")
     public String SessionLogin(
             MemberDTO memberDTO,
             HttpServletRequest req,
