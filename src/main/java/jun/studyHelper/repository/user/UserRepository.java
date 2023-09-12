@@ -1,6 +1,6 @@
-package jun.studyHelper.repository.member;
+package jun.studyHelper.repository.user;
 
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,27 +10,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     @Override
-    <S extends Member> S save(S entity);
+    <S extends User> S save(S entity);
 
     @Override
-    Optional<Member> findById(Long id);
+    Optional<User> findById(Long id);
 
     @Override
-    List<Member> findAll(Sort sort);
+    List<User> findAll(Sort sort);
 
     @Override
-    <S extends Member> Optional<S> findOne(Example<S> example);
+    <S extends User> Optional<S> findOne(Example<S> example);
 
     /**
      * query methods
      * @param uid
      * @return
      */
-    List<Member> findByUid(String uid);
+    List<User> findByUid(String uid);
 
-    Optional<Member> findOptionalByUid(String uid);
+    Optional<User> findOptionalByUid(String uid);
 
 //    @Override
 //    void flush();

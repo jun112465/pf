@@ -1,10 +1,10 @@
 package jun.studyHelper.repositoryTest;
 
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.member.MemberRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import jun.studyHelper.repository.notice.NoticeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,31 +20,31 @@ public class NoticeRepoTest {
     @Autowired
     NoticeRepository noticeRepo;
     @Autowired
-    MemberRepository memberRepo;
+    UserRepository memberRepo;
     @Autowired
     CategoryRepository categoryRepo;
 
-    static Member testMember;
+    static User testUser;
     static Category testCategory;
     static Notice testNotice;
 
     @BeforeEach
     @Test
     public void beforeTest(){
-        testMember = Member.builder()
+        testUser = User.builder()
                 .uid("testId")
                 .pw("testPw")
                 .build();
-        memberRepo.save(testMember);
+        memberRepo.save(testUser);
 
         testCategory = Category.builder()
-                .member(testMember)
+                .user(testUser)
                 .name("testCategory")
                 .build();
         categoryRepo.save(testCategory);
 
         testNotice = Notice.builder()
-                .member(testMember)
+                .user(testUser)
                 .category(testCategory)
                 .date(Notice.getCurrentDate())
                 .build();

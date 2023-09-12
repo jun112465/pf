@@ -1,8 +1,8 @@
 package jun.studyHelper.repositoryTest;
 
 
-import jun.studyHelper.model.entity.Member;
-import jun.studyHelper.repository.member.MemberRepository;
+import jun.studyHelper.model.entity.User;
+import jun.studyHelper.repository.user.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +17,10 @@ import java.util.Random;
 @Transactional
 @SpringBootTest
 //@DataJpaTest
-public class MemberRepoTest {
+public class UserRepoTest {
 
     @Autowired
-    MemberRepository repo;
+    UserRepository repo;
 
     @Test
     @DisplayName("회원 추가 테스트")
@@ -33,31 +33,31 @@ public class MemberRepoTest {
         new Random().nextBytes(array);
         String tmpPw = new String(array, StandardCharsets.UTF_8);
 
-        repo.save(Member.builder()
+        repo.save(User.builder()
                 .uid(tmpUid)
                 .pw(tmpPw)
                 .build());
 
         //when
-        List<Member> memberList = repo.findAll();
-        Member tmpMember = memberList.get(0);
+        List<User> userList = repo.findAll();
+        User tmpUser = userList.get(0);
 
         //then
-        Assertions.assertThat(tmpMember.getUid()).isEqualTo(tmpUid);
-        Assertions.assertThat(tmpMember.getPw()).isEqualTo(tmpPw);
+        Assertions.assertThat(tmpUser.getUid()).isEqualTo(tmpUid);
+        Assertions.assertThat(tmpUser.getPw()).isEqualTo(tmpPw);
     }
 
     @Test
     @DisplayName("회원 존재 여부 테스트")
     public void check(){
         //given
-        Member member = new Member("testid", "testpw");
+        User user = new User("testid", "testpw");
         //when
-        repo.save(member);
+        repo.save(user);
         repo.flush();
 //        memberRepository.save(member);
 
-        Assertions.assertThat(repo.findByUid(member.getUid()).get(0)).isEqualTo(repo.findOptionalByUid(member.getUid()).get());
+        Assertions.assertThat(repo.findByUid(user.getUid()).get(0)).isEqualTo(repo.findOptionalByUid(user.getUid()).get());
 //        System.out.println(repo.findByUid(member.getUid()));
 //        System.out.println(repo.findOptionalByUid(member.getUid()));
     }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class Member {
+public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,7 +16,7 @@ public class Member {
     private String pw;
 
     @Builder
-    public Member(String uid, String pw){
+    public User(String uid, String pw){
         this.uid = uid;
         this.pw = pw;
     }
@@ -25,7 +25,7 @@ public class Member {
     public boolean equals(Object obj) {
         if(obj == null) return false;
 
-        Member m = (Member) obj;
+        User m = (User) obj;
         return this.uid.equals(m.getUid()) && this.pw.equals(m.getPw());
     }
 }

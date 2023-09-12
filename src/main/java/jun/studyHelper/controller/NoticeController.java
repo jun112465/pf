@@ -3,11 +3,11 @@ package jun.studyHelper.controller;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDTO;
 import jun.studyHelper.model.dto.NoticeDTO;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.service.CategoryService;
-import jun.studyHelper.service.MemberService;
+import jun.studyHelper.service.UserService;
 import jun.studyHelper.service.NoticeService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class NoticeController {
 
-    MemberService memberService;
+    UserService userService;
     NoticeService noticeService;
     CategoryService categoryService;
 
     @Autowired
-    public NoticeController(MemberService memberService, NoticeService noticeService, CategoryService categoryService) {
-        this.memberService = memberService;
+    public NoticeController(UserService userService, NoticeService noticeService, CategoryService categoryService) {
+        this.userService = userService;
         this.noticeService = noticeService;
         this.categoryService = categoryService;
     }
@@ -32,10 +32,10 @@ public class NoticeController {
     @PostMapping("notice/add-note")
     @ResponseBody
     public boolean addNote(@RequestBody CategoryDTO categoryDTO, HttpServletRequest req){
-        Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        User user = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
         NoticeDTO noticeDTO = NoticeDTO.builder()
-                .memberId(member.getId())
+                .userId(user.getId())
                 .categoryId(categoryDTO.getId())
                 .content("note")
                 .date(Notice.getCurrentDate())
@@ -62,10 +62,10 @@ public class NoticeController {
 
     @PostMapping("/notice/add-category")
     public String addCategory(@RequestParam String categoryName, HttpServletRequest req){
-        Member member = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        User user = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
         categoryService.addCategory(CategoryDTO.builder()
-                .memberId(member.getId())
+                .userId(user.getId())
                 .name(categoryName)
                 .build());
 
@@ -76,8 +76,8 @@ public class NoticeController {
     @ResponseBody
     public void updateCategory(@RequestBody Category noticeCategory, HttpServletRequest req){
         System.out.println("LOG : noticeCategory : " + noticeCategory.toString());
-        Member m = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        noticeCategory.setMember(m);
+        User m = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        noticeCategory.setUser(m);
 
         noticeService.updateCategories(noticeCategory);
     }

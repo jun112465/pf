@@ -1,15 +1,14 @@
 package jun.studyHelper.serviceTest;
 
 import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.MemberDTO;
+import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.dto.NoticeDTO;
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Notice;
-import jun.studyHelper.repository.member.MemberRepository;
-import jun.studyHelper.repository.notice.NoticeRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import jun.studyHelper.service.CategoryService;
-import jun.studyHelper.service.MemberService;
+import jun.studyHelper.service.UserService;
 import jun.studyHelper.service.NoticeService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,34 +24,34 @@ public class NoticeServiceTest {
     @Autowired
     NoticeService noticeService;
     @Autowired
-    MemberService memberService;
+    UserService userService;
     @Autowired
     CategoryService categoryService;
 
     @Autowired
-    MemberRepository memberRepository;
+    UserRepository userRepository;
 
 
 
     NoticeDTO testNoticeDTO;
-    MemberDTO testMemberDTO;
+    UserDTO testUserDTO;
     CategoryDTO testCategoryDTO;
 
-    Member member;
+    User user;
     Category category;
 
 
 
     @BeforeEach
     public void beforeEach(){
-        testMemberDTO = MemberDTO.builder()
+        testUserDTO = UserDTO.builder()
                 .uid("testId")
                 .pwd("testPw")
                 .build();
-        member = memberService.join(testMemberDTO).orElse(null);
+        user = userService.join(testUserDTO).orElse(null);
 
         testCategoryDTO = CategoryDTO.builder()
-                .memberId(member.getId())
+                .userId(user.getId())
                 .name("testCategory")
                 .build();
         category = categoryService.addCategory(testCategoryDTO).orElse(null);
@@ -63,7 +62,7 @@ public class NoticeServiceTest {
     @Test public void addNoticeTest(){
         //given
         testNoticeDTO = NoticeDTO.builder()
-                .memberId(member.getId())
+                .userId(user.getId())
                 .categoryId(category.getId())
                 .date(Notice.getCurrentDate())
                 .content("TEST NOTE")
@@ -74,7 +73,7 @@ public class NoticeServiceTest {
 
         //then
         Assertions.assertThat(noticeService.findNoticeList().get(0)).isEqualTo(notice);
-        System.out.println(noticeService.findMemberNoticeList(member));
+//        System.out.println(noticeService.findMemberNoticeList(user));
     }
 
 

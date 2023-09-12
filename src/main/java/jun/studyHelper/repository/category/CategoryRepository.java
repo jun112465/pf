@@ -1,6 +1,5 @@
 package jun.studyHelper.repository.category;
 
-import jun.studyHelper.model.entity.Member;
 import jun.studyHelper.model.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -25,6 +24,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     void deleteById(Long id);
 
     // Query
-    List<Category> findAllByMemberId(Long memberId);
-    Optional<Category> findCategoryByMemberIdAndName(long memberId, String name);
+    List<Category> findAllByUserId(Long memberId);
+    Optional<Category> findCategoryByUserIdAndName(long memberId, String name);
 }

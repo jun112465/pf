@@ -17,8 +17,8 @@ public class Category {
     long id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    Member member;
+    @JoinColumn(name = "user_id")
+    User user;
 
     String name;
 

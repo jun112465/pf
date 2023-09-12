@@ -1,11 +1,11 @@
 package jun.studyHelper.serviceTest;
 
 import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.MemberDTO;
+import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.service.CategoryService;
-import jun.studyHelper.service.MemberService;
+import jun.studyHelper.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,15 +22,15 @@ public class CategoryServiceTest {
     @Autowired
     CategoryService categoryService;
     @Autowired
-    MemberService memberService;
+    UserService userService;
 
     CategoryDTO categoryDTO;
-    Member member;
+    User user;
 
     @BeforeEach
     public void beforeEach(){
 
-        member = memberService.join(MemberDTO.builder()
+        user = userService.join(UserDTO.builder()
                 .uid("testId")
                 .pwd("testPw")
                 .build())
@@ -38,7 +38,7 @@ public class CategoryServiceTest {
 
         categoryDTO = CategoryDTO.builder()
                 .name("testCategory")
-                .memberId(member.getId())
+                .userId(user.getId())
                 .build();
     }
 
@@ -47,11 +47,11 @@ public class CategoryServiceTest {
         Category category = categoryService.addCategory(categoryDTO).orElse(null);
         Assertions.assertThat(category.getId()).isEqualTo(1);
 
-        category = categoryService.findByMemberAndName(categoryDTO);
-        List<Category> list = categoryService.getCategories(MemberDTO.builder()
-                .id(member.getId())
-                .uid(member.getUid())
-                .pwd(member.getPw())
+        category = categoryService.findByUserAndName(categoryDTO);
+        List<Category> list = categoryService.getCategories(UserDTO.builder()
+                .id(user.getId())
+                .uid(user.getUid())
+                .pwd(user.getPw())
                 .build());
         System.out.println(list);
         Assertions.assertThat(category.getId()).isEqualTo(1);
@@ -68,8 +68,8 @@ public class CategoryServiceTest {
         categoryService.deleteCategory(categoryDTO);
 
         //then
-        Assertions.assertThat(categoryService.getCategories(MemberDTO.builder()
-                .id(member.getId()).build())).isEmpty();
+        Assertions.assertThat(categoryService.getCategories(UserDTO.builder()
+                .id(user.getId()).build())).isEmpty();
     }
 
 

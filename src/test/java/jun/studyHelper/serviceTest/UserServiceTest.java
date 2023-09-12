@@ -1,10 +1,9 @@
 package jun.studyHelper.serviceTest;
 
 
-import jun.studyHelper.model.dto.MemberDTO;
-import jun.studyHelper.model.entity.Member;
-import jun.studyHelper.repository.member.MemberRepository;
-import jun.studyHelper.service.MemberService;
+import jun.studyHelper.model.dto.UserDTO;
+import jun.studyHelper.repository.user.UserRepository;
+import jun.studyHelper.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,49 +11,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 @SpringBootTest
 @Transactional
-public class MemberServiceTest {
+public class UserServiceTest {
 
 
     @Autowired
-    MemberRepository mr;
+    UserRepository mr;
     @Autowired
-    MemberService memberService;
+    UserService userService;
 
     @Test
     @DisplayName("정상 회원가입 테스트")
     public void signUpTest(){
         // given
-        MemberDTO memberDTO = MemberDTO.builder()
+        UserDTO userDTO = UserDTO.builder()
                 .uid("testID")
                 .pwd("testPW")
                 .build();
 
         // when
-        memberService.join(memberDTO);
+        userService.join(userDTO);
 
         // then
-        Assertions.assertThat(memberService.findMember(memberDTO).get().getUid()).isEqualTo(memberDTO.getUid());
+        Assertions.assertThat(userService.findMember(userDTO).get().getUid()).isEqualTo(userDTO.getUid());
     }
 
     @Test
     @DisplayName("회원 삭제 테스트")
     public void memberDeleteTest(){
         // given
-        MemberDTO memberDTO = MemberDTO.builder()
+        UserDTO userDTO = UserDTO.builder()
                 .uid("testID")
                 .pwd("testPW")
                 .build();
-        memberService.join(memberDTO);
+        userService.join(userDTO);
 
         // when
-        memberService.deleteMember(memberDTO);
+        userService.deleteMember(userDTO);
 
         // then
-        Assertions.assertThat(memberService.findMember(memberDTO)).isNull();
+        Assertions.assertThat(userService.findMember(userDTO)).isNull();
     }
 
 

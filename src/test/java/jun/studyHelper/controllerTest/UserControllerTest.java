@@ -1,34 +1,29 @@
 package jun.studyHelper.controllerTest;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jun.studyHelper.controller.MemberController;
-import jun.studyHelper.model.dto.MemberDTO;
+import jun.studyHelper.controller.UserController;
+import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.service.CategoryService;
-import jun.studyHelper.service.MemberService;
+import jun.studyHelper.service.LoginService;
+import jun.studyHelper.service.UserService;
 import jun.studyHelper.service.NoticeService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -39,10 +34,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(MemberController.class)
+@WebMvcTest(UserController.class)
 //@SpringBootTest
 @AutoConfigureMockMvc
-public class MemberControllerTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,11 +46,13 @@ public class MemberControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    MemberService memberService;
+    UserService userService;
     @MockBean
     NoticeService noticeService;
     @MockBean
     CategoryService categoryService;
+    @MockBean
+    LoginService loginService;
 //    @BeforeEach
 //    public void setup(){
 //        mockMvc = MockMvcBuilders.standaloneSetup(MemberController.class).build();
@@ -77,9 +74,9 @@ public class MemberControllerTest {
     @Test
     @DisplayName("회원가입 정상 예제")
     void signUP() throws Exception {
-        given(memberService.findMember(any())).willReturn(Optional.empty());
-        given(memberService.join(any())).willReturn(
-                Optional.ofNullable(Member.builder()
+        given(userService.findMember(any())).willReturn(Optional.empty());
+        given(userService.join(any())).willReturn(
+                Optional.ofNullable(User.builder()
                         .uid("testUid")
                         .pw("testPw")
                         .build())
@@ -95,7 +92,7 @@ public class MemberControllerTest {
         // given
         String testUid = "testUid";
         String testPwd = "testPwd";
-        MemberDTO memberDTO = MemberDTO.builder()
+        UserDTO userDTO = UserDTO.builder()
                 .uid(testUid)
                 .pwd(testPwd)
                 .build();
@@ -103,7 +100,7 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(post("/members/new")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(memberDTO)));
+                        .content(objectMapper.writeValueAsString(userDTO)));
 
         //then
         actions
@@ -134,13 +131,13 @@ public class MemberControllerTest {
     @Test
     @DisplayName("로그인 테스트")
     void loginTest() throws Exception {
-        given(memberService.validateMemberInfo(any())).willReturn(true);
+        given(userService.validateMemberInfo(any())).willReturn(true);
 
         //given
         // given
         String testUid = "testUid";
         String testPwd = "testPwd";
-        MemberDTO memberDTO = MemberDTO.builder()
+        UserDTO userDTO = UserDTO.builder()
                 .uid(testUid)
                 .pwd(testPwd)
                 .build();
@@ -148,7 +145,7 @@ public class MemberControllerTest {
         //when
         ResultActions actions = mockMvc.perform(post("/members/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(memberDTO)));
+                .content(objectMapper.writeValueAsString(userDTO)));
 
         //then
         actions.andExpect(status().is(302))

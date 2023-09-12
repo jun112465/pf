@@ -19,32 +19,32 @@
 <!--    search-->
 
 <!--    ctrl-->
-    <div id="nav_ctrl" th:if="${member!=null}">
+    <div id="nav_ctrl" th:if="${user!=null}">
 <!--        <div id="nav_search">-->
 <!--            <input type="text" name="" id="wef" placeholder="search something">-->
 <!--            <input type="button" value="search">-->
 <!--        </div>-->
         <div><a href="/info-setting">set info</a></div>
         <div><a href="#" id="newCategoryBtn">add category</a></div>
-        <div><a th:if="${member!=null}" id="btn_logout" href="/members/logout">logout</a></div>
+        <div><a th:if="${user!=null}" id="btn_logout" href="/members/logout">logout</a></div>
         <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>
     </div>
 </header>
 
-<section class="sign-in-container" th:if="${member}==null">
+<section class="sign-in-container" th:if="${user}==null">
     <div class="sign-in">
 <!--        <div class="login_logo">SIGN IN</div>-->
-        <form id="sign-form" action="/members/login" method="post">
-            <input type="text" name="uid" placeholder="INPUT ID">
-            <input type="password" name="pwd" placeholder="INPUT PW">
-            <input id="btn-sign-in" type="submit" value="SIGN IN">
-        </form>
+<!--        <form id="sign-form" action="/members/login" method="post">-->
+            <input id="form-id" type="text" name="uid" placeholder="INPUT ID">
+            <input id="form-pw" type="password" name="pwd" placeholder="INPUT PW">
+            <input id="btn-sign-in" type="button" value="SIGN IN">
+<!--        </form>-->
         <a href="/sign-up">SIGN UP</a>
 
     </div>
 </section>
 
-<section th:unless="${member}==null">
+<section th:unless="${user}==null">
     <section class="container" th:each="category : ${categories}">
         <section id="TIL" class="slide-container">
 <!--            <div class="slide-title">🌈 TIL</div>-->
@@ -90,7 +90,7 @@
 <!--<input type="button" id="modalBtn" value="Open Modal">-->
 <!--<a id="modalBtn" href="" style="font-size:22px; color: black"></a>-->
 <!--modal for adding new category -->
-<section th:if="${member!=null}">
+<section th:if="${user!=null}">
 <!--    <button id="modalBtn" style="font-size: 25px; margin:10px;"><i class="fas fa-plus-circle"></i></button>-->
     <div id="myModal" class="modal">
         <form action="/notice/add-category" method="post">

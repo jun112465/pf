@@ -1,10 +1,10 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.model.dto.MemberDTO;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.dto.UserDTO;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.exception.ErrorCode;
 import jun.studyHelper.exception.IdDuplicateException;
-import jun.studyHelper.repository.member.MemberRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,30 +15,30 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MemberService {
-    public MemberRepository memberRepository;
+public class UserService {
+    public UserRepository userRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
     }
 
     /**
      * DB에서 member를 갖고온다.
      *
-     * @param memberDTO
+     * @param userDTO
      * @return
      */
-    public Optional<Member> findMember(MemberDTO memberDTO){
+    public Optional<User> findMember(UserDTO userDTO){
 
 
-        if(memberDTO.getId()!=0)
-            return memberRepository.findById(memberDTO.getId());
+        if(userDTO.getId()!=0)
+            return userRepository.findById(userDTO.getId());
 
 
-        List<Member> memberList = memberRepository.findByUid(memberDTO.getUid());
-        if(memberList.isEmpty()) return Optional.ofNullable(null);
-        else return Optional.ofNullable(memberList.get(0));
+        List<User> userList = userRepository.findByUid(userDTO.getUid());
+        if(userList.isEmpty()) return Optional.ofNullable(null);
+        else return Optional.ofNullable(userList.get(0));
     }
 
 
@@ -46,25 +46,25 @@ public class MemberService {
     /**
      * 회원가입을 진행하는 메서드.
      *
-     * @param memberDTO
+     * @param userDTO
      * @return
      */
-    public Optional<Member> join(MemberDTO memberDTO) {
-        if(isMemberBlank(memberDTO))
+    public Optional<User> join(UserDTO userDTO) {
+        if(isMemberBlank(userDTO))
             throw new NoSuchElementException();
-        if(!validateDuplicateMember(memberDTO))
+        if(!validateDuplicateMember(userDTO))
             throw new IdDuplicateException("id duplicated", ErrorCode.ID_DUPLICATION);
 
-        return Optional.ofNullable(memberRepository.save(Member.builder()
-                .uid(memberDTO.getUid())
-                .pw(memberDTO.getPwd())
+        return Optional.ofNullable(userRepository.save(User.builder()
+                .uid(userDTO.getUid())
+                .pw(userDTO.getPwd())
                 .build()));
     }
 
-    public void deleteMember(MemberDTO memberDTO){
-        Member member;
-        if((member = findMember(memberDTO).orElse(null)) != null)
-            memberRepository.delete(member);
+    public void deleteMember(UserDTO userDTO){
+        User user;
+        if((user = findMember(userDTO).orElse(null)) != null)
+            userRepository.delete(user);
     }
 
     /**
@@ -75,12 +75,12 @@ public class MemberService {
      * @param member
      * @return
      */
-    private boolean validateDuplicateMember(MemberDTO member) {
-        return memberRepository.findByUid(member.getUid()).isEmpty();
+    private boolean validateDuplicateMember(UserDTO member) {
+        return userRepository.findByUid(member.getUid()).isEmpty();
     }
 
-    public void deleteMember(Member member){
-        memberRepository.delete(member);
+    public void deleteMember(User user){
+        userRepository.delete(user);
     }
 
 
@@ -88,11 +88,11 @@ public class MemberService {
      * 회원가입 과정에서 폼으로 빈 데이터가 들어오는 것을 방지하는 코드다
      * uid or pw 가 비어있으면 true 반환
      * 둘 다 값이 있으면 false 반환
-     * @param memberDTO
+     * @param userDTO
      * @return
      */
-    public boolean isMemberBlank(MemberDTO memberDTO){
-        if (memberDTO.getUid().isBlank() || memberDTO.getPwd().isBlank()){
+    public boolean isMemberBlank(UserDTO userDTO){
+        if (userDTO.getUid().isBlank() || userDTO.getPwd().isBlank()){
             return true;
         }
         return false;
@@ -109,9 +109,9 @@ public class MemberService {
      * @param member
      * @return
      */
-    public boolean validateMemberInfo(MemberDTO member){
+    public boolean validateMemberInfo(UserDTO member){
 
-        Optional<Member> find = memberRepository.findOptionalByUid(member.getUid());
+        Optional<User> find = userRepository.findOptionalByUid(member.getUid());
         return find.isPresent();
 
         // 동일한 uid 를 가진 유저 있는가?
@@ -123,13 +123,13 @@ public class MemberService {
     }
 
 
-    public List<Member> findMembers(){
-        return memberRepository.findAll();
+    public List<User> findMembers(){
+        return userRepository.findAll();
     }
 
-    public Optional<Member> findMemberByUid(String uid) {
+    public Optional<User> findMemberByUid(String uid) {
         return Optional.ofNullable(
-                memberRepository
+                userRepository
                         .findByUid(uid)
                         .get(0)
         );

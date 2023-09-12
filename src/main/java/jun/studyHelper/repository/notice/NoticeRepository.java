@@ -1,6 +1,6 @@
 package jun.studyHelper.repository.notice;
 
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.model.entity.Category;
 import org.springframework.data.domain.Example;
@@ -35,10 +35,10 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     void deleteById(Long id);
 
     // 쿼리 메소드 추가
-    List<Notice> findByMemberIdOrderByDateAsc(long memberId);
+    List<Notice> findByUserIdOrderByDateAsc(long userId);
     List<Notice> findByCategoryOrderByDateAsc(Category noticeCategory);
     void deleteAllByCategory(Category category);
 
 
-    List<Notice> findByMember(Member member);
+    List<Notice> findByUser(User user);
 }

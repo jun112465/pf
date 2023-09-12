@@ -1,9 +1,9 @@
 package jun.studyHelper.repositoryTest;
 
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.member.MemberRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,24 +17,24 @@ public class CategoryRepoTest {
     @Autowired
     CategoryRepository categoryRepo;
     @Autowired
-    MemberRepository memberRepo;
+    UserRepository memberRepo;
 
 
     Category testCategory;
-    Member testMember;
+    User testUser;
 
 
     @BeforeEach
     @Test
     public void beforeEach(){
-        testMember = Member.builder()
+        testUser = User.builder()
                 .uid("testId")
                 .pw("testPw")
                 .build();
-        memberRepo.save(testMember);
+        memberRepo.save(testUser);
 
         testCategory = Category.builder()
-                .member(testMember)
+                .user(testUser)
                 .name("testCategory")
                 .build();
     }
@@ -43,7 +43,7 @@ public class CategoryRepoTest {
     @DisplayName("카테고리 추가")
     public void addCategoryTest(){
         categoryRepo.save(testCategory);
-        Assertions.assertThat(categoryRepo.findAllByMemberId(testMember.getId()).get(0)).isEqualTo(testCategory);
+        Assertions.assertThat(categoryRepo.findAllByUserId(testUser.getId()).get(0)).isEqualTo(testCategory);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class CategoryRepoTest {
     public void deleteCategoryTest(){
         categoryRepo.save(testCategory);
         categoryRepo.delete(testCategory);
-        Assertions.assertThat(categoryRepo.findAllByMemberId(testMember.getId())).isEmpty();
+        Assertions.assertThat(categoryRepo.findAllByUserId(testUser.getId())).isEmpty();
     }
 
 }

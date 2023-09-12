@@ -21,8 +21,8 @@ public class Notice {
     long id;
 
     @ManyToOne
-    @JoinColumn (name = "member_id")
-    Member member;
+    @JoinColumn (name = "user_id")
+    User user;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

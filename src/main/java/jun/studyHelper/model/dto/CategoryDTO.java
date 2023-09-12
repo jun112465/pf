@@ -1,9 +1,5 @@
 package jun.studyHelper.model.dto;
 
-import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.model.entity.Member;
-import jun.studyHelper.repository.member.MemberRepository;
-import jun.studyHelper.service.MemberService;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,5 +8,5 @@ import lombok.Data;
 public class CategoryDTO {
     long id;
     String name;
-    long memberId;
+    long userId;
 }

@@ -3,15 +3,13 @@ package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.MemberDTO;
-import jun.studyHelper.model.dto.NewMemberDTO;
+import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.dto.NoticeDTO;
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,13 +21,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
-public class MemberController {
+public class UserController {
 
-    public MemberService memberService;
+    public UserService userService;
     public LoginService loginService;
     public FileService fileService;
     public NoticeService noticeService;
@@ -38,39 +35,39 @@ public class MemberController {
 
 
     @Autowired
-    public MemberController(
-            MemberService memberService,
+    public UserController(
+            UserService userService,
             LoginService loginService,
 //            FileService fileService,
             NoticeService noticeService,
             CategoryService categoryService
     ) {
-        this.memberService = memberService;
+        this.userService = userService;
         this.loginService = loginService;
 //        this.fileService = fileService;
         this.noticeService = noticeService;
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/members/new")
+    @PostMapping("/users/new")
     @ResponseBody
-    public String create(@RequestBody MemberDTO memberDTO){
+    public String create(@RequestBody UserDTO userDTO){
 
-        if(memberService.findMember(memberDTO).isPresent())
+        if(userService.findMember(userDTO).isPresent())
             return "DUPLICATED UID";
 
-        Member member = memberService.join(memberDTO).orElse(null);
+        User user = userService.join(userDTO).orElse(null);
         // 초기 카테고리 & 노트 생성
 
-        // add member
-        System.out.println("멤버 등록 후 " + member.toString());
-        System.out.println("memberId : " + member.getId());
-        System.out.println(member);
+        // add user
+        System.out.println("멤버 등록 후 " + user.toString());
+        System.out.println("userId : " + user.getId());
+        System.out.println(user);
 
 
         // add first category
         CategoryDTO categoryDTO = CategoryDTO.builder()
-                .memberId(member.getId())
+                .userId(user.getId())
                 .name("Set Category Name")
                 .build();
         Category category = categoryService.addCategory(categoryDTO).orElse(null);
@@ -79,46 +76,72 @@ public class MemberController {
 
         // add first note
         NoticeDTO noticeDTO = NoticeDTO.builder()
-                .memberId(member.getId())
+                .userId(user.getId())
                 .categoryId(category.getId())
                 .content("first note")
                 .date(Notice.getCurrentDate())
                 .build();
         noticeService.add(noticeDTO);
 
-        return "new member added";
+        return "new user added";
     }
 
-    @PostMapping("/members/login")
-    public String Login(
-            MemberDTO memberDTO
+
+    @PostMapping("/users/login")
+    @ResponseBody
+    public String login(
+            @RequestBody UserDTO userDTO,
+            HttpServletResponse response,
+            RedirectAttributes redirectAttributes
     ){
-        //검증
-        //세션 추가
-        //리턴
-        return null;
+
+        System.out.println("MemberController login Func");
+        System.out.println("request body");
+        System.out.println(userDTO);
+
+        if(userService.validateMemberInfo(userDTO)) {
+            String sessionId = loginService.login(userDTO);
+
+            // 쿠키 환경 설정 및 추가
+            Cookie mySessionCookie = new Cookie(SessionConst.SESSION_ID, sessionId);
+            mySessionCookie.setMaxAge(30 * 24 * 60 * 60 * 1000);
+            mySessionCookie.setPath("/");
+            response.addCookie(mySessionCookie);
+
+            //logging
+            System.out.println("COOKIE name : " + mySessionCookie.getName());
+            System.out.println("COOKIE value : " + mySessionCookie.getValue());
+        }
+        else{
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("LoginError", "No Member Found, Try Again");
+            String msg = "No Member Found, Try Again";
+            redirectAttributes.addFlashAttribute("loginErrorMsg", msg);
+        }
+
+        return "login";
     }
 
-//    @PostMapping("/members/login")
+//    @PostMapping("/users/login")
     public String SessionLogin(
-            MemberDTO memberDTO,
+            UserDTO userDTO,
             HttpServletRequest req,
             RedirectAttributes redirect){
 
         System.out.println("SessionLogin");
-        System.out.println(memberDTO);
+        System.out.println(userDTO);
 
         System.out.println("조건문 직전");
-        if(memberService.validateMemberInfo(memberDTO)) {
+        if(userService.validateMemberInfo(userDTO)) {
             // 사용자의 데이터를 찾은 경우
             System.out.println("조건문 통과");
-            System.out.println(memberService.findMember(memberDTO));
-            Member loginMember = memberService.findMember(memberDTO).orElse(null);
-            System.out.println("founded member");
-            System.out.println(loginMember);
+            System.out.println(userService.findMember(userDTO));
+            User loginUser = userService.findMember(userDTO).orElse(null);
+            System.out.println("founded user");
+            System.out.println(loginUser);
 
             HttpSession session = req.getSession();
-            session.setAttribute(SessionConst.LOGIN_MEMBER + "", loginMember);
+            session.setAttribute(SessionConst.LOGIN_MEMBER + "", loginUser);
 
             // 세션 유지 시간을 최대 하루로 잡음
             session.setMaxInactiveInterval(24*60*60);
@@ -136,7 +159,7 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping ("/members/logout")
+    @GetMapping ("/users/logout")
     public String logout(HttpServletRequest req, HttpServletResponse resp){
 
         HttpSession session = req.getSession();
@@ -156,19 +179,19 @@ public class MemberController {
     }
 
 
-    @PostMapping("/members/update")
+    @PostMapping("/users/update")
     public String updateProfile(
             @RequestParam("profile") MultipartFile profileImg,
             @RequestParam("id") String id,
             @RequestParam("pw") String pw,
             HttpServletRequest req
     ){
-        Member member = (Member)req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        User user = (User)req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
 
         if(!profileImg.isEmpty()){
             String PATH = "profiles/";
-            String newFileName = PATH + member.getId();
+            String newFileName = PATH + user.getId();
             System.out.println("newFileName : " + newFileName);
             try {
                 fileService.uploadToS3(profileImg, newFileName);
@@ -179,13 +202,13 @@ public class MemberController {
 
         System.out.println(id);
         if(!id.isEmpty()){
-            member.setUid(id);
+            user.setUid(id);
 
         }
 
         System.out.println(pw);
         if(!pw.isEmpty()){
-            member.setPw(pw);
+            user.setPw(pw);
         }
 
         return "redirect:/";

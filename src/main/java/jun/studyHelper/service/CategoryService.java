@@ -1,11 +1,11 @@
 package jun.studyHelper.service;
 
 import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.MemberDTO;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.dto.UserDTO;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.member.MemberRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import jun.studyHelper.repository.notice.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,20 +19,20 @@ import java.util.Optional;
 public class CategoryService {
 
     CategoryRepository categoryRepository;
-    MemberRepository memberRepository;
+    UserRepository userRepository;
     NoticeRepository noticeRepository;
-    MemberService memberService;
+    UserService userService;
 
     NoticeService noticeService;
 
 
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository, MemberService memberService, NoticeService noticeService, MemberRepository memberRepository, NoticeRepository noticeRepository) {
+    public CategoryService(CategoryRepository categoryRepository, UserService userService, NoticeService noticeService, UserRepository userRepository, NoticeRepository noticeRepository) {
         this.categoryRepository = categoryRepository;
-        this.memberRepository = memberRepository;
+        this.userRepository = userRepository;
         this.noticeRepository = noticeRepository;
-        this.memberService = memberService;
+        this.userService = userService;
         this.noticeService = noticeService;
     }
 
@@ -50,24 +50,24 @@ public class CategoryService {
     public Optional<Category> addCategory(CategoryDTO categoryDTO){
         Category category = null;
         if(validateCategory(categoryDTO)){
-            Member member = memberRepository.findById(categoryDTO.getMemberId()).orElse(null);
+            User user = userRepository.findById(categoryDTO.getUserId()).orElse(null);
 
             category = categoryRepository.save(Category.builder()
                     .name(categoryDTO.getName())
-                    .member(member)
+                    .user(user)
                     .build());
         }
 
         return Optional.ofNullable(category);
     }
 
-    public List<Category> getCategories(MemberDTO memberDTO){
-        return categoryRepository.findAllByMemberId(memberDTO.getId());
+    public List<Category> getCategories(UserDTO userDTO){
+        return categoryRepository.findAllByUserId(userDTO.getId());
     }
 
 
     public boolean validateCategory(CategoryDTO categoryDTO){
-        List<Category> noticeCategories =categoryRepository.findAllByMemberId(categoryDTO.getMemberId());
+        List<Category> noticeCategories =categoryRepository.findAllByUserId(categoryDTO.getUserId());
         for(Category c : noticeCategories){
             if (c.getName().equals(categoryDTO.getName()))
                 return false;
@@ -86,9 +86,9 @@ public class CategoryService {
 //        ncr.deleteById(id);
     }
 
-    public Category findByMemberAndName(CategoryDTO categoryDTO){
+    public Category findByUserAndName(CategoryDTO categoryDTO){
         return categoryRepository
-                .findCategoryByMemberIdAndName(categoryDTO.getMemberId(), categoryDTO.getName())
+                .findCategoryByUserIdAndName(categoryDTO.getUserId(), categoryDTO.getName())
                 .orElse(null);
     }
 

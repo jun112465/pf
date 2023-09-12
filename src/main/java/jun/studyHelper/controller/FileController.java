@@ -3,7 +3,7 @@ package jun.studyHelper.controller;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,8 +50,8 @@ public class FileController {
         String PATH = "profiles/";
 
         // 새로 이름 부여하기
-        Member loginMember = (Member) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        String newFileName = PATH + loginMember.getId() + "." + multipartFile.getContentType();
+        User loginUser = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        String newFileName = PATH + loginUser.getId() + "." + multipartFile.getContentType();
 
         // s3 업로드
         fileService.uploadToS3(multipartFile, newFileName);
@@ -60,10 +60,10 @@ public class FileController {
     @GetMapping(value = "/file/get-profile", produces = MediaType.ALL_VALUE)
     @ResponseBody
     public byte[] getProfile(HttpServletRequest req) throws MalformedURLException {
-        Member loginMember = (Member)req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        User loginUser = (User)req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
 
-        byte[] img = fileService.getProfileImg(loginMember);
+        byte[] img = fileService.getProfileImg(loginUser);
         ByteArrayInputStream bis = new ByteArrayInputStream(img);
         BufferedImage image = null;
         try {

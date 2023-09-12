@@ -1,12 +1,12 @@
 package jun.studyHelper.service;
 
 import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.MemberDTO;
+import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.dto.NoticeDTO;
-import jun.studyHelper.model.entity.Member;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.repository.member.MemberRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import jun.studyHelper.repository.notice.NoticeRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +23,20 @@ import java.util.Optional;
 @Transactional
 public class NoticeService {
     NoticeRepository noticeRepository;
-    MemberRepository memberRepository;
+    UserRepository userRepository;
     CategoryRepository categoryRepository;
 
     @Autowired
-    public NoticeService(NoticeRepository noticeRepository, MemberRepository memberRepository, CategoryRepository categoryRepository){
+    public NoticeService(NoticeRepository noticeRepository, UserRepository userRepository, CategoryRepository categoryRepository){
         this.noticeRepository = noticeRepository;
-        this.memberRepository = memberRepository;
+        this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
     }
 
     public Optional<Notice> add(NoticeDTO noticeDTO){
 
         return Optional.ofNullable(noticeRepository.save(Notice.builder()
-                .member(memberRepository.findById(noticeDTO.getMemberId()).orElse(null))
+                .user(userRepository.findById(noticeDTO.getUserId()).orElse(null))
                 .category(categoryRepository.findById(noticeDTO.getCategoryId()).orElse(null))
                 .content(noticeDTO.getContent())
                 .date(noticeDTO.getDate())
@@ -81,13 +81,14 @@ public class NoticeService {
         return noticeRepository.findAll();
     }
 
-    public List<Notice> findMemberNoticeList(Member member){
-        return noticeRepository.findByMemberIdOrderByDateAsc(member.getId());
+    public List<Notice> findMemberNoticeList(UserDTO userDTO){
+        User user = userRepository.findById(userDTO.getId()).get();
+        return noticeRepository.findByUserIdOrderByDateAsc(user.getId());
     }
 
-    public Map<Category, List<Notice>> getNoticeListGroupedByCategory(MemberDTO memberDTO){
+    public Map<Category, List<Notice>> getNoticeListGroupedByCategory(UserDTO userDTO){
 
-        List<Category> noticeCategories = categoryRepository.findAllByMemberId(memberDTO.getId());
+        List<Category> noticeCategories = categoryRepository.findAllByUserId(userDTO.getId());
         Map<Category, List<Notice>> noticeCategoryListMap = new HashMap<>();
         for(Category nc : noticeCategories){
             noticeCategoryListMap.put(nc, noticeRepository.findByCategoryOrderByDateAsc(nc));
