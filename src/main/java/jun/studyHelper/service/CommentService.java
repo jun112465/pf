@@ -1,8 +1,10 @@
 package jun.studyHelper.service;
 
 
+import jun.studyHelper.model.dto.NoticeDTO;
 import jun.studyHelper.model.entity.Comment;
 import jun.studyHelper.repository.CommentRepository;
+import jun.studyHelper.repository.notice.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,12 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final NoticeRepository noticeRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, NoticeRepository noticeRepository) {
         this.commentRepository = commentRepository;
+        this.noticeRepository = noticeRepository;
     }
 
     // 댓글 저장
@@ -44,5 +48,12 @@ public class CommentService {
     // 대댓글 조회
     public List<Comment> getChildComments(Comment parentComment) {
         return commentRepository.findByParentComment(parentComment);
+    }
+
+
+    // 노트의 모든 댓글 가져오기
+    public List<Comment> getNoteComments(NoticeDTO noticeDTO){
+        commentRepository.findByNoticeId(noticeDTO.getNoticeId());
+        return null;
     }
 }

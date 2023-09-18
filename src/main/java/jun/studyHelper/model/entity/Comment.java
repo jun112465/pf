@@ -9,12 +9,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-//@Data
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+//@Getter
+//@Setter
 public class Comment {
 
 
@@ -43,4 +43,18 @@ public class Comment {
     private List<Comment> children;
 
     private Date date;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", user=" + user +
+                ", notice=" + notice +
+                ", content='" + content + '\'' +
+//                ", parentComment=" + parentComment +
+//                ", children=" + children +
+                ", date=" + date +
+                '}';
+    }
+
 }
