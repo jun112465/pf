@@ -49,7 +49,7 @@ public class UserController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/users/new")
+    @PostMapping("/user/new")
     @ResponseBody
     public String create(@RequestBody UserDTO userDTO){
 
@@ -87,7 +87,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/users/login")
+    @PostMapping("/user/login")
     @ResponseBody
     public String login(
             @RequestBody UserDTO userDTO,
@@ -122,7 +122,7 @@ public class UserController {
         return "login";
     }
 
-//    @PostMapping("/users/login")
+//    @PostMapping("/user/login")
     public String SessionLogin(
             UserDTO userDTO,
             HttpServletRequest req,
@@ -159,27 +159,24 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping ("/users/logout")
-    public String logout(HttpServletRequest req, HttpServletResponse resp){
+    @GetMapping ("/user/logout")
+    public String logout(
+            @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId,
+            HttpServletResponse resp){
 
-        HttpSession session = req.getSession();
+        // delete session in redis
+        loginService.logout(sessionId);
 
-        // 세션은 유지하되 세션과 연결된 object 삭제
-        session.removeAttribute(SessionConst.LOGIN_MEMBER);
-
-        // jsession 쿠키 삭제
-        Cookie cookie = new Cookie("JSESSIONID", null);
+        // session 쿠키 삭제
+        Cookie cookie = new Cookie("SESSIONID", null);
         cookie.setMaxAge(-1);
         resp.addCookie(cookie);
-
-        // 세션을 풀로 돌려보내기 (세션 제거)
-        session.invalidate();
 
         return "redirect:/";
     }
 
 
-    @PostMapping("/users/update")
+    @PostMapping("/user/update")
     public String updateProfile(
             @RequestParam("profile") MultipartFile profileImg,
             @RequestParam("id") String id,

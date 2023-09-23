@@ -76,4 +76,8 @@ public class LoginService {
 
         return userDTO;
     }
+
+    public void logout(String token){
+        redisTemplate.delete(token);
+    }
 }

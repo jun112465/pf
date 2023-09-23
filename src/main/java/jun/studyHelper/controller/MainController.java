@@ -36,12 +36,11 @@ public class MainController {
             Model model,
             @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId
     ){
-        System.out.println(sessionId);
         if(sessionId == null || !loginService.isUserLoggedIn(sessionId))
-            model.addAttribute("member", null);
+            model.addAttribute("user", null);
         else {
             UserDTO loginUser = loginService.getUserDTO(sessionId);
-            model.addAttribute("member", loginUser);
+            model.addAttribute("user", loginUser);
             model.addAttribute("noticeList", noticeService.findMemberNoticeList(loginUser));
             model.addAttribute("categories", categoryService.getCategories(loginUser));
             model.addAttribute("groupedNoticeListMap", noticeService.getNoticeListGroupedByCategory(loginUser));

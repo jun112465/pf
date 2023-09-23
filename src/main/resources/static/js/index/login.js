@@ -8,7 +8,7 @@
 
     btn_sign_in.addEventListener("click", ()=>{
         console.log("clicked");
-        fetch("/members/login", {
+        fetch("/user/login", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -17,6 +17,7 @@
             })
         }).then((data)=>{
             console.log(data)
+            window.location.href = "/";
         });
     })
 })()
