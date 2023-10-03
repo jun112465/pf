@@ -5,8 +5,8 @@ import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.repository.category.CategoryRepository;
+import jun.studyHelper.repository.notice.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
-import jun.studyHelper.repository.notice.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,20 +20,20 @@ public class CategoryService {
 
     CategoryRepository categoryRepository;
     UserRepository userRepository;
-    NoticeRepository noticeRepository;
+    PostRepository postRepository;
     UserService userService;
 
-    NoticeService noticeService;
+    PostService postService;
 
 
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository, UserService userService, NoticeService noticeService, UserRepository userRepository, NoticeRepository noticeRepository) {
+    public CategoryService(CategoryRepository categoryRepository, UserService userService, PostService postService, UserRepository userRepository, PostRepository postRepository) {
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
-        this.noticeRepository = noticeRepository;
+        this.postRepository = postRepository;
         this.userService = userService;
-        this.noticeService = noticeService;
+        this.postService = postService;
     }
 
     public Category findCategory(CategoryDTO categoryDTO){
@@ -79,7 +79,7 @@ public class CategoryService {
 
     public void deleteCategory(CategoryDTO categoryDTO){
         Category category = categoryRepository.getById(categoryDTO.getId());
-        noticeRepository.deleteAllByCategory(category);
+        postRepository.deleteAllByCategory(category);
         categoryRepository.deleteById(categoryDTO.getId());
 //        noticeService.deleteNoticeListByCategory(categoryDTO.);
 //        noticeService.deleteNoticeListByCategory(categoryDTO);

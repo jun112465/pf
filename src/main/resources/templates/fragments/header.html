@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="headerFragment" class="header navbar-fixed-top">
+    <!--Logo & Home-->
+    <div id="nav_logo">
+        <img src="/images/notebook.svg" alt="" width="40px">
+        <a href="/">Mini Blog</a>
+    </div>
+    <!--search-->
+
+    <!--ctrl-->
+    <div id="nav_ctrl">
+        <div id="nav_search">
+            <input type="text" name="" id="wef" placeholder="search something">
+            <input type="button" value="search">
+        </div>
+        <div><a href="/login">LOGIN</a></div>
+<!--        <div><a href="/info-setting">set info</a></div>-->
+<!--        <div><a href="#" id="newCategoryBtn">add category</a></div>-->
+<!--        <div><a th:if="${user!=null}" id="btn_logout" href="/user/logout">logout</a></div>-->
+<!--        <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>-->
+    </div>
+</header>
+</html>

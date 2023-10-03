@@ -6,9 +6,12 @@
     <link rel="stylesheet" href="css/index-style.css">
     <link rel="stylesheet" href="css/modal.css">
     <script src="https://kit.fontawesome.com/1155edaf9c.js" crossorigin="anonymous"></script>
-    <head>
-    <script src="../static/js/index/note-gallery.js"></script>
+<head>
+<script src="../static/js/index/note-gallery.js"></script>
 <body>
+
+<!--header.html-->
+<!--<header th:replace="fragments/header::headerFragment"></header>-->
 
 <header id="nav">
 <!--    logo-->
@@ -50,24 +53,24 @@
 <!--            <div class="slide-title">🌈 TIL</div>-->
             <div class="slide-top">
                 <div class="slide-title" th:contenteditable="true" th:text="${category.getName()}" th:data-id="${category.getId()}">category</div>
-                <a th:href="'/notice/delete-category?id='+${category.getId()}" class="slide-trash"><i class="fas fa-trash" style="color: #e71c1c; font-size: 25px;"></i></a>
+                <a th:href="'/post/delete-category?id='+${category.getId()}" class="slide-trash"><i class="fas fa-trash" style="color: #e71c1c; font-size: 25px;"></i></a>
             </div>
             <div class="slide">
                 <div class="item-list">
-                    <div class="item new-item" id="new-notice">
+                    <div class="item new-item" id="new-post">
                         <input type="hidden" name="category" th:value="${category.getId()}">
                         <i class="fa-solid fa-circle-plus"></i>
 
                     </div>
 
-                    <div class="item notice" th:each="n : ${groupedNoticeListMap.get(category)}">
+                    <div class="item post" th:each="n : ${groupedNoticeListMap.get(category)}">
                         <input type="hidden" th:value="${n.getId()}">
                         <div class="note-top">
                             <div>
                                 <div th:text="${n.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
                                 <input class="btn_edit_or_save" type="button" value="edit">
                             </div>
-                            <a th:href="'/notice/delete?id=' + ${n.getId()}">
+                            <a th:href="'/post/delete?id=' + ${n.getId()}">
                                 <i class="fas fa-trash" style="color: #e71c1c; font-size: 20px; position: relative; left:0"></i>
                             </a>
                         </div>
@@ -93,7 +96,7 @@
 <section th:if="${user!=null}">
 <!--    <button id="modalBtn" style="font-size: 25px; margin:10px;"><i class="fas fa-plus-circle"></i></button>-->
     <div id="myModal" class="modal">
-        <form action="/notice/add-category" method="post">
+        <form action="/post/add-category" method="post">
             <div class="modal-content">
                 <input id="category_input" type="text" name="category" placeholder="Input Category Name">
                 <span class="close">&times;</span>
@@ -123,7 +126,8 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</footer>-->
-
+<!--<div th:replace="/fragments/postList::postList"></div>-->
+<!--<div th:replace="/fragments/footer::copy"></div>-->
 
 
 </body>

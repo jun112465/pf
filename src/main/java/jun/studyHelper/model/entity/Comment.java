@@ -1,10 +1,8 @@
 package jun.studyHelper.model.entity;
 
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class Comment {
 
     @JoinColumn(name = "notice_id")
     @ManyToOne
-    private Notice notice;
+    private Post post;
 
     private String content;
 
@@ -49,7 +47,7 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", user=" + user +
-                ", notice=" + notice +
+                ", post=" + post +
                 ", content='" + content + '\'' +
 //                ", parentComment=" + parentComment +
 //                ", children=" + children +

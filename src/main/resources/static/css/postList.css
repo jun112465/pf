@@ -1,0 +1,99 @@
+.post-box{
+    display: flex;
+    flex-wrap: wrap;
+
+    /*align*/
+    justify-content: center;
+}
+.post {
+    background-color: rgb(255, 255, 255);
+    /*color: white;*/
+    padding: 10px;
+    overflow: scroll;
+
+    width: 400px;
+    height: 400px;
+    margin: 7px;
+    /*margin-right: 14px;*/
+
+    /*border: 2px solid #d9d9d9;*/
+    border-radius: 7px;
+
+    min-width: 300px;
+    min-height: 300px;
+
+    box-shadow: 2px 3px 5px 1px gray;
+    /*resize: both;*/
+
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+    font-size: 15px;
+
+    text-align: left;
+}
+
+.post > .post-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 5px;
+}
+
+.btn_edit_or_save{
+    display: inline-block;
+    position: relative;
+    /*right: 0px;*/
+    top: -2px;
+
+    border-style: none;
+    border-radius: 10px;
+    background-color: #5595d3;
+    color: white;
+    font-size: 13px;
+}
+
+.editor{
+    display: none;
+    width: 100%;
+    height: 90%;
+}
+
+.post .edit-box{
+    text-align: left;
+    width: 50%;
+    outline: 0px solid transparent;
+
+    /*font-weight: bold;*/
+    font-size: 15px;
+    margin-top: 10px;
+    margin-right: 10px;
+
+    white-space: pre;
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    resize: none;
+
+    border : none;
+    border-right: 1px solid lightgray;
+}
+.item .target{
+    text-align: left;
+    width: 50%;
+    overflow: scroll;
+}
+
+#new-post{
+    display: flex;
+    background-color: #2c3e50;
+    font-size: 50px;
+    color: rgba(254, 254, 254, 0.89);
+
+    justify-content: center;
+    align-items: center;
+}
+#new-post:hover{
+    /*backdrop-filter: brightness(60%);*/
+    /*background-color: #2c3e50;*/
+    background-color: grey;
+}

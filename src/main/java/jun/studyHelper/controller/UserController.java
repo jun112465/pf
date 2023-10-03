@@ -4,23 +4,20 @@ package jun.studyHelper.controller;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDTO;
 import jun.studyHelper.model.dto.UserDTO;
-import jun.studyHelper.model.dto.NoticeDTO;
+import jun.studyHelper.model.dto.PostDTO;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.User;
-import jun.studyHelper.model.entity.Notice;
+import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
@@ -29,7 +26,7 @@ public class UserController {
     public UserService userService;
     public LoginService loginService;
     public FileService fileService;
-    public NoticeService noticeService;
+    public PostService postService;
     public CategoryService categoryService;
 
 
@@ -39,13 +36,13 @@ public class UserController {
             UserService userService,
             LoginService loginService,
 //            FileService fileService,
-            NoticeService noticeService,
+            PostService postService,
             CategoryService categoryService
     ) {
         this.userService = userService;
         this.loginService = loginService;
 //        this.fileService = fileService;
-        this.noticeService = noticeService;
+        this.postService = postService;
         this.categoryService = categoryService;
     }
 
@@ -75,13 +72,13 @@ public class UserController {
         System.out.println(category);
 
         // add first note
-        NoticeDTO noticeDTO = NoticeDTO.builder()
+        PostDTO postDTO = PostDTO.builder()
                 .userId(user.getId())
                 .categoryId(category.getId())
                 .content("first note")
-                .date(Notice.getCurrentDate())
+                .date(Post.getCurrentDate())
                 .build();
-        noticeService.add(noticeDTO);
+        postService.add(postDTO);
 
         return "new user added";
     }
@@ -91,8 +88,7 @@ public class UserController {
     @ResponseBody
     public String login(
             @RequestBody UserDTO userDTO,
-            HttpServletResponse response,
-            RedirectAttributes redirectAttributes
+            HttpServletResponse response
     ){
 
         System.out.println("MemberController login Func");
@@ -105,7 +101,9 @@ public class UserController {
             // 쿠키 환경 설정 및 추가
             Cookie mySessionCookie = new Cookie(SessionConst.SESSION_ID, sessionId);
             mySessionCookie.setMaxAge(30 * 24 * 60 * 60 * 1000);
+            mySessionCookie.setHttpOnly(true);
             mySessionCookie.setPath("/");
+//            mySessionCookie.setPath("/");
             response.addCookie(mySessionCookie);
 
             //logging
@@ -113,50 +111,13 @@ public class UserController {
             System.out.println("COOKIE value : " + mySessionCookie.getValue());
         }
         else{
-            Map<String, String> errorMap = new HashMap<>();
-            errorMap.put("LoginError", "No Member Found, Try Again");
-            String msg = "No Member Found, Try Again";
-            redirectAttributes.addFlashAttribute("loginErrorMsg", msg);
+//            Map<String, String> errorMap = new HashMap<>();
+//            errorMap.put("LoginError", "No Member Found, Try Again");
+//            String msg = "No Member Found, Try Again";
+//            redirectAttributes.addFlashAttribute("loginErrorMsg", msg);
         }
 
         return "login";
-    }
-
-//    @PostMapping("/user/login")
-    public String SessionLogin(
-            UserDTO userDTO,
-            HttpServletRequest req,
-            RedirectAttributes redirect){
-
-        System.out.println("SessionLogin");
-        System.out.println(userDTO);
-
-        System.out.println("조건문 직전");
-        if(userService.validateMemberInfo(userDTO)) {
-            // 사용자의 데이터를 찾은 경우
-            System.out.println("조건문 통과");
-            System.out.println(userService.findMember(userDTO));
-            User loginUser = userService.findMember(userDTO).orElse(null);
-            System.out.println("founded user");
-            System.out.println(loginUser);
-
-            HttpSession session = req.getSession();
-            session.setAttribute(SessionConst.LOGIN_MEMBER + "", loginUser);
-
-            // 세션 유지 시간을 최대 하루로 잡음
-            session.setMaxInactiveInterval(24*60*60);
-        }else{
-            // 사용자의 데이터를 찾지 못한 경우
-            Map<String, String> errorMap = new HashMap<>();
-            errorMap.put("LoginError", "No Member Found, Try Again");
-
-            String msg = "No Member Found, Try Again";
-
-            // addFlashAttribute 을 통해 세션이 생성된다.
-            redirect.addFlashAttribute("loginErrorMsg", msg);
-        }
-
-        return "redirect:/";
     }
 
     @GetMapping ("/user/logout")

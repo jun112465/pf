@@ -6,11 +6,11 @@ import jun.studyHelper.controller.UserController;
 import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.User;
-import jun.studyHelper.model.entity.Notice;
+import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.LoginService;
 import jun.studyHelper.service.UserService;
-import jun.studyHelper.service.NoticeService;
+import jun.studyHelper.service.PostService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class UserControllerTest {
     @MockBean
     UserService userService;
     @MockBean
-    NoticeService noticeService;
+    PostService postService;
     @MockBean
     CategoryService categoryService;
     @MockBean
@@ -84,8 +84,8 @@ public class UserControllerTest {
         given(categoryService.addCategory(any())).willReturn(
                 Optional.ofNullable(Category.builder().build())
         );
-        given(noticeService.add(any())).willReturn(
-                Optional.ofNullable(Notice.builder().build())
+        given(postService.add(any())).willReturn(
+                Optional.ofNullable(Post.builder().build())
         );
 
 

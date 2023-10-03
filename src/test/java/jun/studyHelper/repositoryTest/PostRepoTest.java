@@ -1,11 +1,11 @@
 package jun.studyHelper.repositoryTest;
 
 import jun.studyHelper.model.entity.Category;
+import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
-import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.repository.category.CategoryRepository;
 import jun.studyHelper.repository.user.UserRepository;
-import jun.studyHelper.repository.notice.NoticeRepository;
+import jun.studyHelper.repository.notice.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class NoticeRepoTest {
+public class PostRepoTest {
 
 
     @Autowired
-    NoticeRepository noticeRepo;
+    PostRepository noticeRepo;
     @Autowired
     UserRepository memberRepo;
     @Autowired
@@ -26,7 +26,7 @@ public class NoticeRepoTest {
 
     static User testUser;
     static Category testCategory;
-    static Notice testNotice;
+    static Post testPost;
 
     @BeforeEach
     @Test
@@ -43,28 +43,28 @@ public class NoticeRepoTest {
                 .build();
         categoryRepo.save(testCategory);
 
-        testNotice = Notice.builder()
+        testPost = Post.builder()
                 .user(testUser)
                 .category(testCategory)
-                .date(Notice.getCurrentDate())
+                .date(Post.getCurrentDate())
                 .build();
     }
 
     @Test
     @DisplayName("노트 추가하기")
     public void noticeAddTest(){
-        noticeRepo.save(testNotice);
-        Assertions.assertThat(noticeRepo.findAll().get(0)).isEqualTo(testNotice);
-        Assertions.assertThat(noticeRepo.findAll().get(0).getDate()).isEqualTo(Notice.getCurrentDate());
+        noticeRepo.save(testPost);
+        Assertions.assertThat(noticeRepo.findAll().get(0)).isEqualTo(testPost);
+        Assertions.assertThat(noticeRepo.findAll().get(0).getDate()).isEqualTo(Post.getCurrentDate());
     }
 
     @Test
     @DisplayName("노트 삭제하기")
     public void noticeDeleteTest(){
-        noticeRepo.save(testNotice);
-        Assertions.assertThat(noticeRepo.findAll().get(0)).isEqualTo(testNotice);
+        noticeRepo.save(testPost);
+        Assertions.assertThat(noticeRepo.findAll().get(0)).isEqualTo(testPost);
 
-        noticeRepo.delete(testNotice);
+        noticeRepo.delete(testPost);
         Assertions.assertThat(noticeRepo.findAll().size()).isEqualTo(0);
     }
 
@@ -75,16 +75,16 @@ public class NoticeRepoTest {
 
         String testContent = "Test Content";
         System.out.println("------------------1-----------------");
-        noticeRepo.save(testNotice);
+        noticeRepo.save(testPost);
 
 
         System.out.println("------------------2-----------------");
-        testNotice = noticeRepo.findAll().get(0);
-        testNotice.setContent(testContent);
+        testPost = noticeRepo.findAll().get(0);
+        testPost.setContent(testContent);
 
-        System.out.println(noticeRepo.findById(testNotice.getId()));
+        System.out.println(noticeRepo.findById(testPost.getId()));
         System.out.println("------------------3-----------------");
-        noticeRepo.save(testNotice);
+        noticeRepo.save(testPost);
 
         Assertions.assertThat(noticeRepo.findAll().get(0).getContent()).isEqualTo(testContent);
     }

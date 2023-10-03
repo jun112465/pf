@@ -2,25 +2,21 @@ package jun.studyHelper.repositoryTest;
 
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.Comment;
-import jun.studyHelper.model.entity.Notice;
+import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.repository.CommentRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.notice.NoticeRepository;
+import jun.studyHelper.repository.notice.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 //@Transactional
@@ -35,11 +31,11 @@ public class CommentRepoTest {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private NoticeRepository noticeRepository;
+    private PostRepository postRepository;
 
     private User user;
     private Category category;
-    private Notice notice;
+    private Post post;
 
     @BeforeEach
     public void before(){
@@ -55,11 +51,11 @@ public class CommentRepoTest {
                 .build();
         category = categoryRepository.save(category);
 
-        notice = Notice.builder()
+        post = Post.builder()
                 .user(user)
                 .category(category)
                 .build();
-        notice = noticeRepository.save(notice);
+        post = postRepository.save(post);
     }
 
     @Test
@@ -69,7 +65,7 @@ public class CommentRepoTest {
         //given
         Comment comment = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .build();
         //when
@@ -87,7 +83,7 @@ public class CommentRepoTest {
         //given
         Comment parentComment = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(null)
                 .children(new ArrayList<>())
@@ -95,7 +91,7 @@ public class CommentRepoTest {
 
         Comment childComment = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(parentComment)
                 .children(null)
@@ -117,7 +113,7 @@ public class CommentRepoTest {
         //given
         Comment parentComment = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(null)
                 .children(new ArrayList<>())
@@ -125,14 +121,14 @@ public class CommentRepoTest {
 
         Comment childComment1 = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(parentComment)
                 .children(null)
                 .build();
         Comment childComment2 = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(parentComment)
                 .children(null)
@@ -146,8 +142,8 @@ public class CommentRepoTest {
         parentComment = commentRepository.save(parentComment);
 
         //then
-        Assertions.assertThat(commentRepository.findByNoticeIdAndParentCommentIdIsNull(notice.getId()).size()).isEqualTo(1);
-        Assertions.assertThat(commentRepository.findByNoticeAndParentCommentIsNull(notice).size()).isEqualTo(1);
+        Assertions.assertThat(commentRepository.findByPostIdAndParentCommentIdIsNull(post.getId()).size()).isEqualTo(1);
+        Assertions.assertThat(commentRepository.findByPostAndParentCommentIsNull(post).size()).isEqualTo(1);
         Assertions.assertThat(commentRepository.findAll().size()).isEqualTo(3);
         Assertions.assertThat(commentRepository.findByParentComment(parentComment).size()).isEqualTo(2);
     }
@@ -158,7 +154,7 @@ public class CommentRepoTest {
         //given
         Comment parentComment = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(null)
                 .children(new ArrayList<>())
@@ -166,7 +162,7 @@ public class CommentRepoTest {
 
         Comment childComment = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(parentComment)
                 .children(null)
@@ -182,26 +178,26 @@ public class CommentRepoTest {
 
     @Test
     @DisplayName("게시글의 댓글 불러오기")
-    void findByNoticeId(){
+    void findByPostId(){
 
         //given
         Comment c1 = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(null)
                 .children(null)
                 .build();
         Comment c2 = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(null)
                 .children(null)
                 .build();
         Comment c3 = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(null)
                 .children(null)
@@ -210,10 +206,10 @@ public class CommentRepoTest {
         commentRepository.save(c1);
         commentRepository.save(c2);
         commentRepository.save(c3);
-        List<Comment> commentList = commentRepository.findByNoticeId(notice.getId());
+        List<Comment> commentList = commentRepository.findByPostId(post.getId());
 
         //then
-        Assertions.assertThat(commentRepository.findByNoticeId(notice.getId()).size()).isEqualTo(3);
+        Assertions.assertThat(commentRepository.findByPostId(post.getId()).size()).isEqualTo(3);
         System.out.println(commentList);
     }
 

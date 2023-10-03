@@ -72,7 +72,7 @@
     //set contentEditable
     let converter = new showdown.Converter()
     let turndownService = new TurndownService()
-    let notices = document.getElementsByClassName("notice")
+    let notices = document.getElementsByClassName("post")
     let editors = document.getElementsByClassName("editor")
     const onresize = (dom, callback)=>{
         const resizeObserver = new ResizeObserver(()=>callback())

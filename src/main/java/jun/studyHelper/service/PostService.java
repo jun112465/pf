@@ -2,12 +2,12 @@ package jun.studyHelper.service;
 
 import jun.studyHelper.model.dto.CategoryDTO;
 import jun.studyHelper.model.dto.UserDTO;
-import jun.studyHelper.model.dto.NoticeDTO;
+import jun.studyHelper.model.dto.PostDTO;
+import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
-import jun.studyHelper.model.entity.Notice;
 import jun.studyHelper.model.entity.Category;
+import jun.studyHelper.repository.notice.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
-import jun.studyHelper.repository.notice.NoticeRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,43 +21,43 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class NoticeService {
-    NoticeRepository noticeRepository;
+public class PostService {
+    PostRepository postRepository;
     UserRepository userRepository;
     CategoryRepository categoryRepository;
 
     @Autowired
-    public NoticeService(NoticeRepository noticeRepository, UserRepository userRepository, CategoryRepository categoryRepository){
-        this.noticeRepository = noticeRepository;
+    public PostService(PostRepository postRepository, UserRepository userRepository, CategoryRepository categoryRepository){
+        this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
     }
 
-    public Optional<Notice> add(NoticeDTO noticeDTO){
+    public Optional<Post> add(PostDTO postDTO){
 
-        return Optional.ofNullable(noticeRepository.save(Notice.builder()
-                .user(userRepository.findById(noticeDTO.getUserId()).orElse(null))
-                .category(categoryRepository.findById(noticeDTO.getCategoryId()).orElse(null))
-                .content(noticeDTO.getContent())
-                .date(noticeDTO.getDate())
+        return Optional.ofNullable(postRepository.save(Post.builder()
+                .user(userRepository.findById(postDTO.getUserId()).orElse(null))
+                .category(categoryRepository.findById(postDTO.getCategoryId()).orElse(null))
+                .content(postDTO.getContent())
+                .date(postDTO.getDate())
                 .build()));
     }
 
     public void delete(Long noticeId){
-        noticeRepository.deleteById(noticeId);
+        postRepository.deleteById(noticeId);
     }
 
-    public Notice findNotice(NoticeDTO noticeDTO){
-        return noticeRepository.findById(noticeDTO.getNoticeId()).orElse(null);
+    public Post findNotice(PostDTO postDTO){
+        return postRepository.findById(postDTO.getNoticeId()).orElse(null);
     }
 
 
     @Modifying
     @Transactional
-    public void editNote(Notice notice){
-        Notice tmp = noticeRepository.findById(notice.getId()).get();
-        tmp.setContent(notice.getContent());
-//        noticeRepository.update(notice);
+    public void editNote(Post post){
+        Post tmp = postRepository.findById(post.getId()).get();
+        tmp.setContent(post.getContent());
+//        postRepository.update(post);
     }
 
     @Modifying
@@ -70,28 +70,28 @@ public class NoticeService {
     //쿼리
 
     public void deleteNoticeListByCategory(CategoryDTO categoryDTO){
-        noticeRepository.deleteAllByCategory(
+        postRepository.deleteAllByCategory(
                 Category.builder()
                     .id(categoryDTO.getId())
                     .build()
         );
     }
 
-    public List<Notice> findNoticeList(){
-        return noticeRepository.findAll();
+    public List<Post> findPostList(){
+        return postRepository.findAll();
     }
 
-    public List<Notice> findMemberNoticeList(UserDTO userDTO){
+    public List<Post> findMemberNoticeList(UserDTO userDTO){
         User user = userRepository.findById(userDTO.getId()).get();
-        return noticeRepository.findByUserIdOrderByDateAsc(user.getId());
+        return postRepository.findByUserIdOrderByDateAsc(user.getId());
     }
 
-    public Map<Category, List<Notice>> getNoticeListGroupedByCategory(UserDTO userDTO){
+    public Map<Category, List<Post>> getNoticeListGroupedByCategory(UserDTO userDTO){
 
         List<Category> noticeCategories = categoryRepository.findAllByUserId(userDTO.getId());
-        Map<Category, List<Notice>> noticeCategoryListMap = new HashMap<>();
+        Map<Category, List<Post>> noticeCategoryListMap = new HashMap<>();
         for(Category nc : noticeCategories){
-            noticeCategoryListMap.put(nc, noticeRepository.findByCategoryOrderByDateAsc(nc));
+            noticeCategoryListMap.put(nc, postRepository.findByCategoryOrderByDateAsc(nc));
         }
 
         return noticeCategoryListMap;
@@ -100,7 +100,7 @@ public class NoticeService {
 
     /**
      *
-     * @param notice
+     * @param post
      * @return
      * 노트가 이미 추가됨 : true 반환
      * 노트가 아직 안추가됨 : false 반환
@@ -108,11 +108,11 @@ public class NoticeService {
      * 하루에 노트는 하나만 추가가 가능하다
      * 이미 추가된 노트가 있는지 확인해주는 메서드다.
      */
-    public boolean isTodayNoticeAdded(Notice notice){
-        List<Notice> noticeList = noticeRepository.findByCategoryOrderByDateAsc(notice.getCategory());
-        if (noticeList.size() > 0) {
-            String recentNoteDate = String.valueOf(noticeList.get(0).getDate());
-            return notice.getDate().equals(recentNoteDate);
+    public boolean isTodayNoticeAdded(Post post){
+        List<Post> postList = postRepository.findByCategoryOrderByDateAsc(post.getCategory());
+        if (postList.size() > 0) {
+            String recentNoteDate = String.valueOf(postList.get(0).getDate());
+            return post.getDate().equals(recentNoteDate);
         }
 
         return false;

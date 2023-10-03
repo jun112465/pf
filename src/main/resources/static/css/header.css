@@ -1,0 +1,30 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    height: 70px;
+}
+
+header a{
+    text-decoration: none;
+    color: black;
+}
+
+header > #nav_logo{
+    display: flex;
+    flex: 3;
+    justify-content: left;
+    align-items: center;
+    font-size: 35px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+header > #nav_ctrl{
+    display: flex;
+}
+
+header > #nav_ctrl > div{
+    margin: 3px;
+}

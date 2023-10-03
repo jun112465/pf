@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 @Builder
 @Entity
-public class Notice {
+public class Post {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;

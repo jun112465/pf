@@ -2,11 +2,11 @@ package jun.studyHelper.serviceTest;
 
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.Comment;
-import jun.studyHelper.model.entity.Notice;
+import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.repository.CommentRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.notice.NoticeRepository;
+import jun.studyHelper.repository.notice.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,7 @@ public class CommentServiceTest {
     @Autowired
     private CommentRepository commentRepository;
     @Autowired
-    private NoticeRepository noticeRepository;
+    private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -32,7 +32,7 @@ public class CommentServiceTest {
 
     private User user;
     private Category category;
-    private Notice notice;
+    private Post post;
 
     @BeforeEach
     public void beforeEach(){
@@ -48,11 +48,11 @@ public class CommentServiceTest {
                 .build();
         category = categoryRepository.save(category);
 
-        notice = Notice.builder()
+        post = Post.builder()
                 .user(user)
                 .category(category)
                 .build();
-        notice = noticeRepository.save(notice);
+        post = postRepository.save(post);
     }
 
 
@@ -65,7 +65,7 @@ public class CommentServiceTest {
         // 댓글 등록
         Comment parentComment = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(null)
                 .children(new ArrayList<>())
@@ -73,14 +73,14 @@ public class CommentServiceTest {
 
         Comment childComment1 = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(parentComment)
                 .children(null)
                 .build();
         Comment childComment2 = Comment.builder()
                 .user(user)
-                .notice(notice)
+                .post(post)
                 .content("test comment")
                 .parentComment(parentComment)
                 .children(null)

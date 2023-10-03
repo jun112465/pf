@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class NoticeDTO {
+public class PostDTO {
     long userId;
     long categoryId;
     long noticeId;

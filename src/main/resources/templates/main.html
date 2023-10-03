@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:input="http://www.w3.org/1999/html">
+<head>
+  <title>Mini Blog</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+  <!-- header Css File -->
+  <link rel="stylesheet" href="/css/header.css">
+  <!-- postList Css File-->
+  <link rel="stylesheet" href="/css/postList.css">
+  <!-- Awesome-Font -->
+  <script src="https://kit.fontawesome.com/1155edaf9c.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div th:replace="/fragments/header::headerFragment"></div>
+<div th:replace="/fragments/postList::postList(${posts})"></div>
+<div> footer </div>
+
+</body>
+
+<!--html to markdown-->
+<!--<script src="https://unpkg.com/turndown/dist/turndown.js"></script>-->
+<!--<script src="./js/index/note-gallery.js"></script>-->
+
+</html>
