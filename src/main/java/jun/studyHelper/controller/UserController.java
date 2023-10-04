@@ -130,8 +130,14 @@ public class UserController {
 
         // session 쿠키 삭제
         Cookie cookie = new Cookie("SESSIONID", null);
+        cookie.setMaxAge(0);
+        resp.addCookie(cookie);
+
+        // jsession 쿠키 삭제
+        cookie = new Cookie("JSESSIONID", null);
         cookie.setMaxAge(-1);
         resp.addCookie(cookie);
+
 
         return "redirect:/";
     }
