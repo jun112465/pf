@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<div th:replace="/fragments/header::headerFragment"></div>
+<div th:replace="/fragments/header::headerFragment(${user})"></div>
 <div th:replace="/fragments/postList::postList(${posts})"></div>
 <div> footer </div>
 

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<div th:replace="/fragments/header::headerFragment"></div>
+<div th:replace="/fragments/header::headerFragment(${null})"></div>
 <section class="sign-in-container">
     <div class="sign-in">
         <input class="block" id="form-id" type="text" name="uid" placeholder="INPUT ID">
@@ -22,6 +22,7 @@
         <a class="block" href="/sign-up">SIGN UP</a>
     </div>
 </section>
-
 </body>
+
+<script src="/js/login.js"></script>
 </html>

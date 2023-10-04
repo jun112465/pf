@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<header th:fragment="headerFragment" class="header navbar-fixed-top">
+<header th:fragment="headerFragment (user=null)" class="header navbar-fixed-top">
     <!--Logo & Home-->
     <div id="nav_logo">
         <img src="/images/notebook.svg" alt="" width="40px">
@@ -15,10 +15,10 @@
             <input type="button" value="search">
         </div>
 
-        <div><a href="/login">Login</a></div>
+        <div th:if="${user == null}"><a href="/login">Login</a></div>
 <!--        <div><a href="/info-setting">set info</a></div>-->
 <!--        <div><a href="#" id="newCategoryBtn">add category</a></div>-->
-        <div><a id="btn_logout" href="/user/logout">Logout</a></div>
+        <div th:if="${user != null}"><a id="btn_logout" href="/user/logout">Logout</a></div>
 <!--        <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>-->
     </div>
 </header>
