@@ -25,12 +25,18 @@ public class PostService {
     PostRepository postRepository;
     UserRepository userRepository;
     CategoryRepository categoryRepository;
+    public final MarkdownToHtmlService markdownToHtmlService;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserRepository userRepository, CategoryRepository categoryRepository){
+    public PostService(
+            PostRepository postRepository,
+            UserRepository userRepository,
+            CategoryRepository categoryRepository,
+            MarkdownToHtmlService markdownToHtmlService){
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
+        this.markdownToHtmlService = markdownToHtmlService;
     }
 
     public Optional<Post> add(PostDTO postDTO){
@@ -78,7 +84,9 @@ public class PostService {
     }
 
     public List<Post> findPostList(){
-        return postRepository.findAll();
+        return markdownToHtmlService.parsePostListToHtml(
+                postRepository.findAll()
+        );
     }
 
     public List<Post> findMemberNoticeList(UserDTO userDTO){
