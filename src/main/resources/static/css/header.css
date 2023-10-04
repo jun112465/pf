@@ -4,6 +4,9 @@ header{
     flex-direction: row;
     align-items: center;
     height: 70px;
+
+    margin-left: 70px;
+    margin-right: 70px;
 }
 
 header a{
@@ -18,11 +21,23 @@ header > #nav_logo{
     align-items: center;
     font-size: 35px;
     font-weight: bold;
-    margin-left: 20px;
+    /*margin-left: 20px;*/
 }
 
 header > #nav_ctrl{
     display: flex;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #5595d3;
+
+    /*font*/
+    font-weight: bold;
+    font-size: 16px;
+    color: #5595d3;
+
+
+    /*align*/
+    align-items: center;
+    justify-content: center;
 }
 
 header > #nav_ctrl > div{

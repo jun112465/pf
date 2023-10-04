@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <!--common-->
+    <!-- header Css File -->
+    <link rel="stylesheet" href="/css/header.css">
+    <!-- Awesome-Font -->
+    <script src="https://kit.fontawesome.com/1155edaf9c.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+<div th:replace="/fragments/header::headerFragment"></div>
+<section class="sign-in-container">
+    <div class="sign-in">
+        <input class="block" id="form-id" type="text" name="uid" placeholder="INPUT ID">
+        <input class="block" id="form-pw" type="password" name="pwd" placeholder="INPUT PW">
+        <input class="block" id="btn-sign-in" type="button" value="SIGN IN">
+        <a class="block" href="/sign-up">SIGN UP</a>
+    </div>
+</section>
+
+</body>
+</html>
