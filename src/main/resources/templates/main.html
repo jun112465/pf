@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+
   <!--common-->
+  <style>
+    body{
+      min-width: 800px;
+    }
+  </style>
   <!-- header Css File -->
   <link rel="stylesheet" href="/css/header.css">
   <!-- Awesome-Font -->
@@ -22,7 +28,7 @@
 
 <div th:replace="/fragments/header::headerFragment(${user})"></div>
 <div th:if="${user!=null}">
-  <div th:replace="/fragments/area::areaFragment"></div>
+  <div th:replace="/fragments/area::areaFragment(${user})"></div>
 </div>
 </div>
 <div th:replace="/fragments/postList::postList(${posts}, 'allPostList')"></div>

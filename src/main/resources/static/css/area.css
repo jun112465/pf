@@ -13,6 +13,20 @@
     padding: 3px;
 }
 
+.area > select {
+
+    border: none;
+
+    /*font*/
+    font-size: 13px;
+    font-weight: bold;
+
+    margin: 3px;
+    padding: 3px;
+
+    border-bottom: 2px solid #5595d3;
+}
+
 .area > .area-item:hover {
     cursor: pointer;
 }
