@@ -32,4 +32,11 @@ public class MarkdownToHtmlService {
 
         return post;
     }
+
+    public String parseString(String markdown){
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(markdown);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
+    }
 }

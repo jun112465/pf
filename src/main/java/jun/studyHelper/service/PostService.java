@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -54,7 +55,7 @@ public class PostService {
     }
 
     public Post findNotice(PostDTO postDTO){
-        return postRepository.findById(postDTO.getNoticeId()).orElse(null);
+        return postRepository.findById(postDTO.getId()).orElse(null);
     }
 
 
@@ -83,11 +84,26 @@ public class PostService {
         );
     }
 
-    public List<Post> findPostList(){
-        return markdownToHtmlService.parsePostListToHtml(
-                postRepository.findAll()
-        );
+    public List<PostDTO> convertPostListToDTO(List<Post> postList){
+        return postList.stream()
+                .map(post -> {
+                    PostDTO dto = PostDTO.builder()
+                            .id(post.getId())
+                            .userId(post.getUser().getId())
+                            .categoryId(post.getCategory().getId())
+                            .content(post.getContent())
+                            .html(markdownToHtmlService.parseString(post.getContent()))
+//                            .date(post.getDate())
+                            .build();
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
+
+    public List<Post> findPostList(){
+        return postRepository.findAll();
+    }
+
 
     public List<Post> findMemberNoticeList(UserDTO userDTO){
         User user = userRepository.findById(userDTO.getId()).get();

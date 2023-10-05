@@ -53,7 +53,7 @@ public class CommentService {
 
     // 노트의 모든 댓글 가져오기
     public List<Comment> getNoteComments(PostDTO postDTO){
-        commentRepository.findByPostId(postDTO.getNoticeId());
+        commentRepository.findByPostId(postDTO.getId());
         return null;
     }
 }

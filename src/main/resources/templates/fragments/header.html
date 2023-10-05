@@ -15,9 +15,11 @@
             <input type="button" value="search">
         </div>
 
+        <!--user is logged out-->
         <div th:if="${user == null}"><a href="/login">Login</a></div>
-<!--        <div><a href="/info-setting">set info</a></div>-->
-<!--        <div><a href="#" id="newCategoryBtn">add category</a></div>-->
+        <!--user is logged in-->
+        <div th:if="${user != null}"><a href="/info-setting">Set-Info</a></div>
+        <div th:if="${user != null}"><a href="#" id="newCategoryBtn">Add-Category</a></div>
         <div th:if="${user != null}"><a id="btn_logout" href="/user/logout">Logout</a></div>
 <!--        <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>-->
     </div>

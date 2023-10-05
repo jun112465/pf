@@ -1,7 +1,11 @@
+article{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
 .post-box{
     display: flex;
     flex-wrap: wrap;
-
     /*align*/
     justify-content: center;
 }
