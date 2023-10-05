@@ -14,11 +14,14 @@
 
   <!-- postList Css File-->
   <link rel="stylesheet" href="/css/postList.css">
+  <!-- area Css File-->
+  <link rel="stylesheet" href="/css/area.css">
 
 </head>
 <body>
 
 <div th:replace="/fragments/header::headerFragment(${user})"></div>
+<div th:replace="/fragments/area::areaFragment" th:if="${user} != null"></div>
 <div th:replace="/fragments/postList::postList(${posts})"></div>
 <div> footer </div>
 
@@ -26,7 +29,9 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.0.0/showdown.min.js"></script>
+<script src="/js/area.js"></script>
 <script src="/js/postList.js"></script>
+
 <!--html to markdown-->
 <!--<script src="https://unpkg.com/turndown/dist/turndown.js"></script>-->
 <!--<script src="./js/index/note-gallery.js"></script>-->

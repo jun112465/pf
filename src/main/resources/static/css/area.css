@@ -1,0 +1,22 @@
+.area {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.area > .area-item{
+    /*font*/
+    font-size: 16px;
+    font-weight: bold;
+
+    margin: 3px;
+    padding: 3px;
+}
+
+.area > .area-item:hover {
+    cursor: pointer;
+}
+
+.area > #selected {
+    border-bottom: 2px solid #5595d3;
+}
