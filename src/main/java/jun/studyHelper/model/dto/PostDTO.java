@@ -5,9 +5,10 @@ import lombok.Data;
 @Data
 @Builder
 public class PostDTO {
+    long id;
     long userId;
     long categoryId;
-    long noticeId;
     String content;
+    String html;
     String date;
 }

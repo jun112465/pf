@@ -2,37 +2,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 
-<article class="post-box" th:fragment="postList (posts)">
-  <div class="post" id="new-post">
-    <i class="fa-solid fa-circle-plus"></i>
-  </div>
-  <div class="post" th:each="post : ${posts}">
-    <!--post id-->
-    <input type="hidden" th:value="${post.getId()}">
+<article th:fragment="postList (posts)">
+  <div class="post-box">
+    <div class="post" id="new-post">
+      <i class="fa-solid fa-circle-plus"></i>
+    </div>
+    <div class="post" th:each="post : ${posts}">
+      <!--post id-->
+      <input type="hidden" th:value="${post.getId()}">
 
-    <!--post-top-->
-    <div class="post-top">
-      <div>
-        <div th:text="${post.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
-        <input class="btn_edit_or_save" type="button" value="edit">
+      <!--post-top-->
+      <div class="post-top">
+        <div>
+          <div th:text="${post.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
+          <input class="btn_edit_or_save" type="button" value="edit">
+        </div>
+        <a th:href="'/post/delete?id=' + ${post.getId()}">
+          <i class="fas fa-trash" style="color: #e71c1c; font-size: 20px; position: relative; left:0"></i>
+        </a>
       </div>
-      <a th:href="'/post/delete?id=' + ${post.getId()}">
-        <i class="fas fa-trash" style="color: #e71c1c; font-size: 20px; position: relative; left:0"></i>
-      </a>
-    </div>
 
-    <!-- post content viewed with html -->
-    <div class="content"
-         th:text="${post.getContent()}"
-    >
-    </div>
-
-    <!-- editor box for user -->
-    <div class="editor">
-      <textarea th:class="' edit-box'" th:data-id="${post.getId()}" th:text="${post.getContent()}"></textarea>
-      <div class="target"></div>
+      <!-- post content viewed with html -->
+      <div class="content" th:text="${post.getHtml()}"></div>
+      <!-- editor box for owner user -->
+      <div class="editor">
+        <textarea th:class="edit-box" th:data-id="${post.getId()}" th:text="${post.getContent()}"></textarea>
+        <div class="target"></div>
+      </div>
     </div>
   </div>
+
 </article>
 
 </html>
