@@ -47,14 +47,20 @@ public class MainController {
         List<Post> postList = postService.findPostList();
         List<PostDTO> postDTOList = postService.convertPostListToDTO(postList);
         model.addAttribute("posts", postDTOList);
-
+        // login X Model
         if(sessionId == null || !loginService.isUserLoggedIn(sessionId)) {
             model.addAttribute("user", null);
         }
+        // login O Model
         else {
+            // postList
+            UserDTO userDTO = loginService.getUserDTO(sessionId);
+            List<Post> userPosts = postService.findMemberNoticeList(userDTO);
+            List<PostDTO> userPostDTOs = postService.convertPostListToDTO(userPosts);
+            model.addAttribute("userPosts", userPostDTOs);
+
             UserDTO loginUser = loginService.getUserDTO(sessionId);
             model.addAttribute("user", loginUser);
-//            model.addAttribute("posts", postService.findMemberNoticeList(loginUser));
             model.addAttribute("categories", categoryService.getCategories(loginUser));
             model.addAttribute("groupedNoticeListMap", postService.getNoticeListGroupedByCategory(loginUser));
         }
