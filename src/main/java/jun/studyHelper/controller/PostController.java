@@ -29,6 +29,18 @@ public class PostController {
         this.categoryService = categoryService;
     }
 
+
+    @GetMapping("/post/${userId}/${categoryId")
+    public String getPosts(
+            @PathVariable("userId") Long userId,
+            @PathVariable(name = "categoryId", required = false) Long categoryId){
+
+
+
+
+        return "main";
+    }
+
     @PostMapping("notice/add-note")
     @ResponseBody
     public boolean addNote(@RequestBody CategoryDTO categoryDTO, HttpServletRequest req){
