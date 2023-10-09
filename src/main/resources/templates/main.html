@@ -26,6 +26,10 @@
 </head>
 <body>
 
+<div th:if="${user}!=null">
+  <input id="userId" type="hidden" name="userId" th:value="${user.getId()}">
+</div>
+
 <div th:replace="/fragments/header::headerFragment(${user})"></div>
 <div th:if="${user!=null}">
   <div th:replace="/fragments/area::areaFragment(${user})"></div>

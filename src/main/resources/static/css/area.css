@@ -15,16 +15,17 @@
 
 .area > select {
 
+    text-decoration: none;
     border: none;
 
     /*font*/
-    font-size: 13px;
+    font-family: inherit; /* 기본 글꼴로 상속 */
+    font-size: inherit; /* 기본 글꼴 크기로 상속 */
     font-weight: bold;
+    color: inherit; /* 기본 글꼴 색상으로 상속 */
 
     margin: 3px;
-    padding: 3px;
-
-    border-bottom: 2px solid #5595d3;
+    padding-bottom: 2px;
 }
 
 .area > .area-item:hover {
