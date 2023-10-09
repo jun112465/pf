@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="areaFragment (user)" class="area">
+  <input type="hidden" th:value="${user.getId()}">
+
+  <div class="area-item">All</div>
+  <div class="area-item" id="selected" th:text="${user.getUid()}"></div>
+
+  <!--category list-->
+  <select name="categories" id="categories">
+  </select>
+</div>
+
+</html>
