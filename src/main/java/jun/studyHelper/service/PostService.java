@@ -50,6 +50,11 @@ public class PostService {
                 .build()));
     }
 
+    public List<Post> getPostsByCategory(CategoryDTO categoryDTO){
+        Category category = categoryRepository.getById(categoryDTO.getId());
+        return postRepository.findByCategory(category);
+    }
+
     public void delete(Long noticeId){
         postRepository.deleteById(noticeId);
     }
@@ -105,7 +110,7 @@ public class PostService {
     }
 
 
-    public List<Post> findMemberNoticeList(UserDTO userDTO){
+    public List<Post> findUserPostList(UserDTO userDTO){
         User user = userRepository.findById(userDTO.getId()).get();
         return postRepository.findByUserIdOrderByDateAsc(user.getId());
     }
