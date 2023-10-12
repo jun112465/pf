@@ -3,6 +3,7 @@ package jun.studyHelper.controller;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDTO;
 import jun.studyHelper.model.dto.PostDTO;
+import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.Category;
@@ -12,8 +13,10 @@ import jun.studyHelper.service.PostService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class PostController {
@@ -28,6 +31,44 @@ public class PostController {
         this.postService = postService;
         this.categoryService = categoryService;
     }
+
+
+    @GetMapping("/post/{userId}/{categoryId}")
+    public String getPosts(
+            Model model,
+            @PathVariable(name = "userId", required = false) Long userId,
+            @PathVariable(name = "categoryId", required = false) Long categoryId
+    ){
+        List<PostDTO> postDTOs;
+
+        if(userId == null){
+            postDTOs = postService.convertPostListToDTO(
+                    postService.findPostList()
+            );
+        }
+
+        else if(categoryId == null){
+            postDTOs = postService.convertPostListToDTO(
+                    postService.findUserPostList(
+                        UserDTO.builder()
+                            .id(userId)
+                            .build())
+            );
+        }
+
+        else{
+            postDTOs = postService.convertPostListToDTO(
+                    postService.getPostsByCategory(
+                    CategoryDTO.builder()
+                    .id(categoryId)
+                    .build()));
+        }
+
+        model.addAttribute("posts", postDTOs);
+
+        return "main";
+    }
+
 
     @PostMapping("notice/add-note")
     @ResponseBody

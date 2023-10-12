@@ -32,13 +32,13 @@
 
 <div th:replace="/fragments/header::headerFragment(${user})"></div>
 <div th:if="${user!=null}">
-  <div th:replace="/fragments/area::areaFragment(${user})"></div>
+  <div th:replace="/fragments/area::areaFragment(${user}, ${categories})"></div>
 </div>
 </div>
 <div th:replace="/fragments/postList::postList(${posts}, 'allPostList')"></div>
-<div th:if="${user!=null}">
-  <div th:replace="/fragments/postList::postList(${userPosts}, 'userPostList')"></div>
-</div>
+<!--<div th:if="${user!=null}">-->
+<!--  <div th:replace="/fragments/postList::postList(${userPosts}, 'userPostList')"></div>-->
+<!--</div>-->
 <div> footer </div>
 
 </body>
