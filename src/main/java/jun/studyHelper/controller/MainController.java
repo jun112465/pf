@@ -1,6 +1,7 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
+import jun.studyHelper.model.dto.CategoryDTO;
 import jun.studyHelper.model.dto.PostDTO;
 import jun.studyHelper.model.dto.UserDTO;
 import jun.studyHelper.model.entity.Post;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,7 +36,60 @@ public class MainController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/")
+
+    @GetMapping(value="/")
+    public String newRoot(
+            Model model,
+            @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId,
+            @RequestParam(value = "userId", required = false) String userId,
+            @RequestParam(value = "categoryId", required = false) String categoryId
+    ){
+
+        // data to pass
+        // 1. user
+        // 2. posts
+        // 3. categories
+
+
+        List<PostDTO> postDTOs;
+
+        if(sessionId == null || !loginService.isUserLoggedIn(sessionId)) {
+            // login X
+            model.addAttribute("user", null);
+            postDTOs = postService.convertPostListToDTO(
+                    postService.findPostList()
+            );
+        }else{
+            // login O
+            UserDTO userDTO = loginService.getUserDTO(sessionId);
+            model.addAttribute("user", userDTO);
+            model.addAttribute("categories", categoryService.getCategories(userDTO));
+
+
+            if(userId == null)
+                postDTOs = postService.convertPostListToDTO(
+                        postService.findPostList()
+                );
+            else if(userId != null && categoryId == null)
+                postDTOs = postService.convertPostListToDTO(
+                        postService.findUserPostList(userDTO)
+                );
+            else
+                postDTOs = postService.convertPostListToDTO(
+                        postService.getPostsByCategory(
+                                CategoryDTO.builder()
+                                        .id(Long.parseLong(categoryId))
+                                        .build()
+                        )
+                );
+        }
+
+        model.addAttribute("posts", postDTOs);
+
+        return "main";
+    }
+
+
     public String root(
             Model model,
             @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId
@@ -55,7 +108,7 @@ public class MainController {
         else {
             // postList
             UserDTO userDTO = loginService.getUserDTO(sessionId);
-            List<Post> userPosts = postService.findMemberNoticeList(userDTO);
+            List<Post> userPosts = postService.findUserPostList(userDTO);
             List<PostDTO> userPostDTOs = postService.convertPostListToDTO(userPosts);
             model.addAttribute("userPosts", userPostDTOs);
 

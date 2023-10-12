@@ -18,7 +18,7 @@
         let editor = editors[i];
         let btn = btnEditAndSave[i];
         //add post btn 때문에 인덱스 + 1 해줘야 한다.
-        let post = posts[i + 1];
+        let post = posts[i];
 
         btn.addEventListener("click", () => {
             if (btn.value == "edit") {
@@ -47,7 +47,7 @@
     converter.setFlavor('github');
     for (let i = 0; i < editors.length; i++) {
         let content = contents[i];
-        let postId = posts[i + 1].children[0].value;
+        let postId = posts[i].children[0].value;
         let editBox = editors[i].children[0];
         let target = targets[i];
         let loading = false

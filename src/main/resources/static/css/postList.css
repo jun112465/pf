@@ -9,7 +9,7 @@ article{
     /*align*/
     justify-content: center;
 }
-.post {
+.post-item {
     background-color: rgb(255, 255, 255);
     /*color: white;*/
     padding: 10px;
@@ -64,7 +64,7 @@ article{
     height: 90%;
 }
 
-.post .edit-box{
+.post-item .edit-box{
     text-align: left;
     width: 50%;
     outline: 0px solid transparent;
