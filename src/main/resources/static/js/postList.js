@@ -1,6 +1,6 @@
 (()=> {
 
-    // convert htmlText to Html
+    // convert htmlText to Html at Start
     let contents = document.getElementsByClassName("content");
     let targets = document.getElementsByClassName("target");
     for (let i = 0; i < contents.length; i++) {
@@ -8,6 +8,31 @@
         targets[i].innerHTML = contents[i].textContent;
         contents[i].innerHTML = contents[i].textContent;
     }
+
+    // add post btn eventListener
+    let addPostBtn = document.getElementById("new-post");
+    addPostBtn.addEventListener('click', ()=>{
+        // from url
+        let url = new URL(window.location.href);
+        let categoryId = url.searchParams.get("categoryId")
+
+        // from input tag
+        let userId = document.getElementById("userId");
+
+        // fetch & reload
+        fetch("/post/add", {
+            method : "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body : JSON.stringify({
+                'categoryId' : categoryId,
+                'userId' : userId
+            })
+        })
+            .then(json => json.json())
+            .then(data => console.log(data))
+            .then(location.reload)
+
+    })
 
     // add edit & save button eventListener
     let posts = document.getElementsByClassName("post");
@@ -17,7 +42,6 @@
         let content = contents[i];
         let editor = editors[i];
         let btn = btnEditAndSave[i];
-        //add post btn 때문에 인덱스 + 1 해줘야 한다.
         let post = posts[i];
 
         btn.addEventListener("click", () => {

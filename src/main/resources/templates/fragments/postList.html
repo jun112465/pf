@@ -3,10 +3,10 @@
 
 
 <article th:fragment="postList (posts, id)" class="post-box" th:id="${id}">
-  <div class="post-item" id="new-post">
+  <div class="post-item" id="new-post" th:onclick="'location.href=/post/add?'+${}">
     <i class="fa-solid fa-circle-plus"></i>
   </div>
-  <div class="post-item post" th:each="post : ${posts}">
+  <div class="post-item post" th:each="post : ${posts}" th:th:each="">
     <!--post id-->
     <input type="hidden" th:value="${post.getId()}">
 

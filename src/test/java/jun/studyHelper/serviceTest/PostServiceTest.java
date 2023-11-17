@@ -59,7 +59,7 @@ public class PostServiceTest {
 
     }
 
-    @Test public void addNoticeTest(){
+    @Test public void addPostTest(){
         //given
         testPostDTO = PostDTO.builder()
                 .userId(user.getId())
@@ -73,7 +73,8 @@ public class PostServiceTest {
 
         //then
 //        Assertions.assertThat(postService.findPostList().get(0)).isEqualTo(post);
-//        System.out.println(noticeService.findMemberNoticeList(user));
+        testUserDTO.setId(user.getId());
+        System.out.println(postService.findUserPostList(testUserDTO));
     }
 
 

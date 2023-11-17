@@ -3,7 +3,7 @@
     let allPostBtn = areaItems[0];
     let userPostBtn = areaItems[1];
     let allPostBox = document.getElementById("allPostList");
-    let userId = 1;
+    let categoryElement = document.getElementById("categories");
     // let userPostBox = document.getElementById("userPostList");
     let getSelectedValue = ()=>{
         // select 태그에서 현재 선택된 옵션 요소를 가져오기
@@ -12,6 +12,11 @@
 
         // 선택된 값을 return
         return selectedValue;
+    }
+
+    let getUserId = ()=>{
+        let userIdElement = document.getElementById("userId")
+        return userIdElement.value;
     }
 
 
@@ -34,8 +39,10 @@
 
         // underline for btn
         let userId = url.searchParams.get("userId");
-        if(userId == null)
+        if(userId == null) {
             allPostBtn.id = 'selected';
+            categoryElement.style.display = "none";
+        }
         else
             userPostBtn.id = 'selected';
 
@@ -51,6 +58,7 @@
                 }
             }
         }
+
 
 
     })()
@@ -73,7 +81,7 @@
 
         let currentURL = "/";
         // 새로운 파라미터를 추가할 수 있습니다.
-        let newParam1 = `userId=${userId}`;
+        let newParam1 = `userId=${getUserId()}`;
         let newParam2 = `categoryId=${getSelectedValue()}`;
         // 현재 URL과 새로운 파라미터를 조합하여 새 URL을 생성합니다.
         let newURL = currentURL + "?" + newParam1 + "&" + newParam2;
