@@ -6,8 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDTO {
-    long id;
-    String uid;
-    String pwd;
+public class UserDto {
+    String userId;
+    String password;
 }

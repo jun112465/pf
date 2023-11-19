@@ -1,10 +1,10 @@
 package jun.studyHelper.service;
 
 
-import jun.studyHelper.model.dto.PostDTO;
+import jun.studyHelper.model.dto.PostDto;
 import jun.studyHelper.model.entity.Comment;
 import jun.studyHelper.repository.CommentRepository;
-import jun.studyHelper.repository.notice.PostRepository;
+import jun.studyHelper.repository.post.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +52,7 @@ public class CommentService {
 
 
     // 노트의 모든 댓글 가져오기
-    public List<Comment> getNoteComments(PostDTO postDTO){
+    public List<Comment> getNoteComments(PostDto postDTO){
         commentRepository.findByPostId(postDTO.getId());
         return null;
     }

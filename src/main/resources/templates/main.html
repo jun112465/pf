@@ -31,11 +31,12 @@
 </div>
 
 <div th:replace="/fragments/header::headerFragment(${user})"></div>
+
 <div th:if="${user!=null}">
   <div th:replace="/fragments/area::areaFragment(${user}, ${categories})"></div>
 </div>
-</div>
-<div th:replace="/fragments/postList::postList(${posts},${user.getId()})"></div>
+
+<div th:replace="/fragments/postList::postList(${posts}, ${user})"></div>
 <!--<div th:if="${user!=null}">-->
 <!--  <div th:replace="/fragments/postList::postList(${userPosts}, 'userPostList')"></div>-->
 <!--</div>-->

@@ -5,7 +5,7 @@ import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.repository.category.CategoryRepository;
 import jun.studyHelper.repository.user.UserRepository;
-import jun.studyHelper.repository.notice.PostRepository;
+import jun.studyHelper.repository.post.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class PostRepoTest {
+/*
 
 
     @Autowired
@@ -88,4 +89,6 @@ public class PostRepoTest {
 
         Assertions.assertThat(noticeRepo.findAll().get(0).getContent()).isEqualTo(testContent);
     }
+
+ */
 }

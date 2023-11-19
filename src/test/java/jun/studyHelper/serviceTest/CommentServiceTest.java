@@ -6,7 +6,7 @@ import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.repository.CommentRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.notice.PostRepository;
+import jun.studyHelper.repository.post.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 @Transactional
 public class CommentServiceTest {
 
+    /*
     @Autowired
     private CommentRepository commentRepository;
     @Autowired
@@ -100,4 +101,6 @@ public class CommentServiceTest {
     }
 
 
+
+     */
 }

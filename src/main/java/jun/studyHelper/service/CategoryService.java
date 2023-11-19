@@ -1,11 +1,11 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.UserDTO;
+import jun.studyHelper.model.dto.CategoryDto;
+import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.notice.PostRepository;
+import jun.studyHelper.repository.post.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class CategoryService {
         this.postService = postService;
     }
 
-    public Category findCategory(CategoryDTO categoryDTO){
+    public Category findCategory(CategoryDto categoryDTO){
         return categoryRepository.findById(categoryDTO.getId()).orElse(null);
     }
 
@@ -47,7 +47,7 @@ public class CategoryService {
      * @param categoryDTO
      * @return
      */
-    public Optional<Category> addCategory(CategoryDTO categoryDTO){
+    public Optional<Category> addCategory(CategoryDto categoryDTO){
         Category category = null;
         if(validateCategory(categoryDTO)){
             User user = userRepository.findById(categoryDTO.getUserId()).orElse(null);
@@ -61,13 +61,14 @@ public class CategoryService {
         return Optional.ofNullable(category);
     }
 
-    public List<Category> getCategories(UserDTO userDTO){
-        return categoryRepository.findAllByUserId(userDTO.getId());
+    public List<Category> getCategories(UserDto userDTO){
+        return categoryRepository.findAllByUser(userRepository.findById(userDTO.getUserId()).get());
     }
 
 
-    public boolean validateCategory(CategoryDTO categoryDTO){
-        List<Category> noticeCategories =categoryRepository.findAllByUserId(categoryDTO.getUserId());
+    public boolean validateCategory(CategoryDto categoryDTO){
+        User user = userRepository.findById(categoryDTO.getUserId()).get();
+        List<Category> noticeCategories =categoryRepository.findAllByUser(user);
         for(Category c : noticeCategories){
             if (c.getName().equals(categoryDTO.getName()))
                 return false;
@@ -77,7 +78,7 @@ public class CategoryService {
     }
 
 
-    public void deleteCategory(CategoryDTO categoryDTO){
+    public void deleteCategory(CategoryDto categoryDTO){
         Category category = categoryRepository.getById(categoryDTO.getId());
         postRepository.deleteAllByCategory(category);
         categoryRepository.deleteById(categoryDTO.getId());
@@ -86,9 +87,10 @@ public class CategoryService {
 //        ncr.deleteById(id);
     }
 
-    public Category findByUserAndName(CategoryDTO categoryDTO){
+    public Category findByUserAndName(CategoryDto categoryDTO){
+        User user = userRepository.findById(categoryDTO.getUserId()).get();
         return categoryRepository
-                .findCategoryByUserIdAndName(categoryDTO.getUserId(), categoryDTO.getName())
+                .findCategoryByUserAndName(user, categoryDTO.getName())
                 .orElse(null);
     }
 

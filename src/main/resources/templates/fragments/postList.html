@@ -2,16 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 
-<article th:fragment="postList (posts, id)" class="post-box" th:id="${id}">
-  <div class="post-item" id="new-post" th:onclick="'location.href=/post/add?'+${}">
+<article th:fragment="postList (posts, user)" class="post-box">
+
+  <div th:if="${user!=null}" class="post-item" id="new-post" th:onclick="'location.href=/post/add?'">
     <i class="fa-solid fa-circle-plus"></i>
   </div>
-  <div class="post-item post" th:each="post : ${posts}" th:th:each="">
+  <div class="post-item post" th:each="post : ${posts}">
     <!--post id-->
     <input type="hidden" th:value="${post.getId()}">
 
     <!--post-top-->
-    <div class="post-top">
+    <div th:if="${user != null && post.getUserId()==user.getUserId()}" class="post-top">
       <div>
         <div th:text="${post.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
         <input class="btn_edit_or_save" type="button" value="edit">

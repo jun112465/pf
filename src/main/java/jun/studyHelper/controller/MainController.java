@@ -1,15 +1,18 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.PostDTO;
-import jun.studyHelper.model.dto.UserDTO;
+import jun.studyHelper.model.dto.CategoryDto;
+import jun.studyHelper.model.dto.PostDto;
+import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.Post;
+import jun.studyHelper.model.entity.User;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.LoginService;
 import jun.studyHelper.service.PostService;
 import jun.studyHelper.service.UserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@Log4j2
 public class MainController {
 
     UserService userService;
-    LoginService loginService;
     PostService postService;
     CategoryService categoryService;
 
@@ -31,7 +34,6 @@ public class MainController {
                    PostService postService,
                    CategoryService categoryService){
         this.userService = userService;
-        this.loginService = loginService;
         this.postService = postService;
         this.categoryService = categoryService;
     }
@@ -42,8 +44,25 @@ public class MainController {
             Model model,
             @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId,
             @RequestParam(value = "userId", required = false) String userId,
-            @RequestParam(value = "categoryId", required = false) String categoryId
+            @RequestParam(value = "categoryId", required = false) String categoryId,
+            @AuthenticationPrincipal User user
     ){
+
+        if(user != null)
+            log.info(user.toString());
+        else
+            log.info("No User Logged In");
+
+
+        // 공통 모델 (게시글)
+        List<PostDto> postDtoList = postService.convertPostListToDTO(
+                postService.findPostList()
+        );
+        model.addAttribute("posts", postDtoList);
+        model.addAttribute("user" , null);
+
+
+
 
         // data to pass
         // 1. user
@@ -51,41 +70,42 @@ public class MainController {
         // 3. categories
 
 
-        List<PostDTO> postDTOs;
+        List<PostDto> postDtos;
 
-        if(sessionId == null || !loginService.isUserLoggedIn(sessionId)) {
-            // login X
-            model.addAttribute("user", null);
-            postDTOs = postService.convertPostListToDTO(
-                    postService.findPostList()
-            );
-        }else{
-            // login O
-            UserDTO userDTO = loginService.getUserDTO(sessionId);
-            model.addAttribute("user", userDTO);
-            model.addAttribute("categories", categoryService.getCategories(userDTO));
-
-
-            if(userId == null)
-                postDTOs = postService.convertPostListToDTO(
-                        postService.findPostList()
-                );
-            else if(userId != null && categoryId == null)
-                postDTOs = postService.convertPostListToDTO(
-                        postService.findUserPostList(userDTO)
-                );
-            else
-                postDTOs = postService.convertPostListToDTO(
-                        postService.getPostsByCategory(
-                                CategoryDTO.builder()
-                                        .id(Long.parseLong(categoryId))
-                                        .build()
-                        )
-                );
-        }
-
-        model.addAttribute("posts", postDTOs);
-
+//        if(sessionId == null || !loginService.isUserLoggedIn(sessionId)) {
+//            // login X
+//            model.addAttribute("user", null);
+//            postDtos = postService.convertPostListToDTO(
+//                    postService.findPostList()
+//            );
+//        }else{
+//            // login O
+//            UserDto userDTO = loginService.getUserDTO(sessionId);
+//            model.addAttribute("user", userDTO);
+//            model.addAttribute("categories", categoryService.getCategories(userDTO));
+//
+//
+//            if(userId == null)
+//                postDtos = postService.convertPostListToDTO(
+//                        postService.findPostList()
+//                );
+//            else if(userId != null && categoryId == null)
+//                postDtos = postService.convertPostListToDTO(
+//                        postService.findUserPostList(userDTO)
+//                );
+//            else
+//                postDtos = postService.convertPostListToDTO(
+//                        postService.getPostsByCategory(
+//                                CategoryDto.builder()
+//                                        .id(Long.parseLong(categoryId))
+//                                        .build()
+//                        )
+//                );
+//        }
+//
+//        model.addAttribute("posts", postDtos);
+//
+//        return "main";
         return "main";
     }
 
@@ -98,25 +118,25 @@ public class MainController {
 
         // Create Model
         List<Post> postList = postService.findPostList();
-        List<PostDTO> postDTOList = postService.convertPostListToDTO(postList);
-        model.addAttribute("posts", postDTOList);
+        List<PostDto> postDtoList = postService.convertPostListToDTO(postList);
+        model.addAttribute("posts", postDtoList);
         // login X Model
-        if(sessionId == null || !loginService.isUserLoggedIn(sessionId)) {
-            model.addAttribute("user", null);
-        }
-        // login O Model
-        else {
-            // postList
-            UserDTO userDTO = loginService.getUserDTO(sessionId);
-            List<Post> userPosts = postService.findUserPostList(userDTO);
-            List<PostDTO> userPostDTOs = postService.convertPostListToDTO(userPosts);
-            model.addAttribute("userPosts", userPostDTOs);
-
-            UserDTO loginUser = loginService.getUserDTO(sessionId);
-            model.addAttribute("user", loginUser);
-            model.addAttribute("categories", categoryService.getCategories(loginUser));
-            model.addAttribute("groupedNoticeListMap", postService.getNoticeListGroupedByCategory(loginUser));
-        }
+//        if(sessionId == null || !loginService.isUserLoggedIn(sessionId)) {
+//            model.addAttribute("user", null);
+//        }
+//        // login O Model
+//        else {
+//            // postList
+//            UserDto userDTO = loginService.getUserDTO(sessionId);
+//            List<Post> userPosts = postService.findUserPostList(userDTO);
+//            List<PostDto> userPostDtos = postService.convertPostListToDTO(userPosts);
+//            model.addAttribute("userPosts", userPostDtos);
+//
+//            UserDto loginUser = loginService.getUserDTO(sessionId);
+//            model.addAttribute("user", loginUser);
+//            model.addAttribute("categories", categoryService.getCategories(loginUser));
+//            model.addAttribute("groupedNoticeListMap", postService.getNoticeListGroupedByCategory(loginUser));
+//        }
 
         return "main";
     }

@@ -1,7 +1,6 @@
 package jun.studyHelper.controller;
 
-import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.UserDTO;
+import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.service.CategoryService;
@@ -33,11 +32,10 @@ public class CategoryController {
     @ResponseBody
     public List<Category> get(@RequestParam(value = "userId")String userId){
 
-        User user = userService.findMemberByUid(userId).get();
-        UserDTO userDTO = UserDTO.builder()
-                .id(user.getId())
-                .uid(user.getUid())
-                .pwd(user.getPw())
+        User user = userService.findUser(UserDto.builder().userId(userId).build()).get();
+        UserDto userDTO = UserDto.builder()
+                .userId(user.getUserId())
+                .password(user.getPassword())
                 .build();
 
         return categoryService.getCategories(userDTO);

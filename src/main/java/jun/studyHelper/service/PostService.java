@@ -1,12 +1,12 @@
 package jun.studyHelper.service;
 
-import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.UserDTO;
-import jun.studyHelper.model.dto.PostDTO;
+import jun.studyHelper.model.dto.CategoryDto;
+import jun.studyHelper.model.dto.PostDto;
+import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Category;
-import jun.studyHelper.repository.notice.PostRepository;
+import jun.studyHelper.repository.post.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class PostService {
         this.markdownToHtmlService = markdownToHtmlService;
     }
 
-    public Optional<Post> add(PostDTO postDTO){
+    public Optional<Post> add(PostDto postDTO){
 
         return Optional.ofNullable(postRepository.save(Post.builder()
                 .user(userRepository.findById(postDTO.getUserId()).orElse(null))
@@ -50,7 +50,7 @@ public class PostService {
                 .build()));
     }
 
-    public List<Post> getPostsByCategory(CategoryDTO categoryDTO){
+    public List<Post> getPostsByCategory(CategoryDto categoryDTO){
         Category category = categoryRepository.getById(categoryDTO.getId());
         return postRepository.findByCategory(category);
     }
@@ -59,7 +59,7 @@ public class PostService {
         postRepository.deleteById(noticeId);
     }
 
-    public Post findNotice(PostDTO postDTO){
+    public Post findNotice(PostDto postDTO){
         return postRepository.findById(postDTO.getId()).orElse(null);
     }
 
@@ -81,7 +81,7 @@ public class PostService {
 
     //쿼리
 
-    public void deleteNoticeListByCategory(CategoryDTO categoryDTO){
+    public void deleteNoticeListByCategory(CategoryDto categoryDTO){
         postRepository.deleteAllByCategory(
                 Category.builder()
                     .id(categoryDTO.getId())
@@ -89,12 +89,12 @@ public class PostService {
         );
     }
 
-    public List<PostDTO> convertPostListToDTO(List<Post> postList){
+    public List<PostDto> convertPostListToDTO(List<Post> postList){
         return postList.stream()
                 .map(post -> {
-                    PostDTO dto = PostDTO.builder()
+                    PostDto dto = PostDto.builder()
                             .id(post.getId())
-                            .userId(post.getUser().getId())
+                            .userId(post.getUser().getUserId())
                             .categoryId(post.getCategory().getId())
                             .content(post.getContent())
                             .html(markdownToHtmlService.parseString(post.getContent()))
@@ -110,14 +110,15 @@ public class PostService {
     }
 
 
-    public List<Post> findUserPostList(UserDTO userDTO){
-        User user = userRepository.findById(userDTO.getId()).get();
-        return postRepository.findByUserIdOrderByDateAsc(user.getId());
+    public List<Post> findUserPostList(UserDto userDto){
+        User user = userRepository.findById(userDto.getUserId()).get();
+        return postRepository.findByUserOrderByDateAsc(user);
     }
 
-    public Map<Category, List<Post>> getNoticeListGroupedByCategory(UserDTO userDTO){
+    public Map<Category, List<Post>> getNoticeListGroupedByCategory(UserDto userDto){
 
-        List<Category> noticeCategories = categoryRepository.findAllByUserId(userDTO.getId());
+        User user = userRepository.findById(userDto.getUserId()).get();
+        List<Category> noticeCategories = categoryRepository.findAllByUser(user);
         Map<Category, List<Post>> noticeCategoryListMap = new HashMap<>();
         for(Category nc : noticeCategories){
             noticeCategoryListMap.put(nc, postRepository.findByCategoryOrderByDateAsc(nc));

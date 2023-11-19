@@ -1,4 +1,4 @@
-package jun.studyHelper.repository.notice;
+package jun.studyHelper.repository.post;
 
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
@@ -35,7 +35,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     void deleteById(Long id);
 
     // 쿼리 메소드 추가
-    List<Post> findByUserIdOrderByDateAsc(long userId);
+    List<Post> findByUserOrderByDateAsc(User user);
     List<Post> findByCategoryOrderByDateAsc(Category noticeCategory);
     void deleteAllByCategory(Category category);
 

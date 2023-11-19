@@ -1,12 +1,9 @@
 package jun.studyHelper.controllerTest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jun.studyHelper.controller.PostController;
-import jun.studyHelper.model.dto.PostDTO;
-import jun.studyHelper.model.entity.Category;
+import jun.studyHelper.model.dto.PostDto;
 import jun.studyHelper.model.entity.Post;
-import jun.studyHelper.model.entity.User;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.LoginService;
 import jun.studyHelper.service.PostService;
@@ -16,15 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +27,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PostController.class)
 @AutoConfigureMockMvc
@@ -65,9 +57,9 @@ public class PostControllerTest {
         session.setAttribute("userId", "user123");
 
         //given
-        PostDTO postDTO = PostDTO.builder()
+        PostDto postDTO = PostDto.builder()
                 .categoryId(1)
-                .userId(1)
+//                .userId(1)
                 .build();
 
         System.out.println(objectMapper.writeValueAsString(postDTO));

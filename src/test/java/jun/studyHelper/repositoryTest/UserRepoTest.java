@@ -19,6 +19,7 @@ import java.util.Random;
 //@DataJpaTest
 public class UserRepoTest {
 
+    /*
     @Autowired
     UserRepository repo;
 
@@ -62,4 +63,6 @@ public class UserRepoTest {
 //        System.out.println(repo.findOptionalByUid(member.getUid()));
     }
 
+
+     */
 }

@@ -1,20 +1,20 @@
 package jun.studyHelper;
 
 
+import jun.studyHelper.model.UserRole;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.repository.category.CategoryRepository;
-import jun.studyHelper.repository.notice.PostRepository;
+import jun.studyHelper.repository.post.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @SpringBootTest
 public class DataAdd {
@@ -43,8 +43,9 @@ public class DataAdd {
     void addUsers(){
         for(int i=0; i<10; i++){
             User user = User.builder()
-                    .uid(createRandomString())
-                    .pw(createRandomString())
+                    .userId(createRandomString())
+                    .password(createRandomString())
+                    .roles(List.of(UserRole.USER.getLabel()))
                     .build();
             userRepository.save(user);
         }
@@ -66,21 +67,17 @@ public class DataAdd {
 
     @Test
     void addRandomPosts(){
-        userRepository.findAll().forEach(user -> {
-            Category userCategory = categoryRepository.findAllByUserId(user.getId()).get(0);
-
-            for(int i=0; i<10; i++) {
+        categoryRepository.findAll().forEach(category -> {
+            for(int i=0; i<10; i++){
                 postRepository.save(
                         Post.builder()
-                                .category(userCategory)
+                                .category(category)
                                 .content(createRandomString())
-                                .user(user)
+                                .user(category.getUser())
                                 .date(Post.getCurrentDate())
                                 .build()
                 );
             }
         });
     }
-
-
 }

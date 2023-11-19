@@ -61,37 +61,37 @@ public class FileService {
         return (MultipartFile) s3Object.getObjectContent();
     }
 
-    public byte[] getProfileImg(User user) throws MalformedURLException {
-        String fileName = String.valueOf(user.getId());
-        URL url = new URL("https://integrated-bucket.s3-ap-northeast-2.amazonaws.com/profiles/" + fileName);
-
-        HttpURLConnection conn = null;
-        InputStream inputStream = null;
-
-        try {
-            // 프로필 이미지가 있으면 해당 이미지 return
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(5 * 1000);
-            inputStream = conn.getInputStream();
-
-            return inputStream.readAllBytes();
-        } catch (FileNotFoundException e){
-
-            // 프로필 이미지가 따로 없으므로 default 이미지 return
-            url = new URL("https://integrated-bucket.s3-ap-northeast-2.amazonaws.com/profile");
-            try {
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setConnectTimeout(5 * 1000);
-                inputStream = conn.getInputStream();
-                return inputStream.readAllBytes();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public byte[] getProfileImg(User user) throws MalformedURLException {
+//        String fileName = String.valueOf(user.getId());
+//        URL url = new URL("https://integrated-bucket.s3-ap-northeast-2.amazonaws.com/profiles/" + fileName);
+//
+//        HttpURLConnection conn = null;
+//        InputStream inputStream = null;
+//
+//        try {
+//            // 프로필 이미지가 있으면 해당 이미지 return
+//            conn = (HttpURLConnection) url.openConnection();
+//            conn.setRequestMethod("GET");
+//            conn.setConnectTimeout(5 * 1000);
+//            inputStream = conn.getInputStream();
+//
+//            return inputStream.readAllBytes();
+//        } catch (FileNotFoundException e){
+//
+//            // 프로필 이미지가 따로 없으므로 default 이미지 return
+//            url = new URL("https://integrated-bucket.s3-ap-northeast-2.amazonaws.com/profile");
+//            try {
+//                conn = (HttpURLConnection) url.openConnection();
+//                conn.setRequestMethod("GET");
+//                conn.setConnectTimeout(5 * 1000);
+//                inputStream = conn.getInputStream();
+//                return inputStream.readAllBytes();
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

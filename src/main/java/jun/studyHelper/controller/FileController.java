@@ -51,10 +51,10 @@ public class FileController {
 
         // 새로 이름 부여하기
         User loginUser = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        String newFileName = PATH + loginUser.getId() + "." + multipartFile.getContentType();
+//        String newFileName = PATH + loginUser.getId() + "." + multipartFile.getContentType();
 
         // s3 업로드
-        fileService.uploadToS3(multipartFile, newFileName);
+//        fileService.uploadToS3(multipartFile, newFileName);
     }
 
     @GetMapping(value = "/file/get-profile", produces = MediaType.ALL_VALUE)
@@ -63,38 +63,39 @@ public class FileController {
         User loginUser = (User)req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
 
-        byte[] img = fileService.getProfileImg(loginUser);
-        ByteArrayInputStream bis = new ByteArrayInputStream(img);
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(bis);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        //png to jpg
-        BufferedImage toJpg = new BufferedImage(
-                image.getWidth(),
-                image.getHeight(),
-                BufferedImage.TYPE_INT_RGB);
-        toJpg.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
-        image = toJpg;
-
-        // create the object of ByteArrayOutputStream class
-        ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-
-        // write the image into the object of ByteArrayOutputStream class
-        try {
-            ImageIO.write(image, "jpg", outStreamObj);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // create the byte array from image
-        byte [] byteArray = outStreamObj.toByteArray();
-        return byteArray;
+//        byte[] img = fileService.getProfileImg(loginUser);
+//        ByteArrayInputStream bis = new ByteArrayInputStream(img);
+//        BufferedImage image = null;
+//        try {
+//            image = ImageIO.read(bis);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        //png to jpg
+//        BufferedImage toJpg = new BufferedImage(
+//                image.getWidth(),
+//                image.getHeight(),
+//                BufferedImage.TYPE_INT_RGB);
+//        toJpg.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+//        image = toJpg;
+//
+//        // create the object of ByteArrayOutputStream class
+//        ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+//
+//        // write the image into the object of ByteArrayOutputStream class
+//        try {
+//            ImageIO.write(image, "jpg", outStreamObj);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        // create the byte array from image
+//        byte [] byteArray = outStreamObj.toByteArray();
+//        return byteArray;
 //        return fileService.downloadFromS3(String.valueOf(loginMember.getId()));
 //        return fileService.getProfileImg(loginMember);
+        return null;
     }
 
     @GetMapping(value = "file/get-profile-test", produces = MediaType.ALL_VALUE)

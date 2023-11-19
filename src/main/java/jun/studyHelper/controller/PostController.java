@@ -1,9 +1,8 @@
 package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
-import jun.studyHelper.model.dto.CategoryDTO;
-import jun.studyHelper.model.dto.PostDTO;
-import jun.studyHelper.model.dto.UserDTO;
+import jun.studyHelper.model.dto.CategoryDto;
+import jun.studyHelper.model.dto.PostDto;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.Category;
@@ -14,12 +13,10 @@ import jun.studyHelper.service.PostService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class PostController {
@@ -46,7 +43,7 @@ public class PostController {
 
     @PostMapping("/post/add")
     public RedirectView addPost(
-            @RequestBody PostDTO postDTO,
+            @RequestBody PostDto postDTO,
             @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId
     ){
         postDTO.setDate(Post.getCurrentDate());
@@ -78,8 +75,8 @@ public class PostController {
     public String addCategory(@RequestParam String categoryName, HttpServletRequest req){
         User user = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
-        categoryService.addCategory(CategoryDTO.builder()
-                .userId(user.getId())
+        categoryService.addCategory(CategoryDto.builder()
+                .userId(user.getUserId())
                 .name(categoryName)
                 .build());
 
@@ -98,7 +95,7 @@ public class PostController {
 
     @GetMapping("/notice/delete-category")
     public String deleteCategory(HttpServletRequest req, String id){
-        CategoryDTO categoryDTO = CategoryDTO.builder()
+        CategoryDto categoryDTO = CategoryDto.builder()
                 .id(Long.valueOf(id))
                 .build();
         categoryService.deleteCategory(categoryDTO);

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PostDTO {
+public class PostDto {
     long id;
-    long userId;
+    String userId;
     long categoryId;
     String content;
     String html;

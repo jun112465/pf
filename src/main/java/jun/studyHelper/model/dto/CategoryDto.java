@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CategoryDTO {
+public class CategoryDto {
     long id;
     String name;
-    long userId;
+    String userId;
 }
