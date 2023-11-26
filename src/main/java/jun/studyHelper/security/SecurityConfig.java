@@ -17,6 +17,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
@@ -42,6 +43,13 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated()
                 .and()
+                    .logout()
+                    .logoutUrl("/users/logout")
+                    .logoutSuccessUrl("/")
+//                    .logoutSuccessHandler(logoutSuccessHandler()) // 로그아웃 성공 시 처리할 핸들러 등록
+                    .invalidateHttpSession(true)
+                    .deleteCookies("accessToken")
+                .and()
                     //JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행하겠다는 설정이다.
                     .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 //                    .addFilterBefore(new JwtCookieFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -53,7 +61,6 @@ public class SecurityConfig {
     public void configure(WebSecurity web) throws Exception{
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
-
 
 
     @Bean
