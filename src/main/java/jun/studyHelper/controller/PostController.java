@@ -46,7 +46,7 @@ public class PostController {
     }
 
 
-    @PostMapping("/post/add")
+    @PostMapping("/add")
     public RedirectView addPost(
             @RequestBody PostDto postDTO,
             @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId
@@ -62,7 +62,7 @@ public class PostController {
         return redirectView;
     }
 
-    @GetMapping("notice/delete")
+    @DeleteMapping("/delete")
     public String deleteNote(@RequestParam String id){
         postService.delete(Long.valueOf(id));
         return "redirect:/";
