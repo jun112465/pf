@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="areaFragment (user, categories)" class="area">
-  <input type="hidden" th:value="${user.getId()}">
+  <input type="hidden" th:value="${user.getUserId()}">
 
   <div class="area-item">All</div>
-  <div class="area-item" th:text="${user.getUid()}"></div>
+  <div class="area-item" th:text="${user.getUserId()}"></div>
 
   <!--category list-->
   <select name="categories" id="categories">

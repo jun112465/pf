@@ -5,8 +5,18 @@ import jun.studyHelper.model.dto.*;
 import jun.studyHelper.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpResponse;
 
 
 @Controller //컨트롤러 또한 자동으로 스프링빈에 등록된다.
@@ -23,13 +33,32 @@ public class UserController {
 
 
     @PostMapping("/login")
-    @ResponseBody
-    public JwtToken login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+    public String login(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpServletResponse response) {
         String memberId = userLoginRequestDto.getUserId();
         String password = userLoginRequestDto.getPassword();
 
-        JwtToken token = userService.login(memberId, password);
-        return token;
+        JwtToken jwtToken = userService.login(memberId, password);
+
+        // 쿠키 환경 설정 및 추가
+        Cookie mySessionCookie = new Cookie("accessToken", jwtToken.getAccessToken());
+        mySessionCookie.setMaxAge(30 * 24 * 60 * 60 * 1000);
+        mySessionCookie.setHttpOnly(true);
+        mySessionCookie.setPath("/");
+        response.addCookie(mySessionCookie);
+
+        return "main";
+    }
+
+    @GetMapping("/get-current-member")
+    @ResponseBody
+    public String getCurrentMember(@AuthenticationPrincipal UserDetails userDetails){
+        return userDetails.getUsername();
+    }
+
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 
     @PostMapping("/test")

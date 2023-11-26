@@ -16,7 +16,7 @@
         </div>
 
         <!--user is logged out-->
-        <div th:if="${user == null}"><a href="/login">Login</a></div>
+        <div th:if="${user == null}"><a href="/users/login">Login</a></div>
         <!--user is logged in-->
         <div th:if="${user != null}"><a href="/info-setting">Set-Info</a></div>
         <div th:if="${user != null}"><a href="#" id="newCategoryBtn">Add-Category</a></div>

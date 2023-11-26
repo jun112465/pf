@@ -12,7 +12,10 @@ import jun.studyHelper.service.PostService;
 import jun.studyHelper.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,13 +48,23 @@ public class MainController {
             @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId,
             @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value = "categoryId", required = false) String categoryId,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal UserDetails userDetails
     ){
 
-        if(user != null)
-            log.info(user.toString());
-        else
+        User user = null;
+
+        if(userDetails != null) {
+            user = userService.findUser(UserDto.builder()
+                    .userId(userDetails.getUsername())
+                    .build()).get();
+            model.addAttribute("user", user);
+            log.info("User Logged In");
+        }
+        else {
+            model.addAttribute("user", null);
             log.info("No User Logged In");
+        }
+
 
 
         // 공통 모델 (게시글)
@@ -59,9 +72,6 @@ public class MainController {
                 postService.findPostList()
         );
         model.addAttribute("posts", postDtoList);
-        model.addAttribute("user" , null);
-
-
 
 
         // data to pass

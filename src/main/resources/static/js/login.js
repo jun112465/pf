@@ -8,12 +8,12 @@
 
     btn_sign_in.addEventListener("click", ()=>{
         console.log("clicked");
-        fetch("/user/login", {
+        fetch("/users/login", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                'uid': form_id.value,
-                'pwd': form_pw.value,
+                'userId': form_id.value,
+                'password': form_pw.value,
             })
         }).then((data)=>{
             console.log(data)
