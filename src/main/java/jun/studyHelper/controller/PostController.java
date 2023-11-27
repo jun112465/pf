@@ -3,6 +3,7 @@ package jun.studyHelper.controller;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDto;
 import jun.studyHelper.model.dto.PostDto;
+import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.Category;
@@ -12,6 +13,8 @@ import jun.studyHelper.service.UserService;
 import jun.studyHelper.service.PostService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,9 +65,15 @@ public class PostController {
         return redirectView;
     }
 
-    @DeleteMapping("/delete")
-    public String deleteNote(@RequestParam String id){
-        postService.delete(Long.valueOf(id));
+    @GetMapping("/delete")
+    public String deleteNote(
+            @RequestParam String id,
+            @AuthenticationPrincipal UserDetails userDetails){
+
+        User deleteUser = userService.findUser(UserDto.builder().userId(userDetails.getUsername()).build()).get();
+        if(postService.validateDeletePostUser(deleteUser, Long.valueOf(id)))
+            postService.delete(Long.valueOf(id));
+
         return "redirect:/";
     }
 
