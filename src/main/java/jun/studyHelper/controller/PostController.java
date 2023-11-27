@@ -65,14 +65,14 @@ public class PostController {
         return redirectView;
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/delete/{postId}")
     public String deleteNote(
-            @RequestParam String id,
+            @PathVariable String postId,
             @AuthenticationPrincipal UserDetails userDetails){
 
         User deleteUser = userService.findUser(UserDto.builder().userId(userDetails.getUsername()).build()).get();
-        if(postService.validateDeletePostUser(deleteUser, Long.valueOf(id)))
-            postService.delete(Long.valueOf(id));
+        if(postService.validateDeletePostUser(deleteUser, Long.valueOf(postId)))
+            postService.delete(Long.valueOf(postId));
 
         return "redirect:/";
     }

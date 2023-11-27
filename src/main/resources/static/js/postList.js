@@ -103,4 +103,21 @@
         })
     }
 
+
+    function deleteConfirm(postId){
+        if(confirm("삭제하시겠습니까?"))
+            location.href = "/post/delete/"+postId;
+    }
+
+    let postDeleteBtns = document.getElementsByClassName("postDeleteBtn");
+    for(let i in postDeleteBtns){
+        let postDltBtn = postDeleteBtns[i];
+        let postId = postDltBtn.dataset.id;
+        postDltBtn.addEventListener('click', ()=>deleteConfirm(postId));
+    }
+
+
+
 })();
+
+
