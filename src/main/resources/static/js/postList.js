@@ -104,6 +104,7 @@
     }
 
 
+    // post delete btn add eventListener
     function deleteConfirm(postId){
         if(confirm("삭제하시겠습니까?"))
             location.href = "/post/delete/"+postId;
