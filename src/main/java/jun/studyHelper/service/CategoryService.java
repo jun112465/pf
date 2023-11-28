@@ -36,8 +36,13 @@ public class CategoryService {
         this.postService = postService;
     }
 
-    public Category findCategory(CategoryDto categoryDTO){
-        return categoryRepository.findById(categoryDTO.getId()).orElse(null);
+    public Optional<Category> findCategory(CategoryDto categoryDTO){
+
+        Optional<Category> category = categoryRepository.findById(categoryDTO.getId());
+        if(category.isPresent()) return category;
+
+        User user = userRepository.findById(categoryDTO.getUserId()).get();
+        return categoryRepository.findCategoryByUserAndName(user, categoryDTO.getName());
     }
 
     /**

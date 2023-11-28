@@ -51,14 +51,17 @@ public class MainController {
             @AuthenticationPrincipal UserDetails userDetails
     ){
 
-        User user = null;
-
         if(userDetails != null) {
-            user = userService.findUser(UserDto.builder()
+            UserDto userDto = UserDto.builder()
                     .userId(userDetails.getUsername())
-                    .build()).get();
+                    .build();
+
+            User user = userService.findUser(userDto).get();
+
             model.addAttribute("user", user);
             log.info("User Logged In");
+
+            model.addAttribute("categories", categoryService.getCategories(userDto));
         }
         else {
             model.addAttribute("user", null);
@@ -67,11 +70,13 @@ public class MainController {
 
 
 
-        // 공통 모델 (게시글)
-        List<PostDto> postDtoList = postService.convertPostListToDTO(
-                postService.findPostList()
-        );
-        model.addAttribute("posts", postDtoList);
+        if(!model.containsAttribute("posts")) {
+            // 공통 모델 (게시글)
+            List<PostDto> postDtoList = postService.convertPostListToDTO(
+                    postService.findPostList()
+            );
+            model.addAttribute("posts", postDtoList);
+        }
 
 
         // data to pass
@@ -116,6 +121,8 @@ public class MainController {
 //        model.addAttribute("posts", postDtos);
 //
 //        return "main";
+        if(model.containsAttribute("exampleAttribute"))
+            log.info("test" + model.getAttribute("exampleAttribute"));
         return "main";
     }
 

@@ -127,6 +127,10 @@ public class PostService {
         return noticeCategoryListMap;
     }
 
+    public boolean validateDeletePostUser(User user, Long deletePostId){
+        return postRepository.getById(deletePostId).getUser().equals(user);
+    }
+
 
     /**
      *

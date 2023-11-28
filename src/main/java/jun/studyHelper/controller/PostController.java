@@ -3,6 +3,7 @@ package jun.studyHelper.controller;
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDto;
 import jun.studyHelper.model.dto.PostDto;
+import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.Category;
@@ -12,13 +13,20 @@ import jun.studyHelper.service.UserService;
 import jun.studyHelper.service.PostService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
+@RequestMapping("/post")
 public class PostController {
 
     UserService userService;
@@ -41,7 +49,7 @@ public class PostController {
     }
 
 
-    @PostMapping("/post/add")
+    @PostMapping("/add")
     public RedirectView addPost(
             @RequestBody PostDto postDTO,
             @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId
@@ -57,9 +65,15 @@ public class PostController {
         return redirectView;
     }
 
-    @GetMapping("notice/delete")
-    public String deleteNote(@RequestParam String id){
-        postService.delete(Long.valueOf(id));
+    @GetMapping("/delete/{postId}")
+    public String deleteNote(
+            @PathVariable String postId,
+            @AuthenticationPrincipal UserDetails userDetails){
+
+        User deleteUser = userService.findUser(UserDto.builder().userId(userDetails.getUsername()).build()).get();
+        if(postService.validateDeletePostUser(deleteUser, Long.valueOf(postId)))
+            postService.delete(Long.valueOf(postId));
+
         return "redirect:/";
     }
 
@@ -70,6 +84,39 @@ public class PostController {
         postService.editNote(note);
     }
 
+    @GetMapping("/first")
+    public String testModelAddController(RedirectAttributes redirectAttributes) {
+        // 첫 번째 컨트롤러에서 모델 값 추가
+        redirectAttributes.addFlashAttribute("exampleAttribute", "Hello from the first controller!");
+
+        // 다른 링크로 리다이렉트
+        return "redirect:/";
+    }
+
+    @GetMapping("/get")
+    public String getUserPosts(
+            RedirectAttributes redirectAttributes,
+            @RequestParam(value = "userId", required = false) String userId,
+            @RequestParam(value = "categoryId", required = false) String categoryId
+    ) {
+
+        CategoryDto categoryDto = CategoryDto.builder()
+                .id(Long.parseLong(categoryId))
+                .userId(userId)
+                .build();
+
+        List<PostDto> postDtoList = postService.convertPostListToDTO(
+                postService.getPostsByCategory(categoryDto)
+        );
+
+        redirectAttributes.addFlashAttribute("posts", postDtoList);
+
+        StringBuilder params = new StringBuilder();
+        if(userId != null) params.append("?userId="+userId+"&");
+        if(categoryId != null) params.append("categoryId="+categoryId);
+
+        return "redirect:/" + params;
+    }
 
     @PostMapping("/notice/add-category")
     public String addCategory(@RequestParam String categoryName, HttpServletRequest req){
