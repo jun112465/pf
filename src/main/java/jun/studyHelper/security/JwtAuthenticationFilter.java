@@ -27,20 +27,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // HTTP Only 쿠키에서 토큰 값을 가져오기
         Cookie[] cookies = request.getCookies();
-        String accessToken = null;
-        Optional<Cookie> accessTokenCookie = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("accessToken")).findFirst();
-        if(accessTokenCookie.isPresent()) accessToken = accessTokenCookie.get().getValue();
 
-        // 2. validateToken으로 토큰 유효성 검사
-        if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
-            // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
-            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        try{
+            String accessToken = null;
+            Optional<Cookie> accessTokenCookie = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("accessToken")).findFirst();
+            if(accessTokenCookie.isPresent()) accessToken = accessTokenCookie.get().getValue();
+
+            // 2. validateToken으로 토큰 유효성 검사
+            if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
+                // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
+                Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            log.info(accessToken);
+        }catch (Exception e){
+            log.info(e);
+        }finally {
+            filterChain.doFilter(request, response);
         }
-
-        log.info(accessToken);
-
-        filterChain.doFilter(request, response);
     }
 
 
