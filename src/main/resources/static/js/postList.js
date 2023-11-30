@@ -109,7 +109,7 @@
 
 
     // allPost 화면일 때 postAddBtn 없애기
-    if(location.pathname == '/'){
+    if(location.search == ''){
         document.getElementById("postAddBtn").style.display = "none";
     }
 
