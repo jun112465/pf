@@ -10,7 +10,7 @@
     }
 
     // add post btn eventListener
-    let addPostBtn = document.getElementById("new-post");
+    let addPostBtn = document.getElementById("postAddBtn");
     addPostBtn.addEventListener('click', ()=>{
         // from url
         let url = new URL(window.location.href);
@@ -104,21 +104,28 @@
     }
 
 
+    // allPost 화면일 때 postAddBtn 없애기
+    if(location.pathname == '/'){
+        document.getElementById("postAddBtn").style.display = "none";
+    }
+
+
     // post delete btn add eventListener
     function deleteConfirm(postId){
-        if(confirm("삭제하시겠습니까?"))
-            location.href = "/post/delete/"+postId;
+        let shouldDelete = confirm("삭제하시겠습니까?")
+        if(shouldDelete) location.href = "/post/delete/"+postId;
     }
 
     let postDeleteBtns = document.getElementsByClassName("postDeleteBtn");
     for(let i in postDeleteBtns){
         let postDltBtn = postDeleteBtns[i];
-        let postId = postDltBtn.dataset.id;
+        let postId = postDltBtn.dataset.postid;
         postDltBtn.addEventListener('click', ()=>deleteConfirm(postId));
     }
 
 
 
 })();
+
 
 

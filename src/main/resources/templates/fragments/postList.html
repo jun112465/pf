@@ -10,9 +10,10 @@
 
 <article th:fragment="postList (posts, user)" class="post-box">
 
-  <div th:if="${user!=null}" class="post-item" id="new-post" th:onclick="'location.href=/post/add?'">
+  <div th:if="${user!=null}" class="post-item" id="postAddBtn" th:onclick="'location.href=/post/add?'">
     <i class="fa-solid fa-circle-plus"></i>
   </div>
+
   <div class="post-item post" th:each="post : ${posts}">
     <!--post id-->
     <input type="hidden" th:value="${post.getId()}">
@@ -23,7 +24,7 @@
         <div th:text="${post.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
         <input class="btn_edit_or_save" type="button" value="edit">
       </div>
-      <a href="#" class="postDeleteBtn" th:data-id="${post.getId()}">
+      <a href="#" class="postDeleteBtn" th:data-postId="${post.getId()}">
         <i class="fas fa-trash" style="color: #e71c1c; font-size: 20px; position: relative; left:0"></i>
       </a>
     </div>
