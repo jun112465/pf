@@ -101,3 +101,15 @@ article{
     /*background-color: #2c3e50;*/
     background-color: grey;
 }
+
+.comment-form{
+    display: flex;
+}
+.comment-input{
+    flex: auto;
+    padding: 6px;
+}
+.comment{
+    padding: 6px;
+    border-bottom: 1px solid #c2c1c1;
+}

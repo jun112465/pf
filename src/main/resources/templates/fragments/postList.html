@@ -36,6 +36,17 @@
       <textarea th:class="edit-box" th:data-id="${post.getId()}" th:text="${post.getContent()}"></textarea>
       <div class="target"></div>
     </div>
+    <div class="comment-box">
+      <form class="comment-form" action="" method="POST">
+        <input class="comment-input" type="text" placeholder="댓글을 입력하시오">
+        <input class="comment-input-btn" type="button" value="댓글입력" id="">
+      </form>
+      <div class="comment">comment 0</div>
+      <div class="comment">comment 1</div>
+      <div class="comment">comment 2</div>
+      <div class="comment">comment 3</div>
+      <div class="comment">comment 4</div>
+    </div>
   </div>
 
 </article>

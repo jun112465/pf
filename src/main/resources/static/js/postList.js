@@ -38,17 +38,20 @@
     let posts = document.getElementsByClassName("post");
     let editors = document.getElementsByClassName("editor");
     let btnEditAndSave = document.getElementsByClassName("btn_edit_or_save");
+    let commentBoxes = document.getElementsByClassName("comment-box");
     for (let i = 0; i < btnEditAndSave.length; i++) {
         let content = contents[i];
         let editor = editors[i];
         let btn = btnEditAndSave[i];
         let post = posts[i];
+        let commentBox = commentBoxes[i];
 
         btn.addEventListener("click", () => {
             if (btn.value == "edit") {
                 btn.value = "save"
                 content.style.display = "none"
                 editor.style.display = "flex"
+                commentBox.style.display = "none";
 
                 post.style.width = "800px"
                 post.style.minWidth = "800px"
@@ -57,6 +60,7 @@
                 btn.value = "edit"
                 content.style.display = "block"
                 editor.style.display = "none"
+                commentBox.style.display = "block";
 
 
                 // targets[i].innerHTML = contents[i].textContent;
