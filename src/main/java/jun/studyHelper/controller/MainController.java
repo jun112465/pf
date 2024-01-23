@@ -76,6 +76,7 @@ public class MainController {
                     postService.findPostList()
             );
             model.addAttribute("posts", postDtoList);
+
         }
 
 
@@ -165,8 +166,24 @@ public class MainController {
     }
 
     @GetMapping("info-setting")
-    public String infoSetting(){
-        return "infoSetting";
+    public String infoSetting(Model model, @AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails != null) {
+            UserDto userDto = UserDto.builder()
+                    .userId(userDetails.getUsername())
+                    .build();
+
+            User user = userService.findUser(userDto).get();
+
+            model.addAttribute("user", user);
+            log.info("User Logged In");
+
+            model.addAttribute("categories", categoryService.getCategories(userDto));
+        }
+        else {
+            model.addAttribute("user", null);
+            log.info("No User Logged In");
+        }
+        return "information";
     }
 
 }

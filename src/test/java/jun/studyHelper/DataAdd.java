@@ -3,8 +3,10 @@ package jun.studyHelper;
 
 import jun.studyHelper.model.UserRole;
 import jun.studyHelper.model.entity.Category;
+import jun.studyHelper.model.entity.Comment;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
+import jun.studyHelper.repository.CommentRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
 import jun.studyHelper.repository.post.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
@@ -12,7 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +29,8 @@ public class DataAdd {
     CategoryRepository categoryRepository;
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
     public String createRandomString(){
         Random rnd =new Random();
@@ -79,5 +85,31 @@ public class DataAdd {
                 );
             }
         });
+    }
+
+
+    @Test
+    public void addComments(){
+        List<Post> posts = postRepository.findAll();
+        List<User> users = userRepository.findAll();
+
+        posts.forEach(p -> {
+
+            for(int i=0; i<10; i++){
+                int userIdx = new Random().nextInt(users.size());
+                Comment comment = Comment.builder()
+                        .user(users.get(userIdx))
+                        .post(p)
+                        .content(createRandomString())
+                        .date(new Date())
+                        .build();
+
+                commentRepository.save(comment);
+            }
+
+        });
+
+
+
     }
 }

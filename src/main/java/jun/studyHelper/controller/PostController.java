@@ -138,7 +138,7 @@ public class PostController {
         noticeCategory.setUser(m);
 
         postService.updateCategories(noticeCategory);
-    }
+}
 
     @GetMapping("/notice/delete-category")
     public String deleteCategory(HttpServletRequest req, String id){

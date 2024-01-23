@@ -1,6 +1,9 @@
 package jun.studyHelper.controller;
 
 
+import jun.studyHelper.exception.ErrorCode;
+import jun.studyHelper.exception.PwDifferentException;
+import jun.studyHelper.exception.UserConfirmException;
 import jun.studyHelper.model.dto.*;
 import jun.studyHelper.service.*;
 import lombok.RequiredArgsConstructor;
@@ -80,12 +83,45 @@ public class UserController {
         return "success";
     }
 
-//    @PostMapping("/user/new")
-//    @ResponseBody
-//    public String create(@RequestBody UserDto userDTO){
-//
-//        if(userService.findMember(userDTO).isPresent())
-//            return "DUPLICATED UID";
+    @PostMapping("/update")
+    public void updateUserId(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody UserDto reqUserDto){
+
+        UserDto userDto = UserDto.builder()
+                .userId(userDetails.getUsername())
+                .build();
+        userService.updateUser(userDto, reqUserDto);
+    }
+
+    @PostMapping("/update-password")
+    public String updatePassword(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody PasswordChangeRequest pwdChangReq){
+
+        UserDto targetUserDto = UserDto.builder()
+                .userId(userDetails.getUsername())
+                .password(pwdChangReq.getCurrentPassword())
+                .build();
+
+        //validate user by password
+        if(!userService.validateMemberInfo(targetUserDto))
+            throw new UserConfirmException("User Confirmation Failed", ErrorCode.INTER_SERVER_ERROR);
+
+        //confirm password sameness
+        if(!pwdChangReq.getCurrentPassword().equals(pwdChangReq.getConfirmPassword()))
+            throw new PwDifferentException("Password Different", ErrorCode.PW_DIFFERENCE);
+
+        UserDto changeDto = UserDto.builder()
+                .userId(targetUserDto.getUserId())
+                .password(pwdChangReq.getNewPassword())
+                .build();
+
+        userService.updateUser(targetUserDto, changeDto);
+
+        return "information";
+    }
+
 //
 //        User user = userService.join(userDTO).orElse(null);
 //        // 초기 카테고리 & 노트 생성

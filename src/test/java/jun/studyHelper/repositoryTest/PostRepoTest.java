@@ -12,9 +12,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @SpringBootTest
+@Transactional
 public class PostRepoTest {
+    @Autowired
+    PostRepository postRepository;
+
+    @Test
+    void test1(){
+        List<Post> posts = postRepository.findAll();
+        System.out.println(posts);
+    }
 /*
 
 

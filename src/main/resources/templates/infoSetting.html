@@ -9,6 +9,7 @@
 </head>
 <body>
 
+
 <header id="nav">
     <!--    logo-->
     <div id="nav_logo">
@@ -17,8 +18,16 @@
     </div>
     <!--    search-->
 
-    <div id="nav_ctrl">
-        <div>개인정보 설정 페이지</div>
+    <!--    ctrl-->
+    <div id="nav_ctrl" th:if="${user!=null}">
+        <!--        <div id="nav_search">-->
+        <!--            <input type="text" name="" id="wef" placeholder="search something">-->
+        <!--            <input type="button" value="search">-->
+        <!--        </div>-->
+        <div><a href="/info-setting">set info</a></div>
+        <div><a href="#" id="newCategoryBtn">add category</a></div>
+        <div><a th:if="${user!=null}" id="btn_logout" href="/user/logout">logout</a></div>
+        <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>
     </div>
 </header>
 

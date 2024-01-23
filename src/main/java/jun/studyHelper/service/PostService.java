@@ -98,6 +98,7 @@ public class PostService {
                             .categoryId(post.getCategory().getId())
                             .content(post.getContent())
                             .html(markdownToHtmlService.parseString(post.getContent()))
+                            .comments(post.getCommentDtoList())
 //                            .date(post.getDate())
                             .build();
                     return dto;
@@ -106,6 +107,8 @@ public class PostService {
     }
 
     public List<Post> findPostList(){
+        postRepository.findAll();
+
         return postRepository.findAll();
     }
 

@@ -148,9 +148,13 @@ public class UserService {
      * @return
      */
     public boolean validateMemberInfo(UserDto userDto){
-
         Optional<User> find = userRepository.findById(userDto.getUserId());
-        return find.isPresent();
+        if(find.isEmpty())
+            return false;
+        else if(userDto.getPassword() == find.get().getPassword())
+            return true;
+        else
+            return false;
     }
 //
 //
@@ -158,6 +162,16 @@ public class UserService {
 //        return userRepository.findAll();
 //    }
 //
+
+    public void updateUser(UserDto userDto, UserDto updatedUserDto){
+        log.info(userDto);
+        User user = findUser(userDto).orElse(null);
+        if(user != null){
+            user.setPassword(updatedUserDto.getPassword());
+        }else log.info("No User Found");
+    }
+
+
 }
 
 

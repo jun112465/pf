@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:input="http://www.w3.org/1999/html">
+<head>
+    <title>Mini Blog</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <!--common-->
+    <style>
+        body{
+            min-width: 800px;
+        }
+    </style>
+
+    <!-- header Css File -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/information.css">
+</head>
+<body>
+
+<div th:replace="/fragments/header::headerFragment(${user})"></div>
+
+<div class="container">
+
+    <div class="info-item">
+        <div class="title">ID</div>
+        <div class="form-text">ENTER A NEW ID</div>
+        <input id="user-id" class="text" name="user-id" type="text" th:placeholder="${user.getUserId()}">
+        <input id="change-id-btn" class="green-btn" type="button" value="수정">
+    </div>
+
+    <div class="info-item">
+        <div class="title">PW</div>
+        <div class="form-text">ENTER A NEW PASSWORD</div>
+        <form action="/users/update-password" method="post">
+            <input class="text" name="password" type="password" placeholder="기존 비밀번호">
+            <input class="text" name="newPassword1" type="password" placeholder="수정 비밀번호" id="exampleInputPassword1">
+            <input class="text" name="newPassword2" type="password" placeholder="수정 비밀번호 확인" id="exampleInputPassword2">
+            <input class="green-btn" type="submit" value="수정">
+        </form>
+
+    </div>
+
+    <div class="info-item">
+        <div class="title">Categories</div>
+        <div>카테고리를 수정하거나 삭제하시오</div>
+        <div class="category" th:each="category : ${categories}">
+            <input class="text" type="text" th:placeholder="${category.getName()}">
+            <input class="green-btn" type="button" value="수정">
+            <input class="red-btn" type="button" value="삭제">
+        </div>
+    </div>
+    
+    <div class="info-item">
+        <div class="title">탈퇴</div>
+        <input class="text" type="text" placeholder="비밀번호 입력" name="">
+        <input class="red-btn" type="button" value="회원탈퇴">
+    </div>
+</div>
+
+
+</body>
+
+
+<script src="/js/header.js"></script>
+<script src="/js/information.js"></script>
+
+</html>
