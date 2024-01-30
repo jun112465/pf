@@ -44,6 +44,7 @@ public class UserController {
         String password = userLoginRequestDto.getPassword();
 
         JwtToken jwtToken = userService.login(memberId, password);
+        log.info(jwtToken);
 
         // 쿠키 환경 설정 및 추가
         Cookie mySessionCookie = new Cookie("accessToken", jwtToken.getAccessToken());
@@ -95,7 +96,8 @@ public class UserController {
     }
 
     @PostMapping("/update-password")
-    public String updatePassword(
+    @ResponseBody
+    public boolean updatePassword(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestBody PasswordChangeRequest pwdChangReq){
 
@@ -104,12 +106,14 @@ public class UserController {
                 .password(pwdChangReq.getCurrentPassword())
                 .build();
 
+        log.info("targetUserDto : " + targetUserDto);
+
         //validate user by password
         if(!userService.validateMemberInfo(targetUserDto))
-            throw new UserConfirmException("User Confirmation Failed", ErrorCode.INTER_SERVER_ERROR);
+            throw new UserConfirmException("User Confirmation Failed", ErrorCode.USER_CONFIRM_FAILED) ;
 
         //confirm password sameness
-        if(!pwdChangReq.getCurrentPassword().equals(pwdChangReq.getConfirmPassword()))
+        if(!pwdChangReq.getNewPassword().equals(pwdChangReq.getConfirmPassword()))
             throw new PwDifferentException("Password Different", ErrorCode.PW_DIFFERENCE);
 
         UserDto changeDto = UserDto.builder()
@@ -117,9 +121,11 @@ public class UserController {
                 .password(pwdChangReq.getNewPassword())
                 .build();
 
+        System.out.println("changeDto : " + changeDto);
+        System.out.println("pwdChangeRequest : " + pwdChangReq);
         userService.updateUser(targetUserDto, changeDto);
 
-        return "information";
+        return true;
     }
 
 //

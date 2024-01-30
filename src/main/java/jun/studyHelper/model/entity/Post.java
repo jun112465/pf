@@ -23,7 +23,7 @@ public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn (name = "user_id")
     User user;
 

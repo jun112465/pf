@@ -151,7 +151,7 @@ public class UserService {
         Optional<User> find = userRepository.findById(userDto.getUserId());
         if(find.isEmpty())
             return false;
-        else if(userDto.getPassword() == find.get().getPassword())
+        else if(userDto.getPassword().equals(find.get().getPassword()))
             return true;
         else
             return false;
@@ -164,8 +164,10 @@ public class UserService {
 //
 
     public void updateUser(UserDto userDto, UserDto updatedUserDto){
+        log.info(updatedUserDto);
         log.info(userDto);
         User user = findUser(userDto).orElse(null);
+        log.info("founded user : " + user);
         if(user != null){
             user.setPassword(updatedUserDto.getPassword());
         }else log.info("No User Found");

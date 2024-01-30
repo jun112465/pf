@@ -34,22 +34,20 @@
     <div class="info-item">
         <div class="title">PW</div>
         <div class="form-text">ENTER A NEW PASSWORD</div>
-        <form action="/users/update-password" method="post">
-            <input class="text" name="password" type="password" placeholder="기존 비밀번호">
-            <input class="text" name="newPassword1" type="password" placeholder="수정 비밀번호" id="exampleInputPassword1">
-            <input class="text" name="newPassword2" type="password" placeholder="수정 비밀번호 확인" id="exampleInputPassword2">
-            <input class="green-btn" type="submit" value="수정">
-        </form>
-
+        <input class="text" id="currentPassword" type="password" placeholder="기존 비밀번호">
+        <input class="text" id="newPassword" type="password" placeholder="수정 비밀번호">
+        <input class="text" id="confirmPassword" type="password" placeholder="수정 비밀번호 확인">
+        <input id="changePwBtn" class="green-btn" type="button" value="수정">
     </div>
 
     <div class="info-item">
         <div class="title">Categories</div>
         <div>카테고리를 수정하거나 삭제하시오</div>
         <div class="category" th:each="category : ${categories}">
-            <input class="text" type="text" th:placeholder="${category.getName()}">
-            <input class="green-btn" type="button" value="수정">
-            <input class="red-btn" type="button" value="삭제">
+            <input class="categoryId" type="hidden" th:value="${category.getId()}">
+            <input class="text newCategoryName" type="text" th:placeholder="${category.getName()}">
+            <input class="green-btn categoryUpdateBtn" type="button" value="수정">
+            <input class="red-btn categoryDeleteBtn" type="button" value="삭제">
         </div>
     </div>
     
@@ -57,6 +55,10 @@
         <div class="title">탈퇴</div>
         <input class="text" type="text" placeholder="비밀번호 입력" name="">
         <input class="red-btn" type="button" value="회원탈퇴">
+    </div>
+
+    <div th:if="${errorMessage != null}">
+        <div th:value="${errorMessage}"></div>
     </div>
 </div>
 

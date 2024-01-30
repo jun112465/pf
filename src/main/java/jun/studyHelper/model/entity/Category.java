@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,11 +17,14 @@ public class Category {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
 
     String name;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    List<Post> postList;
 
     public Category(long id) {
         this.id = id;

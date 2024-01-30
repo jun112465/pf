@@ -84,12 +84,9 @@ public class CategoryService {
 
 
     public void deleteCategory(CategoryDto categoryDTO){
-        Category category = categoryRepository.getById(categoryDTO.getId());
-        postRepository.deleteAllByCategory(category);
+//        Category category = categoryRepository.getById(categoryDTO.getId());
+//        postRepository.deleteAllByCategory(category);
         categoryRepository.deleteById(categoryDTO.getId());
-//        noticeService.deleteNoticeListByCategory(categoryDTO.);
-//        noticeService.deleteNoticeListByCategory(categoryDTO);
-//        ncr.deleteById(id);
     }
 
     public Category findByUserAndName(CategoryDto categoryDTO){
@@ -97,6 +94,13 @@ public class CategoryService {
         return categoryRepository
                 .findCategoryByUserAndName(user, categoryDTO.getName())
                 .orElse(null);
+    }
+
+    public Category updateName(CategoryDto categoryDto){
+        Optional<Category> category = findCategory(categoryDto);
+        if (category.isPresent())
+            category.get().setName(categoryDto.getName());
+        return category.get();
     }
 
 
