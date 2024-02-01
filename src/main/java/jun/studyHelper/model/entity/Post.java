@@ -35,7 +35,7 @@ public class Post {
     String content;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @OrderBy("id desc")
+    @OrderBy("date desc")
     List<Comment> comments;
 
 

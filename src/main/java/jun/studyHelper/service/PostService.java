@@ -99,7 +99,7 @@ public class PostService {
                             .content(post.getContent())
                             .html(markdownToHtmlService.parseString(post.getContent()))
                             .comments(post.getCommentDtoList())
-//                            .date(post.getDate())
+                            .date(post.getDate())
                             .build();
                     return dto;
                 })

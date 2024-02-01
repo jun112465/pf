@@ -67,6 +67,7 @@ public class Comment {
                 .content(comment.content)
                 .userId(comment.user.getUserId())
                 .postId(comment.post.getId())
+                .date(comment.date)
                 .build();
     }
 
