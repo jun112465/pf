@@ -173,6 +173,11 @@ public class UserService {
         }else log.info("No User Found");
     }
 
+    public void deleteUser(UserDto resignUserDto){
+        if(validateMemberInfo(resignUserDto))
+            userRepository.delete(findUser(resignUserDto).get());
+    }
+
 
 }
 

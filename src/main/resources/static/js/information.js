@@ -24,12 +24,10 @@ let categoryDeleteBtns = document.getElementsByClassName("categoryDeleteBtn");
 let categoryIds = document.getElementsByClassName("categoryId");
 let newCategoryNames = document.getElementsByClassName("newCategoryName");
 
-for (let i in categoryUpdateBtns) {
-    let updateBtn = categoryUpdateBtns[i];
-    let deleteBtn = categoryDeleteBtns[i];
+for (let i=0; i<categoryUpdateBtns.length; i++) {
     let categoryId = categoryIds[i];
     let newName = newCategoryNames[i];
-    updateBtn.addEventListener('click', ()=>{
+    categoryUpdateBtns[i].addEventListener('click', ()=>{
         fetch("/category/update", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -42,7 +40,7 @@ for (let i in categoryUpdateBtns) {
             location.reload();
         });
     })
-    deleteBtn.addEventListener('click', ()=>{
+    categoryDeleteBtns[i].addEventListener('click', ()=>{
         fetch("/category/delete", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -55,4 +53,26 @@ for (let i in categoryUpdateBtns) {
         });
     })
 }
+
+
+console.log("helo");
+let userId = document.getElementById("userId")
+let resignPassword = document.getElementById("resignPassword");
+let accountDltBtn = document.getElementById("accountDltBtn");
+accountDltBtn.addEventListener('click', ()=>{
+    console.log("clicked");
+    console.log(userId.value)
+    fetch("/users/delete", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            "userId" : userId.value,
+            "password" : resignPassword.value
+        })
+    }).then(json=>{
+        alert("User Resigned");
+        location.href = "/";
+    });
+})
+
 

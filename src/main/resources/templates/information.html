@@ -25,13 +25,6 @@
 <div class="container">
 
     <div class="info-item">
-        <div class="title">ID</div>
-        <div class="form-text">ENTER A NEW ID</div>
-        <input id="user-id" class="text" name="user-id" type="text" th:placeholder="${user.getUserId()}">
-        <input id="change-id-btn" class="green-btn" type="button" value="수정">
-    </div>
-
-    <div class="info-item">
         <div class="title">PW</div>
         <div class="form-text">ENTER A NEW PASSWORD</div>
         <input class="text" id="currentPassword" type="password" placeholder="기존 비밀번호">
@@ -53,12 +46,9 @@
     
     <div class="info-item">
         <div class="title">탈퇴</div>
-        <input class="text" type="text" placeholder="비밀번호 입력" name="">
-        <input class="red-btn" type="button" value="회원탈퇴">
-    </div>
-
-    <div th:if="${errorMessage != null}">
-        <div th:value="${errorMessage}"></div>
+        <input id="resignPassword" class="text" type="password" placeholder="비밀번호 입력" name="">
+        <input id="userId" type="hidden" th:value="${user.getUserId()}">
+        <input id="accountDltBtn" class="red-btn" type="button" value="회원탈퇴">
     </div>
 </div>
 

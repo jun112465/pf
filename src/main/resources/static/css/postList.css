@@ -108,6 +108,16 @@ article{
 .comment-input{
     flex: auto;
     padding: 6px;
+    margin-right: 3px;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+.comment-input-btn{
+    background-color: #5595d3;
+    color: white;
+    /*border-style: none;*/
+    border: 1px solid gray;
+    border-radius: 3px;
 }
 .comment{
     padding: 6px;

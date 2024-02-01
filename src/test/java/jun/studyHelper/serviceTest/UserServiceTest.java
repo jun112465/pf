@@ -59,22 +59,22 @@ public class UserServiceTest {
         userService.login("0bw66770gc", "wt0m6we738");
     }
 
-    /*
     @Test
     @DisplayName("회원 삭제 테스트")
     public void memberDeleteTest(){
         // given
         UserDto userDTO = UserDto.builder()
-                .uid("testID")
-                .pwd("testPW")
+                .userId("testID")
+                .password("testPW")
                 .build();
         userService.join(userDTO);
 
         // when
-        userService.deleteMember(userDTO);
+        userService.deleteUser(userDTO);
 
         // then
-        Assertions.assertThat(userService.findMember(userDTO)).isNull();
+        System.out.println(userService.findUser(userDTO));
+        Assertions.assertThat(userService.findUser(userDTO)).isNull();
     }
 
 
@@ -107,5 +107,4 @@ public class UserServiceTest {
 //
 //    }
 
-     */
 }

@@ -165,7 +165,7 @@ public class MainController {
         return "signUpPage";
     }
 
-    @GetMapping("info-setting")
+    @GetMapping("information")
     public String infoSetting(Model model, @AuthenticationPrincipal UserDetails userDetails){
         if(userDetails != null) {
             UserDto userDto = UserDto.builder()

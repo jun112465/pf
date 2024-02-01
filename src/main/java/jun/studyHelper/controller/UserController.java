@@ -128,6 +128,32 @@ public class UserController {
         return true;
     }
 
+    @PostMapping("/delete")
+    @ResponseBody
+    public String resign(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody UserDto resignUserDto,
+            HttpServletResponse response,
+            HttpServletRequest request
+    ){
+        log.info("resigning user : " + resignUserDto);
+
+        // delete from security context
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null)
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        // delete Cookie
+        Cookie mySessionCookie = new Cookie("accessToken", null);
+        mySessionCookie.setMaxAge(0);
+        mySessionCookie.setPath("/");
+        response.addCookie(mySessionCookie);
+
+        // delete user
+        userService.deleteUser(resignUserDto);
+
+        return "Success";
+    }
+
 //
 //        User user = userService.join(userDTO).orElse(null);
 //        // 초기 카테고리 & 노트 생성
