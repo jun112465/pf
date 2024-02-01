@@ -16,7 +16,7 @@
 
   <div class="post-item post" th:each="post : ${posts}">
     <!--post id-->
-    <input type="hidden" th:value="${post.getId()}">
+    <input class="postIdList" type="hidden" th:value="${post.getId()}">
 
     <!--post-top-->
     <div th:if="${user != null && post.getUserId()==user.getUserId()}" class="post-top">
@@ -39,10 +39,11 @@
     <div class="comment-box">
       <form class="comment-form" action="" method="POST">
         <input class="comment-input" type="text" placeholder="댓글을 입력하시오">
-        <input class="comment-input-btn" type="button" value="댓글입력" id="">
+        <input class="comment-input-btn" type="button" value="댓글입력">
       </form>
       <!-- 댓글목록 -->
       <div th:each="comment : ${post.comments}">
+        <div class="commentUser" th:text="'USER_' + ${post.getUserId()}"></div>
         <div class="comment" th:text="${comment.getContent()}"></div>
       </div>
     </div>

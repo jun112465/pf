@@ -122,4 +122,9 @@ article{
 .comment{
     padding: 6px;
     border-bottom: 1px solid #c2c1c1;
+    font-weight: normal;
+}
+.commentUser{
+    margin: 5px 1px 5px 1px;
+    font-weight: bold;
 }

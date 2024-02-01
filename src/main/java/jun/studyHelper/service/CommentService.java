@@ -1,10 +1,12 @@
 package jun.studyHelper.service;
 
 
+import jun.studyHelper.model.dto.CommentDto;
 import jun.studyHelper.model.dto.PostDto;
 import jun.studyHelper.model.entity.Comment;
 import jun.studyHelper.repository.CommentRepository;
 import jun.studyHelper.repository.post.PostRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +16,23 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
     private final PostRepository postRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, PostRepository postRepository) {
+    public CommentService(CommentRepository commentRepository, UserRepository userRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
         this.postRepository = postRepository;
     }
 
     // 댓글 저장
-    public Comment saveComment(Comment comment) {
+    public Comment saveComment(CommentDto commentDto) {
+        Comment comment = Comment.builder()
+                .user(userRepository.findById(commentDto.getUserId()).get())
+                .post(postRepository.getById(commentDto.getPostId()))
+                .content(commentDto.getContent())
+                .build();
         return commentRepository.save(comment);
     }
 
