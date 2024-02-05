@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<pageNumber class="pageBtnContainer" th:fragment="pageNumberFragment(pageNo, pageRange, categoryId)">
+  <a class="pageBtn" href="">PREV</a>
+  <span th:if="${categoryId!=null}" th:each="num : ${#numbers.sequence(pageRange[0],pageRange[1])}">
+      <a th:if="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo='+${num}+'&categoryId='+${categoryId}" th:id="targetPageNo" th:text="${num}"></a>
+      <a th:unless="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo='+${num}'&categoryId='+${categoryId}" th:text="${num}"></a>
+  </span>
+  <span th:unless="${categoryId!=null}" th:each="num : ${#numbers.sequence(pageRange[0],pageRange[1])}">
+      <a th:if="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo=' + ${num}" th:id="targetPageNo" th:text="${num}"></a>
+      <a th:unless="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo=' + ${num}" th:text="${num}"></a>
+  </span>
+  <a class="pageBtn" href="">NEXT</a>
+</pageNumber>
+
+</html>

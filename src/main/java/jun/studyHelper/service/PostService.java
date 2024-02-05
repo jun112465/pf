@@ -10,14 +10,16 @@ import jun.studyHelper.repository.post.PostRepository;
 import jun.studyHelper.repository.user.UserRepository;
 import jun.studyHelper.repository.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,8 @@ public class PostService {
     UserRepository userRepository;
     CategoryRepository categoryRepository;
     public final MarkdownToHtmlService markdownToHtmlService;
+
+    private static final Integer pageSize = 12;
 
     @Autowired
     public PostService(
@@ -134,24 +138,37 @@ public class PostService {
         return postRepository.getById(deletePostId).getUser().equals(user);
     }
 
+    public List<PostDto> getPostPage(int pageNo){
+        PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize, Sort.by("date").descending());
+        List<Post> posts = postRepository.findAll(pageRequest).getContent();
+        return convertPostListToDTO(posts);
+    }
 
-    /**
-     *
-     * @param post
-     * @return
-     * 노트가 이미 추가됨 : true 반환
-     * 노트가 아직 안추가됨 : false 반환
-     *
-     * 하루에 노트는 하나만 추가가 가능하다
-     * 이미 추가된 노트가 있는지 확인해주는 메서드다.
-     */
-    public boolean isTodayNoticeAdded(Post post){
-        List<Post> postList = postRepository.findByCategoryOrderByDateAsc(post.getCategory());
-        if (postList.size() > 0) {
-            String recentNoteDate = String.valueOf(postList.get(0).getDate());
-            return post.getDate().equals(recentNoteDate);
-        }
-
-        return false;
+    public List<PostDto> getPostPage(int pageNo, long categoryId){
+        //overloading
+        Category targetCategory = categoryRepository.findById(categoryId).get();
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("date").descending());
+        List<Post> posts = postRepository.findByCategory(targetCategory, pageable);
+        return convertPostListToDTO(posts);
+    }
+    public int getTotalPage(){
+        return (int) Math.ceil((double)postRepository.findAll().size() / pageSize);
+    }
+    public int getTotalPage(long categoryId){
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        return (int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / pageSize);
+    }
+    public int[] getPageRange(int pageNo){
+        int maxPageNo = Math.max((int) Math.ceil((double)postRepository.findAll().size() / pageSize), 1);
+        int start = (pageNo-1) / 10 * 10 + 1;
+        int end = Math.min(maxPageNo, (pageNo + 9) / 10 * 10);
+        return new int[]{start, end};
+    }
+    public int[] getPageRange(int pageNo, long categoryId){
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        int maxPageNo = Math.max((int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / pageSize), 1);
+        int start = (pageNo-1) / 10 * 10 + 1;
+        int end = Math.min(maxPageNo, (pageNo + 9) / 10 * 10);
+        return new int[]{start, end};
     }
 }

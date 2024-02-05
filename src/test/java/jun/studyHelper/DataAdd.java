@@ -101,7 +101,7 @@ public class DataAdd {
                         .user(users.get(userIdx))
                         .post(p)
                         .content(createRandomString())
-                        .date(new Date())
+//                        .date(new Date())
                         .build();
 
                 commentRepository.save(comment);

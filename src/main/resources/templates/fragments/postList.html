@@ -14,7 +14,7 @@
     <i class="fa-solid fa-circle-plus"></i>
   </div>
 
-  <div class="post-item post" th:each="post : ${posts}">
+  <div class="post-item post" th:each="post : ${posts}" th:id="'post-'+${post.getId()}">
     <!--post id-->
     <input class="postIdList" type="hidden" th:value="${post.getId()}">
 

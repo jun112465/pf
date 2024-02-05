@@ -4,6 +4,7 @@ import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.model.entity.User;
 import jun.studyHelper.model.entity.Category;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -42,4 +43,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findByUser(User user);
     List<Post> findByCategory(Category category);
+    List<Post> findByCategory(Category category, Pageable pageable);
 }

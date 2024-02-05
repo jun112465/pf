@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -76,5 +78,9 @@ public class PostServiceTest {
         System.out.println(postService.findUserPostList(testUserDto));
     }
 
+    @Test
+    public void getPageTest(){
+        postService.getPostPage(1);
+    }
 
 }

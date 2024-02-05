@@ -41,7 +41,9 @@
 
         // set underline for area btn with param
         let userId = url.searchParams.get("userId");
-        if(userId == null) {
+        let categoryId = url.searchParams.get("categoryId")
+
+        if(categoryId == null) {
             allPostBtn.id = 'selected';
             categoryElement.style.display = "none";
         }
@@ -50,7 +52,6 @@
 
 
         // set select option with param
-        let categoryId = url.searchParams.get("categoryId")
         if(categoryId != null){}
         const selectElement = document.getElementById("categories");
         if (categoryId) {

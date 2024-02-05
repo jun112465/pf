@@ -96,58 +96,44 @@ public class PostController {
     @GetMapping("/get")
     public String getUserPosts(
             RedirectAttributes redirectAttributes,
-            @RequestParam(value = "userId", required = false) String userId,
-            @RequestParam(value = "categoryId", required = false) String categoryId
+//            @RequestParam(value = "userId", required = false) String userId,
+            @RequestParam(value = "categoryId", required = false) String categoryId,
+            @RequestParam(value = "pageNo", required = false) String reqPageNo
     ) {
+//        List<PostDto> postDtoList = postService.convertPostListToDTO(
+//                postService.getPostsByCategory(categoryDto)
+//        );
+        int totalPage;
+        int pageNo;
+        int[] pageRange;
+        List<PostDto> postDtoList;
 
-        CategoryDto categoryDto = CategoryDto.builder()
-                .id(Long.parseLong(categoryId))
-                .userId(userId)
-                .build();
+        if(reqPageNo == null) pageNo = 1;
+        else pageNo = Integer.parseInt(reqPageNo);
 
-        List<PostDto> postDtoList = postService.convertPostListToDTO(
-                postService.getPostsByCategory(categoryDto)
-        );
+        if(categoryId != null){
+            totalPage = postService.getTotalPage(Long.parseLong(categoryId));
+            postDtoList = postService.getPostPage(pageNo, Long.parseLong(categoryId));
+            pageRange = postService.getPageRange(pageNo, Long.parseLong(categoryId));
+        }
+        else{
+            totalPage = postService.getTotalPage();
+            postDtoList = postService.getPostPage(pageNo);
+            pageRange = postService.getPageRange(pageNo);
+        }
 
         redirectAttributes.addFlashAttribute("posts", postDtoList);
+        redirectAttributes.addFlashAttribute("totalPage", totalPage);
+        redirectAttributes.addFlashAttribute("pageRange", pageRange);
+        redirectAttributes.addFlashAttribute("pageNo", pageNo);
 
+        // redirection
         StringBuilder params = new StringBuilder();
-        if(userId != null) params.append("?userId="+userId+"&");
-        if(categoryId != null) params.append("categoryId="+categoryId);
+        if(categoryId != null) params.append("?categoryId="+categoryId);
 
         return "redirect:/" + params;
     }
 
-    @PostMapping("/notice/add-category")
-    public String addCategory(@RequestParam String categoryName, HttpServletRequest req){
-        User user = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
 
-        categoryService.addCategory(CategoryDto.builder()
-                .userId(user.getUserId())
-                .name(categoryName)
-                .build());
-
-        return "redirect:/";
-    }
-
-    @PostMapping("/notice/update-category")
-    @ResponseBody
-    public void updateCategory(@RequestBody Category noticeCategory, HttpServletRequest req){
-        System.out.println("LOG : noticeCategory : " + noticeCategory.toString());
-        User m = (User) req.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
-        noticeCategory.setUser(m);
-
-        postService.updateCategories(noticeCategory);
-}
-
-    @GetMapping("/notice/delete-category")
-    public String deleteCategory(HttpServletRequest req, String id){
-        CategoryDto categoryDTO = CategoryDto.builder()
-                .id(Long.valueOf(id))
-                .build();
-        categoryService.deleteCategory(categoryDTO);
-
-        return "redirect:/";
-    }
 
 }
