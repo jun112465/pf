@@ -10,17 +10,17 @@
 
     <!--ctrl-->
     <div id="nav_ctrl">
-        <div id="nav_search">
-            <input type="text" name="" id="wef" placeholder="search something">
-            <input type="button" value="search">
-        </div>
+<!--        <div id="nav_search">-->
+<!--            <input type="text" name="" id="wef" placeholder="search something">-->
+<!--            <input type="button" value="search">-->
+<!--        </div>-->
 
         <!--user is logged out-->
-        <div th:if="${user == null}"><a href="/users/login">Login</a></div>
+        <div class="nav_item" th:if="${user == null}"><a href="/users/login">Login</a></div>
         <!--user is logged in-->
-        <div th:if="${user != null}"><a href="/information">Set-Info</a></div>
-        <div th:if="${user != null}"><a id="categoryAddBtn" href="#">Add-Category</a></div>
-        <div th:if="${user != null}"><a id="btn_logout" href="/users/logout">Logout</a></div>
+        <div class="nav_item" th:if="${user != null}"><a href="/information">Set Info</a></div>
+        <div class="nav_item" th:if="${user != null}"><a id="categoryAddBtn" href="#">Add Category</a></div>
+        <div class="nav_item" th:if="${user != null}"><a id="btn_logout" href="/users/logout">Logout</a></div>
 <!--        <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>-->
     </div>
 </header>
