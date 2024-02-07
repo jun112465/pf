@@ -1,6 +1,7 @@
 package jun.studyHelper.service;
 
 import jun.studyHelper.model.dto.CategoryDto;
+import jun.studyHelper.model.dto.PageInfo;
 import jun.studyHelper.model.dto.PostDto;
 import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.Post;
@@ -158,17 +159,29 @@ public class PostService {
         Optional<Category> category = categoryRepository.findById(categoryId);
         return (int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / pageSize);
     }
-    public int[] getPageRange(int pageNo){
-        int maxPageNo = Math.max((int) Math.ceil((double)postRepository.findAll().size() / pageSize), 1);
-        int start = (pageNo-1) / 10 * 10 + 1;
-        int end = Math.min(maxPageNo, (pageNo + 9) / 10 * 10);
-        return new int[]{start, end};
+    public PageInfo getPageRange(int pageNo){
+        int lastPageNo = Math.max((int) Math.ceil((double)postRepository.findAll().size() / pageSize), 1);
+        return PageInfo.builder()
+                .pageNo(pageNo)
+                .firstPageNo(1)
+                .prevPageNo(Math.max(1, pageNo-1))
+                .lastPageNo(lastPageNo)
+                .nextPageNo(Math.min(lastPageNo, pageNo+1))
+                .start((pageNo-1)/10*10+1)
+                .end(Math.min(lastPageNo, (pageNo + 9) / 10 * 10))
+                .build();
     }
-    public int[] getPageRange(int pageNo, long categoryId){
+    public PageInfo getPageRange(int pageNo, long categoryId){
         Optional<Category> category = categoryRepository.findById(categoryId);
-        int maxPageNo = Math.max((int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / pageSize), 1);
-        int start = (pageNo-1) / 10 * 10 + 1;
-        int end = Math.min(maxPageNo, (pageNo + 9) / 10 * 10);
-        return new int[]{start, end};
+        int lastPageNo = Math.max((int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / pageSize), 1);
+        return PageInfo.builder()
+                .pageNo(pageNo)
+                .firstPageNo(1)
+                .prevPageNo(Math.max(1, pageNo-1))
+                .lastPageNo(lastPageNo)
+                .nextPageNo(Math.min(lastPageNo, pageNo+1))
+                .start((pageNo-1)/10*10+1)
+                .end(Math.min(lastPageNo, (pageNo + 9) / 10 * 10))
+                .build();
     }
 }

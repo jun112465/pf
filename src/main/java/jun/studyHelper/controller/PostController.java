@@ -2,6 +2,7 @@ package jun.studyHelper.controller;
 
 import jun.studyHelper.SessionConst;
 import jun.studyHelper.model.dto.CategoryDto;
+import jun.studyHelper.model.dto.PageInfo;
 import jun.studyHelper.model.dto.PostDto;
 import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.User;
@@ -105,7 +106,7 @@ public class PostController {
 //        );
         int totalPage;
         int pageNo;
-        int[] pageRange;
+        PageInfo pageInfo;
         List<PostDto> postDtoList;
 
         if(reqPageNo == null) pageNo = 1;
@@ -114,17 +115,17 @@ public class PostController {
         if(categoryId != null){
             totalPage = postService.getTotalPage(Long.parseLong(categoryId));
             postDtoList = postService.getPostPage(pageNo, Long.parseLong(categoryId));
-            pageRange = postService.getPageRange(pageNo, Long.parseLong(categoryId));
+            pageInfo = postService.getPageRange(pageNo, Long.parseLong(categoryId));
         }
         else{
             totalPage = postService.getTotalPage();
             postDtoList = postService.getPostPage(pageNo);
-            pageRange = postService.getPageRange(pageNo);
+            pageInfo = postService.getPageRange(pageNo);
         }
 
         redirectAttributes.addFlashAttribute("posts", postDtoList);
         redirectAttributes.addFlashAttribute("totalPage", totalPage);
-        redirectAttributes.addFlashAttribute("pageRange", pageRange);
+        redirectAttributes.addFlashAttribute("pageInfo", pageInfo);
         redirectAttributes.addFlashAttribute("pageNo", pageNo);
 
         // redirection

@@ -74,9 +74,9 @@ public class MainController {
             model.addAttribute("posts", postDtoList);
 
             // page range
+            model.addAttribute("pageInfo", postService.getPageRange(1));
             model.addAttribute("totalPage", postService.getTotalPage());
             model.addAttribute("pageNo", 1);
-            model.addAttribute("pageRange", postService.getPageRange(1));
         }
         if(categoryId != null)
             model.addAttribute("categoryId", Long.parseLong(categoryId));

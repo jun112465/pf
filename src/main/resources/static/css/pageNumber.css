@@ -1,3 +1,6 @@
+pageNumber{
+    margin-top : 16px;
+}
 .pageBtnContainer{
     display: flex;
     align-items: center;
