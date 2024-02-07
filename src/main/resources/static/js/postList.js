@@ -25,12 +25,16 @@
             headers: { 'Content-Type': 'application/json' },
             body : JSON.stringify({
                 'categoryId' : categoryId,
-                'userId' : userId
+                'userId' : userId.value
+                // 'content' : ""
             })
         })
-            .then(json => json.json())
-            .then(data => console.log(data))
-            .then(location.reload)
+            .then(response=>response.text())
+            .then(data => {
+                console.log(data)
+                location.href = location.origin + data;
+            })
+
 
     })
 

@@ -69,6 +69,7 @@ public class MainController {
         }
 
         if(!model.containsAttribute("posts")) {
+            log.info("No posts Model");
             // 공통 모델 (게시글)
             List<PostDto> postDtoList = postService.getPostPage(1);
             model.addAttribute("posts", postDtoList);
@@ -77,18 +78,17 @@ public class MainController {
             model.addAttribute("pageInfo", postService.getPageRange(1));
             model.addAttribute("totalPage", postService.getTotalPage());
             model.addAttribute("pageNo", 1);
+            model.addAttribute("categoryId", null);
         }
-        if(categoryId != null)
-            model.addAttribute("categoryId", Long.parseLong(categoryId));
 
-
+        if(model.containsAttribute("categoryId"))
+            log.info("MODEL, categoryId : " + model.getAttribute("categoryId"));
         // data to pass
         // 1. user
         // 2. posts
         // 3. categories
 
 
-        List<PostDto> postDtos;
 
 //        if(sessionId == null || !loginService.isUserLoggedIn(sessionId)) {
 //            // login X

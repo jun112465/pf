@@ -1,5 +1,6 @@
 package jun.studyHelper.service;
 
+import jun.studyHelper.model.UserRole;
 import jun.studyHelper.model.dto.JwtToken;
 import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -96,6 +98,7 @@ public class UserService {
         return Optional.ofNullable(userRepository.save(User.builder()
                 .userId(userDTO.getUserId())
                 .password(userDTO.getPassword())
+                .roles(List.of(UserRole.USER.getLabel()))
                 .build()));
     }
 //

@@ -27,10 +27,10 @@
         // Update the content of the span element
         let currentURL = "/post/get";
         // 새로운 파라미터를 추가할 수 있습니다.
-        let newParam1 = `userId=${getUserId()}`;
-        let newParam2 = `categoryId=${getSelectedValue()}`;
+        // let newParam1 = `userId=${getUserId()}`;
+        let newParam = `categoryId=${getSelectedValue()}`;
         // 현재 URL과 새로운 파라미터를 조합하여 새 URL을 생성합니다.
-        let newURL = currentURL + "?" + newParam1 + "&" + newParam2;
+        let newURL = currentURL + "?" + newParam;
         window.location.href = newURL;
     });
 
@@ -69,10 +69,10 @@
 
     userPostBtn.addEventListener('click', ()=>{
         // 새로운 파라미터를 추가할 수 있습니다.
-        let newParam1 = `userId=${getUserId()}`;
-        let newParam2 = `categoryId=${getSelectedValue()}`;
+        // let newParam1 = `userId=${getUserId()}`;
+        let newParam = `categoryId=${getSelectedValue()}`;
         // 현재 URL과 새로운 파라미터를 조합하여 새 URL을 생성합니다.
-        let newURL = "/post/get?" + newParam1 + "&" + newParam2;
+        let newURL = "/post/get?" + newParam;
         window.location.href = newURL;
     })
 

@@ -31,7 +31,7 @@ public class PostService {
     CategoryRepository categoryRepository;
     public final MarkdownToHtmlService markdownToHtmlService;
 
-    private static final Integer pageSize = 12;
+    private static final Integer pageSize = 6;
 
     @Autowired
     public PostService(
@@ -148,7 +148,7 @@ public class PostService {
     public List<PostDto> getPostPage(int pageNo, long categoryId){
         //overloading
         Category targetCategory = categoryRepository.findById(categoryId).get();
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("date").descending());
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize-1, Sort.by("date").descending());
         List<Post> posts = postRepository.findByCategory(targetCategory, pageable);
         return convertPostListToDTO(posts);
     }
@@ -157,7 +157,7 @@ public class PostService {
     }
     public int getTotalPage(long categoryId){
         Optional<Category> category = categoryRepository.findById(categoryId);
-        return (int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / pageSize);
+        return (int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / (pageSize-1));
     }
     public PageInfo getPageRange(int pageNo){
         int lastPageNo = Math.max((int) Math.ceil((double)postRepository.findAll().size() / pageSize), 1);
@@ -173,7 +173,7 @@ public class PostService {
     }
     public PageInfo getPageRange(int pageNo, long categoryId){
         Optional<Category> category = categoryRepository.findById(categoryId);
-        int lastPageNo = Math.max((int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / pageSize), 1);
+        int lastPageNo = Math.max((int) Math.ceil((double)postRepository.findByCategory(category.orElse(null)).size() / (pageSize-1)), 1);
         return PageInfo.builder()
                 .pageNo(pageNo)
                 .firstPageNo(1)

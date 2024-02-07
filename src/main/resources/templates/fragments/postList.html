@@ -10,7 +10,7 @@
 
 <article th:fragment="postList (posts, user)" class="post-box">
 
-  <div th:if="${user!=null}" class="post-item" id="postAddBtn" th:onclick="'location.href=/post/add?'">
+  <div th:if="${user!=null}" class="post-item" id="postAddBtn">
     <i class="fa-solid fa-circle-plus"></i>
   </div>
 

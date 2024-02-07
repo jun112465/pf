@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @Controller
@@ -51,19 +52,16 @@ public class PostController {
 
 
     @PostMapping("/add")
-    public RedirectView addPost(
-            @RequestBody PostDto postDTO,
-            @CookieValue(name=SessionConst.SESSION_ID, required = false) String sessionId
+    @ResponseBody
+    public String addPost(
+            @RequestBody PostDto postDTO
     ){
         postDTO.setDate(Post.getCurrentDate());
+        postDTO.setContent("");
         postService.add(postDTO);
 
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("/");
-        redirectView.addStaticAttribute("userId", postDTO.getUserId());
-        redirectView.addStaticAttribute("categoryId", postDTO.getCategoryId());
-
-        return redirectView;
+        String redirectPath = "/post/get?categoryId="+postDTO.getCategoryId();
+        return redirectPath;
     }
 
     @GetMapping("/delete/{postId}")
@@ -98,7 +96,7 @@ public class PostController {
     public String getUserPosts(
             RedirectAttributes redirectAttributes,
 //            @RequestParam(value = "userId", required = false) String userId,
-            @RequestParam(value = "categoryId", required = false) String categoryId,
+            @RequestParam(value = "categoryId", required = false) String reqCategoryId,
             @RequestParam(value = "pageNo", required = false) String reqPageNo
     ) {
 //        List<PostDto> postDtoList = postService.convertPostListToDTO(
@@ -108,14 +106,16 @@ public class PostController {
         int pageNo;
         PageInfo pageInfo;
         List<PostDto> postDtoList;
+        Long categoryId = null;
 
         if(reqPageNo == null) pageNo = 1;
         else pageNo = Integer.parseInt(reqPageNo);
 
-        if(categoryId != null){
-            totalPage = postService.getTotalPage(Long.parseLong(categoryId));
-            postDtoList = postService.getPostPage(pageNo, Long.parseLong(categoryId));
-            pageInfo = postService.getPageRange(pageNo, Long.parseLong(categoryId));
+        if(reqCategoryId != null){
+            categoryId = Long.parseLong(reqCategoryId);
+            totalPage = postService.getTotalPage(categoryId);
+            postDtoList = postService.getPostPage(pageNo, categoryId);
+            pageInfo = postService.getPageRange(pageNo, categoryId);
         }
         else{
             totalPage = postService.getTotalPage();
@@ -127,6 +127,7 @@ public class PostController {
         redirectAttributes.addFlashAttribute("totalPage", totalPage);
         redirectAttributes.addFlashAttribute("pageInfo", pageInfo);
         redirectAttributes.addFlashAttribute("pageNo", pageNo);
+        redirectAttributes.addFlashAttribute("categoryId", categoryId);
 
         // redirection
         StringBuilder params = new StringBuilder();

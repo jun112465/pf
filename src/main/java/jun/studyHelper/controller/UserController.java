@@ -80,8 +80,13 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public String join(UserDto signUpDto, HttpServletResponse response){
+    public String join(@RequestBody UserDto signUpDto){
+        log.info("New User : ", signUpDto);
         userService.join(signUpDto);
+        categoryService.addCategory(CategoryDto.builder()
+                .userId(signUpDto.getUserId())
+                .name("default")
+                .build());
         return "main";
     }
 

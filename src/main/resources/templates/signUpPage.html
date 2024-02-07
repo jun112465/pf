@@ -3,22 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="css/signUpPage.css">
 </head>
 <body>
-<header id="nav">
-    <!--    logo-->
-    <div id="nav_logo">
-        <img src="/images/notebook.svg" alt="" width="40px">
-        <a href="/">Note App</a>
-    </div>
-    <!--    search-->
-
-    <div id="nav_ctrl">
-        <div>회원가입 페이지</div>
-    </div>
-</header>
-
+<div th:replace="/fragments/header::headerFragment(${null})"></div>
 
 <section class="sign-in-container">
     <div class="sign-in">
@@ -32,6 +22,7 @@
         </div>
     </div>
 </section>
-<script src="./js/signUp.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/signUp.js"></script>
 </body>
 </html>

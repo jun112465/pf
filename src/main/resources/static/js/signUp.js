@@ -6,14 +6,15 @@
     let form_pw = document.getElementById("form-pw");
 
     btn_sign_up.addEventListener("click", ()=>{
+        console.log("clicked");
         console.log(form_id.value);
         console.log(form_pw.value);
         fetch("/users/new", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                'uid': form_id.value,
-                'pwd': form_pw.value,
+                'userId': form_id.value,
+                'password': form_pw.value,
             })
         }).then(
             response=>{
