@@ -2,6 +2,8 @@ package jun.studyHelper.model.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class PostDto {
@@ -11,4 +13,6 @@ public class PostDto {
     String content;
     String html;
     String date;
+
+    List<CommentDto> comments;
 }

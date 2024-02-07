@@ -26,8 +26,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-//    @Enumerated(EnumType.STRING)
-//    private UserRole role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    List<Category> categories;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    List<Post> posts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    List<Comment> comments;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

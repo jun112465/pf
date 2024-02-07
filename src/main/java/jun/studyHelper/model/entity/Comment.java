@@ -1,8 +1,13 @@
 package jun.studyHelper.model.entity;
 
+import jun.studyHelper.model.dto.CommentDto;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@Getter
-//@Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
 
@@ -24,7 +28,7 @@ public class Comment {
     @ManyToOne
     private User user;
 
-    @JoinColumn(name = "notice_id")
+    @JoinColumn(name = "post_id")
     @ManyToOne
     private Post post;
 
@@ -40,19 +44,31 @@ public class Comment {
             orphanRemoval = true)
     private List<Comment> children;
 
-    private Date date;
+    @CreatedDate
+    private LocalDateTime date;
+//    private Date date;
 
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", user=" + user +
-                ", post=" + post +
+                //post 순환참조 stackOverflow 방지
+                ", post=" + post.getId() + "\n" +
                 ", content='" + content + '\'' +
 //                ", parentComment=" + parentComment +
 //                ", children=" + children +
                 ", date=" + date +
                 '}';
+    }
+
+    public static CommentDto convertToDto(Comment comment){
+        return CommentDto.builder()
+                .content(comment.content)
+                .userId(comment.user.getUserId())
+                .postId(comment.post.getId())
+                .date(comment.date)
+                .build();
     }
 
 }

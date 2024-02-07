@@ -58,4 +58,23 @@ public class CategoryController {
             return false;
         }
     }
+    @PostMapping("/delete")
+    @ResponseBody
+    public String delete(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody CategoryDto categoryDto
+    ){
+        categoryService.deleteCategory(categoryDto);
+        return "information";
+    }
+    @PostMapping("/update")
+    @ResponseBody
+    public String update(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody CategoryDto categoryDto
+    ){
+        categoryService.updateName(categoryDto);
+        return "information";
+    }
+
 }

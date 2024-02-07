@@ -1,0 +1,21 @@
+pageNumber{
+    margin-top : 16px;
+}
+.pageBtnContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pageBtn{
+    text-decoration-line: none;
+    color: black;
+    font-size: 19px;
+    font-weight: bold;
+
+    margin: 5px;
+}
+#targetPageNo{
+    text-decoration-line: underline;
+    text-underline: #0080ff;
+    color: #0080ff;
+}

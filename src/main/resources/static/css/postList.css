@@ -87,7 +87,7 @@ article{
     overflow: scroll;
 }
 
-#new-post{
+#postAddBtn{
     display: flex;
     background-color: #2c3e50;
     font-size: 50px;
@@ -96,8 +96,46 @@ article{
     justify-content: center;
     align-items: center;
 }
-#new-post:hover{
+#postAddBtn:hover{
     /*backdrop-filter: brightness(60%);*/
     /*background-color: #2c3e50;*/
     background-color: grey;
+}
+.postInfo{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.comment-form{
+    display: flex;
+}
+.comment-input{
+    flex: auto;
+    padding: 6px;
+    margin-right: 3px;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+.comment-input-btn{
+    background-color: #5595d3;
+    color: white;
+    /*border-style: none;*/
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+.comment{
+    padding: 6px;
+    border-bottom: 1px solid #c2c1c1;
+    font-weight: normal;
+}
+.commentUser{
+    margin: 5px 1px 1px 1px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.commentDate{
+    margin: 1px 1px 1px 1px;
+    font-weight: bold;
+    font-size: 11px;
 }

@@ -68,15 +68,18 @@ public class MainController {
             log.info("No User Logged In");
         }
 
-
-
         if(!model.containsAttribute("posts")) {
             // 공통 모델 (게시글)
-            List<PostDto> postDtoList = postService.convertPostListToDTO(
-                    postService.findPostList()
-            );
+            List<PostDto> postDtoList = postService.getPostPage(1);
             model.addAttribute("posts", postDtoList);
+
+            // page range
+            model.addAttribute("pageInfo", postService.getPageRange(1));
+            model.addAttribute("totalPage", postService.getTotalPage());
+            model.addAttribute("pageNo", 1);
         }
+        if(categoryId != null)
+            model.addAttribute("categoryId", Long.parseLong(categoryId));
 
 
         // data to pass
@@ -164,9 +167,25 @@ public class MainController {
         return "signUpPage";
     }
 
-    @GetMapping("info-setting")
-    public String infoSetting(){
-        return "infoSetting";
+    @GetMapping("information")
+    public String infoSetting(Model model, @AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails != null) {
+            UserDto userDto = UserDto.builder()
+                    .userId(userDetails.getUsername())
+                    .build();
+
+            User user = userService.findUser(userDto).get();
+
+            model.addAttribute("user", user);
+            log.info("User Logged In");
+
+            model.addAttribute("categories", categoryService.getCategories(userDto));
+        }
+        else {
+            model.addAttribute("user", null);
+            log.info("No User Logged In");
+        }
+        return "information";
     }
 
 }

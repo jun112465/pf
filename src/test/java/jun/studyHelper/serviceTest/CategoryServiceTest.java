@@ -4,6 +4,8 @@ import jun.studyHelper.model.dto.CategoryDto;
 import jun.studyHelper.model.dto.UserDto;
 import jun.studyHelper.model.entity.Category;
 import jun.studyHelper.model.entity.User;
+import jun.studyHelper.repository.category.CategoryRepository;
+import jun.studyHelper.repository.user.UserRepository;
 import jun.studyHelper.service.CategoryService;
 import jun.studyHelper.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -19,63 +21,20 @@ import java.util.List;
 @SpringBootTest
 public class CategoryServiceTest {
 
-    /*
     @Autowired
-    CategoryService categoryService;
+    CategoryRepository repository;
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
 
-    CategoryDto categoryDTO;
-    User user;
+    @Test
+    public void delete(){
 
-    @BeforeEach
-    public void beforeEach(){
-
-        user = userService.join(UserDto.builder()
-                .uid("testId")
-                .pwd("testPw")
-                .build())
-                .orElse(null);
-
-        categoryDTO = CategoryDto.builder()
-                .name("testCategory")
-                .userId(user.getId())
+        User find = userRepository.findById("0bw66770gc").get();
+        Category category = Category.builder()
+                .user(find)
+                .name("t1")
                 .build();
+        category = repository.save(category);
+        repository.deleteById(category.getId());
     }
-
-    @Test
-    public void createCategoryTest(){
-        Category category = categoryService.addCategory(categoryDTO).orElse(null);
-        Assertions.assertThat(category.getId()).isEqualTo(1);
-
-        category = categoryService.findByUserAndName(categoryDTO);
-        List<Category> list = categoryService.getCategories(UserDto.builder()
-                .id(user.getId())
-                .uid(user.getUid())
-                .pwd(user.getPw())
-                .build());
-        System.out.println(list);
-        Assertions.assertThat(category.getId()).isEqualTo(1);
-    }
-
-    @Test
-    public void deleteCategoryTest(){
-
-        //given
-        Category category = categoryService.addCategory(categoryDTO).orElse(null);
-        categoryDTO.setId(category.getId());
-
-        //when
-        categoryService.deleteCategory(categoryDTO);
-
-        //then
-        Assertions.assertThat(categoryService.getCategories(UserDto.builder()
-                .id(user.getId()).build())).isEmpty();
-    }
-
-
-
-
-
-     */
 }
