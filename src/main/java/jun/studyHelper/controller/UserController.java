@@ -2,6 +2,7 @@ package jun.studyHelper.controller;
 
 
 import jun.studyHelper.model.dto.*;
+import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -74,6 +75,12 @@ public class UserController {
         return "login";
     }
 
+    @PostMapping("/new")
+    public String join(UserDto signUpDto, HttpServletResponse response){
+        userService.join(signUpDto);
+        return "main";
+    }
+
     @PostMapping("/test")
     @ResponseBody
     public String test(){
@@ -101,7 +108,7 @@ public class UserController {
 //                .userId(user.getId())
 //                .name("Set Category Name")
 //                .build();
-//        Category category = categoryService.addCategory(categoryDTO).orElse(null);
+//        Catgory category = categoryService.addCategory(categoryDTO).orElse(null);
 //        System.out.println("categoryId : " + category.getId());
 //        System.out.println(category);
 //

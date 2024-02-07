@@ -48,7 +48,6 @@ body{
     justify-content: center;
 }
 .sign-in{
-    border: 5px solid lightgray;
     border-radius: 6px;
 
     display: flex;
@@ -101,11 +100,11 @@ body{
     height: 50px;
     line-height: 50px;
     width:100%;
-    background-color: #de5555;
+    background-color: lightseagreen;
     color: white;
 }
 .sign-in > #sign-form > input[type=button]{
-    background-color: #de5555;
+    background-color: lightseagreen;
     color: white;
 }
 .error-msg-box{

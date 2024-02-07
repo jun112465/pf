@@ -36,11 +36,12 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.GET,"/sign-up").permitAll()
                 .antMatchers("/users/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/users/login").permitAll()
                 .antMatchers("/users/test").hasRole("USER")
                 .antMatchers("/post/**").hasRole("USER")
-                .antMatchers("/category**").hasRole("USER")
+                .antMatchers("/category/**").hasRole("USER")
                 // recourses 에 대한 permission
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated()

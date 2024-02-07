@@ -8,7 +8,7 @@
     btn_sign_up.addEventListener("click", ()=>{
         console.log(form_id.value);
         console.log(form_pw.value);
-        fetch("/user/new", {
+        fetch("/users/new", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
