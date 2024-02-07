@@ -10,23 +10,25 @@
 
 <article th:fragment="postList (posts, user)" class="post-box">
 
-  <div th:if="${user!=null}" class="post-item" id="new-post" th:onclick="'location.href=/post/add?'">
+  <div th:if="${user!=null}" class="post-item" id="postAddBtn" th:onclick="'location.href=/post/add?'">
     <i class="fa-solid fa-circle-plus"></i>
   </div>
-  <div class="post-item post" th:each="post : ${posts}">
+
+  <div class="post-item post" th:each="post : ${posts}" th:id="'post-'+${post.getId()}">
     <!--post id-->
-    <input type="hidden" th:value="${post.getId()}">
+    <input class="postIdList" type="hidden" th:value="${post.getId()}">
 
     <!--post-top-->
     <div th:if="${user != null && post.getUserId()==user.getUserId()}" class="post-top">
       <div>
-        <div th:text="${post.getDate()}" style="font-weight: bold; font-size: 19px; text-align: left; display: inline-block"></div>
         <input class="btn_edit_or_save" type="button" value="edit">
       </div>
-      <a href="#" class="postDeleteBtn" th:data-id="${post.getId()}">
+      <a href="#" class="postDeleteBtn" th:data-postId="${post.getId()}">
         <i class="fas fa-trash" style="color: #e71c1c; font-size: 20px; position: relative; left:0"></i>
       </a>
     </div>
+    <div class="postInfo" th:text="'USER_' + ${post.getUserId()}"></div>
+    <div class="postInfo" th:text="${post.getDate()}"></div>
 
     <!-- post content viewed with html -->
     <div class="content" th:text="${post.getHtml()}"></div>
@@ -34,6 +36,18 @@
     <div class="editor">
       <textarea th:class="edit-box" th:data-id="${post.getId()}" th:text="${post.getContent()}"></textarea>
       <div class="target"></div>
+    </div>
+    <div class="comment-box">
+      <form class="comment-form" action="" method="POST">
+        <input class="comment-input" type="text" placeholder="댓글을 입력하시오">
+        <input class="comment-input-btn" type="button" value="댓글입력">
+      </form>
+      <!-- 댓글목록 -->
+      <div th:each="comment : ${post.comments}">
+        <div class="commentUser" th:text="'USER_' + ${post.getUserId()}"></div>
+        <div class="commentDate" th:text="${comment.getDate()}"></div>
+        <div class="comment" th:text="${comment.getContent()}"></div>
+      </div>
     </div>
   </div>
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:input="http://www.w3.org/1999/html">
+<head>
+    <title>Mini Blog</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <!--common-->
+    <style>
+        body{
+            min-width: 800px;
+        }
+    </style>
+
+    <!-- header Css File -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/information.css">
+</head>
+<body>
+
+<div th:replace="/fragments/header::headerFragment(${user})"></div>
+
+<div class="container">
+
+    <div class="info-item">
+        <div class="title">PW</div>
+        <div class="form-text">ENTER A NEW PASSWORD</div>
+        <input class="text" id="currentPassword" type="password" placeholder="기존 비밀번호">
+        <input class="text" id="newPassword" type="password" placeholder="수정 비밀번호">
+        <input class="text" id="confirmPassword" type="password" placeholder="수정 비밀번호 확인">
+        <input id="changePwBtn" class="green-btn" type="button" value="수정">
+    </div>
+
+    <div class="info-item">
+        <div class="title">Categories</div>
+        <div>카테고리를 수정하거나 삭제하시오</div>
+        <div class="category" th:each="category : ${categories}">
+            <input class="categoryId" type="hidden" th:value="${category.getId()}">
+            <input class="text newCategoryName" type="text" th:placeholder="${category.getName()}">
+            <input class="green-btn categoryUpdateBtn" type="button" value="수정">
+            <input class="red-btn categoryDeleteBtn" type="button" value="삭제">
+        </div>
+    </div>
+    
+    <div class="info-item">
+        <div class="title">탈퇴</div>
+        <input id="resignPassword" class="text" type="password" placeholder="비밀번호 입력" name="">
+        <input id="userId" type="hidden" th:value="${user.getUserId()}">
+        <input id="accountDltBtn" class="red-btn" type="button" value="회원탈퇴">
+    </div>
+</div>
+
+
+</body>
+
+
+<script src="/js/header.js"></script>
+<script src="/js/information.js"></script>
+
+</html>

@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="/css/postList.css">
   <!-- area Css File-->
   <link rel="stylesheet" href="/css/area.css">
+  <!-- pageNumber CSS File-->
+  <link rel="stylesheet" href="/css/pageNumber.css">
 
 </head>
 <body>
@@ -40,6 +42,8 @@
 <!--<div th:if="${user!=null}">-->
 <!--  <div th:replace="/fragments/postList::postList(${userPosts}, 'userPostList')"></div>-->
 <!--</div>-->
+<div th:replace="/fragments/pageNumber::pageNumberFragment(${pageNo}, ${pageInfo}, ${categoryId})"></div>
+
 <div> footer </div>
 
 </body>
@@ -49,6 +53,7 @@
 <script src="/js/header.js"></script>
 <script src="/js/area.js"></script>
 <script src="/js/postList.js"></script>
+<script src="/js/comment.js"></script>
 
 <!--html to markdown-->
 <!--<script src="https://unpkg.com/turndown/dist/turndown.js"></script>-->

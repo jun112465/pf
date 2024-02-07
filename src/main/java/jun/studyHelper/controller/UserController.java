@@ -1,6 +1,9 @@
 package jun.studyHelper.controller;
 
 
+import jun.studyHelper.exception.ErrorCode;
+import jun.studyHelper.exception.PwDifferentException;
+import jun.studyHelper.exception.UserConfirmException;
 import jun.studyHelper.model.dto.*;
 import jun.studyHelper.model.entity.Post;
 import jun.studyHelper.service.*;
@@ -42,6 +45,7 @@ public class UserController {
         String password = userLoginRequestDto.getPassword();
 
         JwtToken jwtToken = userService.login(memberId, password);
+        log.info(jwtToken);
 
         // 쿠키 환경 설정 및 추가
         Cookie mySessionCookie = new Cookie("accessToken", jwtToken.getAccessToken());
@@ -87,12 +91,76 @@ public class UserController {
         return "success";
     }
 
-//    @PostMapping("/user/new")
-//    @ResponseBody
-//    public String create(@RequestBody UserDto userDTO){
-//
-//        if(userService.findMember(userDTO).isPresent())
-//            return "DUPLICATED UID";
+    @PostMapping("/update")
+    public void updateUserId(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody UserDto reqUserDto){
+
+        UserDto userDto = UserDto.builder()
+                .userId(userDetails.getUsername())
+                .build();
+        userService.updateUser(userDto, reqUserDto);
+    }
+
+    @PostMapping("/update-password")
+    @ResponseBody
+    public boolean updatePassword(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody PasswordChangeRequest pwdChangReq){
+
+        UserDto targetUserDto = UserDto.builder()
+                .userId(userDetails.getUsername())
+                .password(pwdChangReq.getCurrentPassword())
+                .build();
+
+        log.info("targetUserDto : " + targetUserDto);
+
+        //validate user by password
+        if(!userService.validateMemberInfo(targetUserDto))
+            throw new UserConfirmException("User Confirmation Failed", ErrorCode.USER_CONFIRM_FAILED) ;
+
+        //confirm password sameness
+        if(!pwdChangReq.getNewPassword().equals(pwdChangReq.getConfirmPassword()))
+            throw new PwDifferentException("Password Different", ErrorCode.PW_DIFFERENCE);
+
+        UserDto changeDto = UserDto.builder()
+                .userId(targetUserDto.getUserId())
+                .password(pwdChangReq.getNewPassword())
+                .build();
+
+        System.out.println("changeDto : " + changeDto);
+        System.out.println("pwdChangeRequest : " + pwdChangReq);
+        userService.updateUser(targetUserDto, changeDto);
+
+        return true;
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public String resign(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody UserDto resignUserDto,
+            HttpServletResponse response,
+            HttpServletRequest request
+    ){
+        log.info("resigning user : " + resignUserDto);
+
+        // delete from security context
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null)
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        // delete Cookie
+        Cookie mySessionCookie = new Cookie("accessToken", null);
+        mySessionCookie.setMaxAge(0);
+        mySessionCookie.setPath("/");
+        response.addCookie(mySessionCookie);
+
+        // delete user
+        userService.deleteUser(resignUserDto);
+
+        return "Success";
+    }
+
 //
 //        User user = userService.join(userDTO).orElse(null);
 //        // 초기 카테고리 & 노트 생성

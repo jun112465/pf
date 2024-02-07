@@ -27,7 +27,7 @@
         // Update the content of the span element
         let currentURL = "/post/get";
         // 새로운 파라미터를 추가할 수 있습니다.
-        let newParam1 = `userId=${userId}`;
+        let newParam1 = `userId=${getUserId()}`;
         let newParam2 = `categoryId=${getSelectedValue()}`;
         // 현재 URL과 새로운 파라미터를 조합하여 새 URL을 생성합니다.
         let newURL = currentURL + "?" + newParam1 + "&" + newParam2;
@@ -41,7 +41,9 @@
 
         // set underline for area btn with param
         let userId = url.searchParams.get("userId");
-        if(userId == null) {
+        let categoryId = url.searchParams.get("categoryId")
+
+        if(categoryId == null) {
             allPostBtn.id = 'selected';
             categoryElement.style.display = "none";
         }
@@ -50,7 +52,6 @@
 
 
         // set select option with param
-        let categoryId = url.searchParams.get("categoryId")
         if(categoryId != null){}
         const selectElement = document.getElementById("categories");
         if (categoryId) {

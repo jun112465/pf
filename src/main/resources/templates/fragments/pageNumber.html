@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<pageNumber class="pageBtnContainer" th:fragment="pageNumberFragment(pageNo, pageInfo, categoryId)">
+    <div th:if="${categoryId!=null}">
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.firstPageNo}+'&categoryId='+${categoryId}">FIRST</a>
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.prevPageNo}+'&categoryId='+${categoryId}">PREV</a>
+        <span th:if="${categoryId!=null}" th:each="num : ${#numbers.sequence(pageInfo.start,pageInfo.end)}">
+            <a th:if="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo='+${num}+'&categoryId='+${categoryId}" th:id="targetPageNo" th:text="${num}"></a>
+            <a th:unless="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo='+${num}+'&categoryId='+${categoryId}" th:text="${num}"></a>
+        </span>
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.nextPageNo}+'&categoryId='+${categoryId}'">NEXT</a>
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.lastPageNo}+'&categoryId='+${categoryId}'">LAST</a>
+    </div>
+    <div th:unless="${categoryId!=null}">
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.firstPageNo}">FIRST</a>
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.prevPageNo}">PREV</a>
+        <span th:unless="${categoryId!=null}" th:each="num : ${#numbers.sequence(pageInfo.start, pageInfo.end)}">
+            <a th:if="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo=' + ${num}" th:id="targetPageNo" th:text="${num}"></a>
+            <a th:unless="${num==pageNo}" class="pageBtn" th:href="'/post/get?pageNo=' + ${num}" th:text="${num}"></a>
+        </span>
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.nextPageNo}">NEXT</a>
+        <a class="pageBtn" th:href="'/post/get?pageNo='+${pageInfo.lastPageNo}">LAST</a>
+    </div>
+</pageNumber>
+
+</html>

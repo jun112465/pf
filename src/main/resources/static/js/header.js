@@ -2,19 +2,25 @@
 let categoryAddBtn = document.getElementById("categoryAddBtn");
 categoryAddBtn.addEventListener('click', ()=>{
     let categoryName = prompt("카테고리명을 정해주세요");
-    fetch("/category/add", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            'id' : null,
-            'name' : categoryName,
-            'userId' : null
+
+    if(categoryName.length == 0){
+        console.log("nothing");
+    }else{
+        fetch("/category/add", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                'id' : null,
+                'name' : categoryName,
+                'userId' : null
+            })
         })
-    })
-        .then(json => json.json())
-        .then(data => {
-            if(data) location.reload();
-            else alert("이미 있는 카테고리 이름입니다.")
-            console.log(data)
-        })
+            .then(json => json.json())
+            .then(data => {
+                if(data) location.reload();
+                else alert("이미 있는 카테고리 이름입니다.")
+                console.log(data)
+            })
+    }
+
 })

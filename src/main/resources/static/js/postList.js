@@ -10,7 +10,7 @@
     }
 
     // add post btn eventListener
-    let addPostBtn = document.getElementById("new-post");
+    let addPostBtn = document.getElementById("postAddBtn");
     addPostBtn.addEventListener('click', ()=>{
         // from url
         let url = new URL(window.location.href);
@@ -38,17 +38,20 @@
     let posts = document.getElementsByClassName("post");
     let editors = document.getElementsByClassName("editor");
     let btnEditAndSave = document.getElementsByClassName("btn_edit_or_save");
+    let commentBoxes = document.getElementsByClassName("comment-box");
     for (let i = 0; i < btnEditAndSave.length; i++) {
         let content = contents[i];
         let editor = editors[i];
         let btn = btnEditAndSave[i];
         let post = posts[i];
+        let commentBox = commentBoxes[i];
 
         btn.addEventListener("click", () => {
             if (btn.value == "edit") {
                 btn.value = "save"
                 content.style.display = "none"
                 editor.style.display = "flex"
+                commentBox.style.display = "none";
 
                 post.style.width = "800px"
                 post.style.minWidth = "800px"
@@ -57,6 +60,7 @@
                 btn.value = "edit"
                 content.style.display = "block"
                 editor.style.display = "none"
+                commentBox.style.display = "block";
 
 
                 // targets[i].innerHTML = contents[i].textContent;
@@ -104,21 +108,28 @@
     }
 
 
+    // allPost 화면일 때 postAddBtn 없애기
+    if(location.search == ''){
+        document.getElementById("postAddBtn").style.display = "none";
+    }
+
+
     // post delete btn add eventListener
     function deleteConfirm(postId){
-        if(confirm("삭제하시겠습니까?"))
-            location.href = "/post/delete/"+postId;
+        let shouldDelete = confirm("삭제하시겠습니까?")
+        if(shouldDelete) location.href = "/post/delete/"+postId;
     }
 
     let postDeleteBtns = document.getElementsByClassName("postDeleteBtn");
     for(let i in postDeleteBtns){
         let postDltBtn = postDeleteBtns[i];
-        let postId = postDltBtn.dataset.id;
+        let postId = postDltBtn.dataset.postid;
         postDltBtn.addEventListener('click', ()=>deleteConfirm(postId));
     }
 
 
 
 })();
+
 
 

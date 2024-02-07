@@ -39,9 +39,10 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,"/sign-up").permitAll()
                 .antMatchers("/users/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/users/login").permitAll()
-                .antMatchers("/users/test").hasRole("USER")
-                .antMatchers("/post/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/post/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/post/**").hasRole("USER").antMatchers("/users/test").hasRole("USER")
                 .antMatchers("/category/**").hasRole("USER")
+                .antMatchers("/comment/**").hasRole("USER")
                 // recourses 에 대한 permission
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated()
