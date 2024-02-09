@@ -18,7 +18,7 @@
         <!--user is logged out-->
         <div class="nav_item" th:if="${user == null}"><a href="/users/login">Login</a></div>
         <!--user is logged in-->
-        <div class="nav_item" th:if="${user != null}"><a href="/information">Set Info</a></div>
+        <div class="nav_item" th:if="${user != null}"><a href="/information">Set Information</a></div>
         <div class="nav_item" th:if="${user != null}"><a id="categoryAddBtn" href="#">Add Category</a></div>
         <div class="nav_item" th:if="${user != null}"><a id="btn_logout" href="/users/logout">Logout</a></div>
 <!--        <div><img src="/file/get-profile" alt="profile_img" id="profile_img"></div>-->
