@@ -1,5 +1,6 @@
 package jun.studyHelper.controller;
 
+import jun.studyHelper.model.dto.CommentAddRequest;
 import jun.studyHelper.model.dto.CommentDto;
 import jun.studyHelper.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/comment")
@@ -19,14 +21,21 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/add")
+    @ResponseBody
     public String addComment(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody CommentDto commentDto
-    ){
-        commentDto.setUserId(userDetails.getUsername());
+            @RequestBody CommentAddRequest commentAddRequest
+            ){
+        commentAddRequest.setUserId(userDetails.getUsername());
+        commentService.saveComment(commentAddRequest);
 
-        commentService.saveComment(commentDto);
-        return "main";
+        StringBuilder params = new StringBuilder("?");
+        if(commentAddRequest.getPageNo() != null)
+            params.append("pageNo=" + commentAddRequest.getPageNo() + "&");
+        if(commentAddRequest.getPageCategory() != null)
+            params.append("categoryId=" + commentAddRequest.getPageCategory());
+
+        return params.toString();
     }
 
 }

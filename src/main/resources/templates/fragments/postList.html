@@ -17,6 +17,7 @@
   <div class="post-item post" th:each="post : ${posts}" th:id="'post-'+${post.getId()}">
     <!--post id-->
     <input class="postIdList" type="hidden" th:value="${post.getId()}">
+    <input class="postCategoryIdList" type="hidden" th:value="${post.getCategoryId()}">
 
     <!--post-top-->
     <div th:if="${user != null && post.getUserId()==user.getUserId()}" class="post-top">

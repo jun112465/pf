@@ -119,15 +119,52 @@
 
     // post delete btn add eventListener
     function deleteConfirm(postId){
+        let url = new URL(window.location.href);
+        let categoryId = url.searchParams.get("categoryId")
+        let pageNo = url.searchParams.get("pageNo")
+        let params = {
+            'id' : postId,
+            'pageNo' : pageNo,
+            'pageCategory' : categoryId
+        }
+
+        console.log("params", params)
         let shouldDelete = confirm("삭제하시겠습니까?")
-        if(shouldDelete) location.href = "/post/delete/"+postId;
+        if(shouldDelete) {
+            // fetch("/post/delete", {
+            //     method: "Post",
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         'id' : postId,
+            //         'pageNo' : pageNo,
+            //         'pageCategory' : categoryId
+            //     })
+            // }).then(resp => {
+            //     resp.text()
+            // }).then(data => {
+            //     console.log(data)
+            // })
+            fetch("/post/delete", {
+                method : "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body : JSON.stringify(params)
+            })
+                .then(response=>response.text())
+                .then(data => {
+                    console.log(data)
+                    location.href = location.origin + "/post/get" + data;
+                })
+        }
     }
 
     let postDeleteBtns = document.getElementsByClassName("postDeleteBtn");
+
     for(let i in postDeleteBtns){
         let postDltBtn = postDeleteBtns[i];
         let postId = postDltBtn.dataset.postid;
-        postDltBtn.addEventListener('click', ()=>deleteConfirm(postId));
+        postDltBtn.addEventListener('click', ()=>{
+            deleteConfirm(postId)
+        });
     }
 
 
