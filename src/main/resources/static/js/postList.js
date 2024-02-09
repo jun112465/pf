@@ -25,8 +25,7 @@
             headers: { 'Content-Type': 'application/json' },
             body : JSON.stringify({
                 'categoryId' : categoryId,
-                'userId' : userId.value
-                // 'content' : ""
+                'userId' : userId.value,
             })
         })
             .then(response=>response.text())
@@ -43,6 +42,7 @@
     let editors = document.getElementsByClassName("editor");
     let btnEditAndSave = document.getElementsByClassName("btn_edit_or_save");
     let commentBoxes = document.getElementsByClassName("comment-box");
+    let editBoxes = document.getElementsByClassName("edit-box");
     for (let i = 0; i < btnEditAndSave.length; i++) {
         let content = contents[i];
         let editor = editors[i];
@@ -80,7 +80,8 @@
     for (let i = 0; i < editors.length; i++) {
         let content = contents[i];
         let postId = posts[i].children[0].value;
-        let editBox = editors[i].children[0];
+        // let editBox = editors[i].children[0];
+        let editBox = editBoxes[i];
         let target = targets[i];
         let loading = false
 
@@ -98,9 +99,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             'id' : postId,
-                            'memberId' : '',
                             'content' : editBox.value,
-                            'date' : ''
                         })
                     })
                     loading = !loading

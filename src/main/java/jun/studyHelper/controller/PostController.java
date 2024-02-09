@@ -76,7 +76,7 @@ public class PostController {
         return "redirect:/";
     }
 
-    @PostMapping("/post/update")
+    @PostMapping("/update")
     @ResponseBody
     public void editNote(@RequestBody Post note){
         note.setContent(StringEscapeUtils.unescapeHtml4(note.getContent()));
