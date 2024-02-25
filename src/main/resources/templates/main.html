@@ -33,19 +33,19 @@
   <input id="userId" type="hidden" name="userId" th:value="${user.getUserId()}">
 </div>
 
-<div th:replace="/fragments/header::headerFragment(${user})"></div>
+<div th:replace="fragments/header::headerFragment(${user})"></div>
 
 
 
 <div th:if="${user!=null}">
-  <div th:replace="/fragments/area::areaFragment(${user}, ${categories})"></div>
+  <div th:replace="fragments/area::areaFragment(${user}, ${categories})"></div>
 </div>
 
-<div th:replace="/fragments/postList::postList(${posts}, ${user})"></div>
+<div th:replace="fragments/postList::postList(${posts}, ${user})"></div>
 <!--<div th:if="${user!=null}">-->
 <!--  <div th:replace="/fragments/postList::postList(${userPosts}, 'userPostList')"></div>-->
 <!--</div>-->
-<div th:replace="/fragments/pageNumber::pageNumberFragment(${pageNo}, ${pageInfo}, ${categoryId})"></div>
+<div th:replace="fragments/pageNumber::pageNumberFragment(${pageNo}, ${pageInfo}, ${categoryId})"></div>
 
 <div> footer </div>
 
