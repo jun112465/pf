@@ -24,8 +24,10 @@
         ).then(
             data => {
                 console.log("data: ", data);
-                if(data === undefined)
+                if(data === undefined) {
+                    alert("회원가입 완료")
                     window.location.href = "/";
+                }
 
                 error_msg.innerHTML = data.message;
                 if(data == undefined)
