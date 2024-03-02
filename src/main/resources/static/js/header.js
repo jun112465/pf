@@ -17,7 +17,10 @@ categoryAddBtn.addEventListener('click', ()=>{
         })
             .then(json => json.json())
             .then(data => {
-                if(data) location.reload();
+                if(data!=null) {
+                    console.log(data)
+                    location.href = location.origin + "/post/get?categoryId="+data.id;
+                }
                 else alert("이미 있는 카테고리 이름입니다.")
                 console.log(data)
             })

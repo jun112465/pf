@@ -45,7 +45,7 @@
       </form>
       <!-- 댓글목록 -->
       <div th:each="comment : ${post.comments}">
-        <div class="commentUser" th:text="'USER_' + ${post.getUserId()}"></div>
+        <div class="commentUser" th:text="'USER_' + ${comment.getUserId()}"></div>
         <div class="commentDate" th:text="${comment.getDate()}"></div>
         <div class="comment" th:text="${comment.getContent()}"></div>
       </div>

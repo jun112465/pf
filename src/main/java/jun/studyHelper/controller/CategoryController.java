@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/category")
@@ -45,18 +46,18 @@ public class CategoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public boolean add(
+    public CategoryDto add(
             @RequestBody CategoryDto categoryDto,
             @AuthenticationPrincipal UserDetails userDetails){
 
         categoryDto.setUserId(userDetails.getUsername());
 
         if(categoryService.findCategory(categoryDto).isEmpty()){
-            categoryService.addCategory(categoryDto);
-            return true;
-        }else{
-            return false;
-        }
+            Optional<Category> category = categoryService.addCategory(categoryDto);
+            categoryDto.setId(category.get().getId());
+            return categoryDto;
+        }else return null;
+
     }
     @PostMapping("/delete")
     @ResponseBody

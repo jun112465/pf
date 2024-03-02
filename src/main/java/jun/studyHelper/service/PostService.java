@@ -140,7 +140,7 @@ public class PostService {
     }
 
     public List<PostDto> getPostPage(int pageNo){
-        PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize, Sort.by("date").descending());
+        PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize, Sort.by("datetime").descending());
         List<Post> posts = postRepository.findAll(pageRequest).getContent();
         return convertPostListToDTO(posts);
     }
@@ -148,7 +148,7 @@ public class PostService {
     public List<PostDto> getPostPage(int pageNo, long categoryId){
         //overloading
         Category targetCategory = categoryRepository.findById(categoryId).get();
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize-1, Sort.by("date").descending());
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize-1, Sort.by("datetime").descending());
         List<Post> posts = postRepository.findByCategory(targetCategory, pageable);
         return convertPostListToDTO(posts);
     }

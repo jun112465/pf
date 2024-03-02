@@ -9,8 +9,14 @@
         contents[i].innerHTML = contents[i].textContent;
     }
 
-    // add post btn eventListener
     let addPostBtn = document.getElementById("postAddBtn");
+    // addPostBtn 특정 상황에서 없애기.
+    let url = new URL(window.location.href);
+    let categoryId = url.searchParams.get("categoryId")
+    if(categoryId==null)
+        addPostBtn.style.display = 'none';
+
+    // add post btn eventListener
     addPostBtn.addEventListener('click', ()=>{
         // from url
         let url = new URL(window.location.href);

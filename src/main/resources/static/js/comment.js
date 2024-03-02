@@ -6,6 +6,7 @@ for(let i=0; i<commentInput.length; i++){
     let categoryId = url.searchParams.get("categoryId")
     let pageNo = url.searchParams.get("pageNo")
     commentInputBtns[i].addEventListener('click', ()=>{
+        console.log("add comment, categoryId : " + categoryId);
         fetch("/comment/add", {
             method : "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -13,10 +14,11 @@ for(let i=0; i<commentInput.length; i++){
                 'postId' : postIdList[i].value,
                 'content' : commentInput[i].value,
                 'pageNo' : pageNo,
-                'categoryId' : categoryId
+                'pageCategory' : categoryId
             })
         })
             .then(response=>response.text())
+            // .then(data => console.log(data));
             .then(data => location.href = location.origin + "/post/get" + data)
     })
 }
