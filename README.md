@@ -1,6 +1,6 @@
 # Mini Blog App (1인 프로젝트)
 
-![스크린샷 2024-03-02 오후 9.21.37.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/356c644f-77fc-42b5-93bc-ba740279fd9a/83c2c728-3ec1-4f54-85ac-b2035aecee85/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-03-02_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_9.21.37.png)
+![image](https://github.com/jun112465/pf/assets/71198630/c13545a0-6180-45f3-94d2-f31145a1a9c5)
 
 ## 프로젝트 설명
 - **설명** : 마크업 언어를 통해 글을 작성하고 저장할 수 있는 웹앱이다. 노션과 같이 실시간으로 게시글을 마크업 언어로 편집하고 저장이 가능하다. 댓글 기능을 통해 다른 회원의 게시글에 댓글을 남길 수 있다.
@@ -26,26 +26,27 @@
 
 - **서비스 구조**
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/356c644f-77fc-42b5-93bc-ba740279fd9a/f9ed1c74-ea5a-459e-afe9-0bde8eed0b2c/Untitled.png)
+    ![image](https://github.com/jun112465/pf/assets/71198630/b0200b83-9607-49de-9edd-0f7ea5356977)
+
     
 - **DB 구조**
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/356c644f-77fc-42b5-93bc-ba740279fd9a/83cdab3a-27b8-4337-8ec2-c0419833ac0b/Untitled.png)
+   ![image](https://github.com/jun112465/pf/assets/71198630/78a36d93-0b53-44b2-bed3-5da96eb29ee5)
+
     
 - **대표 이미지**
     
-    ![스크린샷 2024-03-02 오후 9.21.37.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/356c644f-77fc-42b5-93bc-ba740279fd9a/83c2c728-3ec1-4f54-85ac-b2035aecee85/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-03-02_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_9.21.37.png)
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/356c644f-77fc-42b5-93bc-ba740279fd9a/997709f3-b92f-45c6-ab94-d10883997083/Untitled.png)
-    
-    ![스크린샷 2024-03-02 오후 9.21.47.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/356c644f-77fc-42b5-93bc-ba740279fd9a/d709ba78-3d99-485d-96d3-a1c9e67dc00e/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-03-02_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_9.21.47.png)
-    
-    ![스크린샷 2024-03-02 오후 9.22.44.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/356c644f-77fc-42b5-93bc-ba740279fd9a/f28061a2-6d69-40ff-9685-72b639b32c4a/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-03-02_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_9.22.44.png)
+![image](https://github.com/jun112465/pf/assets/71198630/7238dacb-9d4d-4a75-b52c-e0ab57f69d0f)
+
+![image](https://github.com/jun112465/pf/assets/71198630/f54c358f-07cc-4478-916c-11c372b2e332)
+
+![image](https://github.com/jun112465/pf/assets/71198630/43007779-ec7f-42dc-ad36-87335b085387)
+
+![image](https://github.com/jun112465/pf/assets/71198630/5ddfa447-f3c4-421c-ab23-ff1b2dd1b0fc)
     
 - **간단한 시연영상**
-    
-    https://www.youtube.com/watch?v=6-7HTlVn5gs
-    
+![Video Label](http://img.youtube.com/vi/6-7HTlVn5gs/0.jpg)
 
 ---
 
