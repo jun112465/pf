@@ -46,8 +46,7 @@
 ![image](https://github.com/jun112465/pf/assets/71198630/5ddfa447-f3c4-421c-ab23-ff1b2dd1b0fc)
     
 - **간단한 시연영상**
-![Video Label](http://img.youtube.com/vi/6-7HTlVn5gs/0.jpg)
-
+[![Video Label](http://img.youtube.com/vi/6-7HTlVn5gs/0.jpg)](https://www.youtube.com/watch?v=6-7HTlVn5gs)
 ---
 
 ## **어려움 및 성과**
